@@ -1,7 +1,5 @@
 # com.tonchief.java.epm.lab04
-/**
- * Created by ton chief (user "p" in headers) on 01/25/2017.
- */
+/* Created by ton chief (user "p" in headers) on 01/25/2017. */
 
 ###Построить веб-систему, поддерживающую заданную функциональность:###
 > 1.	На основе сущностей предметной области создать классы их описывающие.
@@ -27,7 +25,7 @@
 
 
 
-##Development :+1:##
+:+1: ##Development ##
 -------------------
  *Data Structure & Services:*
 ```    
