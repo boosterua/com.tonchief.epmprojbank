@@ -24,8 +24,8 @@
 
 
 
-
-:+1: ##Development ##
+:+1:
+## Development ##
 -------------------
  *Data Structure & Services:*
 ```    
