@@ -33,7 +33,7 @@
      Client->makePayment(details); replenishAccount(acctId, amount, source[anotherAccount|cash]); blockAccount(acctId);
      Administrator->removeAccountBlock(); raiseCreditCardLimit(); blockAccount();
 ```
-      * DB:
+* DB:*
     
           Admin [name, id, role]
           Client [name, id, cardId]
