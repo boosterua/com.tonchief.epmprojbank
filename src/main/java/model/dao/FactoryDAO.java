@@ -11,7 +11,7 @@ public abstract class FactoryDAO {
 
     public abstract UserDAO getUserDAO();
 
-    public abstract AdminDAO getAdminDAO();
+    public abstract UsersDAO getAdminDAO();
 
     public abstract AccountsDAO getAccountsDAO();
 

@@ -6,7 +6,7 @@ package model.dao;
 public class FactoryDAOImpl extends FactoryDAO {
     private static FactoryDAOImpl instance = null;
     private UserDAO userDAO = new UserDAO();
-    private AdminDAO adminDAO = new AdminDAO();
+    private UsersDAO adminDAO = new UsersDAO();
     //....
 
     private FactoryDAOImpl() {
@@ -23,7 +23,19 @@ public class FactoryDAOImpl extends FactoryDAO {
         return userDAO;
     }
 
-    public AdminDAO getAdminDAO() {
+    public UsersDAO getAdminDAO() {
         return adminDAO;
+    }
+
+    public AccountsDAO getAccountsDAO() {
+        return null;
+    }
+
+    public CardsDAO getCardsDAO() {
+        return null;
+    }
+
+    public TransactionsDAO getTransactionsDAO() {
+        return null;
     }
 }
