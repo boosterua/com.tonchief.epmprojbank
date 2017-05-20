@@ -7,6 +7,14 @@
     <groupId>groupId</groupId>
     <artifactId>com.tonchief.java.epm.lav04</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.42</version>
+        </dependency>
+    </dependencies>
 
-    
+
 </project>
