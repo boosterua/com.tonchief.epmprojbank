@@ -588,6 +588,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/connection/DataSourceMgr.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/model/dao/connection/Rs.java">
           <value>
             <set />
@@ -674,6 +679,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/database/psqueries.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/log4j.properties">
           <value>
             <set />
           </value>

@@ -3,6 +3,7 @@ package model.dao.jdbc;
 import model.dao.AccountsDAO;
 import model.dao.ExceptionDAO;
 import model.dao.connection.DBConnection;
+import model.dao.connection.DataSourceMgr;
 import model.dto.Account;
 import model.dto.Entity;
 import org.apache.log4j.Logger;
@@ -25,7 +26,8 @@ public class AccountsDAOimpl implements AccountsDAO {
         logger.info("Insert into accounts: " + acct);
 
         try (
-                Connection conn = new DBConnection().getConnection();
+//          Connection conn = new DBConnection().getConnection();
+                Connection conn = DataSourceMgr.getConnection();
                 PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.insert"), 1);
         ) {
             Account account = (Account) acct;
