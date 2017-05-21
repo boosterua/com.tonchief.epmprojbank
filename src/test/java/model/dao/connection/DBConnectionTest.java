@@ -1,15 +1,13 @@
-import model.dao.connection.DBConnection;
-import model.dao.jdbc.AccountsDAOimpl;
-import model.dto.Account;
+package model.dao.connection;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Created by tonchief on 05/20/2017.
+ * Created by tonchief on 05/21/2017.
  */
-public class Main {
+class DBConnectionTest {
     public static void main(String[] args) throws SQLException {
         Statement st = new DBConnection().getStatement();
         ResultSet rs = st.executeQuery("SELECT * from accounts");
@@ -19,16 +17,8 @@ public class Main {
                         "; number=" + rs.getString(2) + ";");
             }
         }
-        AccountsDAOimpl acct = new AccountsDAOimpl();
-        Account account = new Account();
-        account.setId(5);
-        System.out.println(acct.isBlocked(account));
-        account.setId(4);
-        System.out.println(acct.isBlocked(account));
         rs.close();
         st.close();
     }
+
 }
-
-
-//TODO Alter table transactions, add column description varchar 128

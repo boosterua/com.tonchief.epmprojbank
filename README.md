@@ -48,10 +48,9 @@
 ```
 *DB:*
 ```    
-          --Admin [name, id, role]
-          Client [name, id, cardId]
+          Client [name, id, cardId, role:adm|usr]
           Cards [id, nr, refAcctId, expDate]
-          Accounts [id, nr, clientId, activeOrBlocked]
+          Accounts [id, nr, clientId, isActive]
           Payments [id, dtAcct, crAcct, amt, date]
 ```
 

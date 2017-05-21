@@ -1,11 +1,17 @@
 package model.dto;
 
 /**
- * Created by tonchief on 01/26/2017.
+ * Created by tonchief on 05/20/2017.
  */
 public interface Entity {
     int getId();
-    void setId();
+
+    void setId(int id);
     String getName();
     void setName();
+
+    @Override
+    String toString();
+
+
 }

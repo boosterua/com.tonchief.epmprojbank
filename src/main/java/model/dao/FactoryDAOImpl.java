@@ -1,13 +1,27 @@
 package model.dao;
 
 /**
- * Created by p on 01/25/2017.
+ * Created by p on 05/20/2017.
  */
+
+import jdk.nashorn.internal.ir.annotations.Ignore;
+
+@Ignore
 public class FactoryDAOImpl extends FactoryDAO {
     private static FactoryDAOImpl instance = null;
-    private UserDAO userDAO = new UserDAO();
-    private UsersDAO adminDAO = new UsersDAO();
-    //....
+
+
+//    private FeesDAO feesDAO = new FeesDAO();
+//    private UsersDAO usersDAO = new UsersDAO();
+//    private AccountsDAO accountsDAO = new AccountsDAO();
+//    private CardsDAO cardsDAO = new CardsDAO();
+//    private TransactionsDAO transactionsDAO = new TransactionsDAO();
+
+    private FeesDAO feesDAO;
+    private UsersDAO usersDAO;
+    private AccountsDAO accountsDAO;
+    private CardsDAO cardsDAO;
+    private TransactionsDAO transactionsDAO;
 
     private FactoryDAOImpl() {
     }
@@ -19,23 +33,27 @@ public class FactoryDAOImpl extends FactoryDAO {
         return instance;
     }
 
-    public UserDAO getUserDAO() {
-        return userDAO;
+    public FeesDAO getFeesDAO() {
+        return feesDAO;
     }
 
-    public UsersDAO getAdminDAO() {
-        return adminDAO;
+    public UsersDAO getUsersDAO() {
+
+        return usersDAO;
     }
 
     public AccountsDAO getAccountsDAO() {
-        return null;
+        return accountsDAO;
     }
 
     public CardsDAO getCardsDAO() {
-        return null;
+        return cardsDAO;
     }
 
     public TransactionsDAO getTransactionsDAO() {
-        return null;
+        return transactionsDAO;
     }
+
+
 }
+

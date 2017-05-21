@@ -18,12 +18,32 @@
             <set />
           </value>
         </entry>
+        <entry key="/dummy.sql">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="/fragment.java">
           <value>
             <set />
           </value>
         </entry>
+        <entry key="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_CONFIG_DIR$/consoles/db/0718c0b5-e54f-4115-a4d0-93c8e4b6fe02/console.sql">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../TIJ4/interfaces/Adventure.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../_DAOforAlphaTeam/src/jdbc/dao/UsersviewDaoImpl.java">
           <value>
             <set />
           </value>
@@ -388,6 +408,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/Readme.md">
           <value>
             <set />
@@ -404,6 +429,51 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/Readme.md">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/connection/Conn.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/connection/DB.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/connection/DBDriverBase.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/connection/DBDriverFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/connection/DBDriverMysql.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/connection/DBTypes.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/connection/Database.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/connection/Rs.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/connection/Statements.java">
           <value>
             <set />
           </value>
@@ -428,6 +498,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/ExceptionDAO.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/model/dao/FactoryDAO.java">
           <value>
             <set />
@@ -438,7 +513,132 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/FeesDAO.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/TransactionsDAO.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/UserDAO.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/model/dao/UsersDAO.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/conn_temp/DB.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/conn_temp/DBDriverBase.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/conn_temp/DBDriverFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/conn_temp/DBDriverMysql.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/conn_temp/DBTypes.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/connection/DB.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/connection/DBConnection.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/connection/DBDriverBase.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/connection/DBDriverFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/connection/DBDriverMysql.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/connection/DBTypes.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/connection/Rs.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/connection/Statements.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/connection/jdbc/AccountsDAOimpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/jdbc/AccountsDAOimpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/jdbc/CardsDAOimpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/jdbc/ExceptionDAO.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/jdbc/FeesDAOimpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/jdbc/JDBCException.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/jdbc/TransactionsDAOimpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/jdbc/UsersDAOimpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dto/Account.java">
           <value>
             <set />
           </value>
@@ -459,6 +659,31 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/model/services/ServiceFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/database.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/database/dbpsqueries.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/database/psqueries.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/model/dao/connection/DBConnectionTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../epm.projects.ohters/jayter_admissionoffice-master/src/main/java/com/jayton/admissionoffice/dao/jdbc/JdbcApplicationDaoImpl.java">
           <value>
             <set />
           </value>
@@ -609,6 +834,11 @@
           </value>
         </entry>
         <entry key="$USER_HOME$/OneDrive/IdeaProjects/epam2017/src/classWork170419/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/OneDrive/IdeaProjects/epam2017/src/threads/ClientsFactory.java">
           <value>
             <set />
           </value>

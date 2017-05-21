@@ -4,7 +4,7 @@ package main.java.model.dto;
 import model.dto.Entity;
 
 /**
- * Created by p on 01/25/2017.
+ * Created by p on 05/20/2017.
  */
 public class Client implements Entity {
     private int id;
@@ -24,7 +24,6 @@ public class Client implements Entity {
     }
 
     public void setName() {
-
     }
 
     public int getCardId() {
@@ -36,10 +35,11 @@ public class Client implements Entity {
     }
 
     public void setId() {
-
     }
 
     public void setId(int id) {
         this.id = id;
     }
+
+
 }

@@ -1,5 +1,5 @@
 package model.dao;
 
 
-public class CardsDAO {
+public interface CardsDAO extends EntityDao {
 }

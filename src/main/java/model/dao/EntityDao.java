@@ -1,22 +1,21 @@
 package model.dao;
 
-
 import model.dto.Entity;
 
 import java.util.List;
 
 public interface EntityDao<T extends Entity> {
 
-    void createTableIfNotExist();
+    //void createTableIfNotExist();
 
-    boolean insert(T tdata);
+    boolean insert(T tdata) throws ExceptionDAO;
 
-    boolean update(int id, T data);
+    boolean update(int id, T data) throws ExceptionDAO;
 
-    boolean delete(int id);
+    boolean delete(int id) throws ExceptionDAO;
 
-    T getById(int id);
+    T getById(int id) throws ExceptionDAO;
 
-    List<T> findAll();
+    List<T> findAll() throws ExceptionDAO;
 
 }

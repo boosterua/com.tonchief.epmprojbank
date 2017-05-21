@@ -9,9 +9,9 @@ package model.dao;
 
 public abstract class FactoryDAO {
 
-    public abstract UserDAO getUserDAO();
+    public abstract FeesDAO getFeesDAO();
 
-    public abstract UsersDAO getAdminDAO();
+    public abstract UsersDAO getUsersDAO();
 
     public abstract AccountsDAO getAccountsDAO();
 

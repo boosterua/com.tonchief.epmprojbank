@@ -1,7 +1,7 @@
 package model.dao;
 
 /**
- * Created by tonchief on 01/26/2017.
+ * Created by tonchief on 05/20/2017.
  */
-public class UsersDAO {
+public interface UsersDAO extends EntityDao {
 }
