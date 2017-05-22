@@ -21,7 +21,7 @@ public class ConnectionToDB {
         ResultSet res = null;
         try {
             LOGGER.debug("Attempting to borrow connection from pool");
-            conn = (Connection) DBPoolConnection.pool.borrowObject();
+            conn = (Connection) DBPool.pool.borrowObject();
             if (conn != null)
                 LOGGER.debug("Connection received");
             else
@@ -55,7 +55,7 @@ public class ConnectionToDB {
     private static void safeClose(Connection conn) {
         if (conn != null) {
             try {
-                DBPoolConnection.pool.returnObject(conn);
+                DBPool.pool.returnObject(conn);
             } catch (Exception e) {
                 LOGGER.warn("Failed to return the connection to the pool", e);
             }

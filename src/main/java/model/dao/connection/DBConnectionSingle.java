@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 
 
-public class DBConnection {
+public class DBConnectionSingle {
 
 
     public Statement getStatement() throws SQLException {

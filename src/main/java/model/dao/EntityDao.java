@@ -9,7 +9,7 @@ public interface EntityDao<T extends Entity> {
 
     //void createTableIfNotExist();
 
-    boolean insert(T tdata) throws Exception;
+    Integer insert(T tdata) throws Exception;
 
     boolean update(int id, T data) throws ExceptionDAO;
 

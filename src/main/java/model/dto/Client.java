@@ -23,6 +23,11 @@ public class Client implements Entity {
         return name;
     }
 
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setName() {
     }
 

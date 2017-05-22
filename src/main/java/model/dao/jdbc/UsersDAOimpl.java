@@ -13,10 +13,9 @@ public class UsersDAOimpl implements UsersDAO {
 
     }
 
-    public boolean insert(Entity tdata) {
-        return false;
+    public Integer insert(Entity tdata) {
+        return null;
     }
-
     public boolean update(int id, Entity data) {
         return false;
     }

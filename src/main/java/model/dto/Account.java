@@ -6,8 +6,12 @@ package model.dto;
  */
 public class Account implements Entity {
     int id;
+    String number;
+    int clientId;
+    boolean blocked;
+
     public int getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(int id) {
@@ -15,23 +19,30 @@ public class Account implements Entity {
     }
 
     public String getName() {
-        return null;
+        return number;
     }
 
-    public void setName() {
+    public void setName(String name) {
+        this.number = name;
     }
-
-    boolean isBlocked() {
-        return false;
-    }
-
-    ;
 
     public boolean getBlockedStatus() {
-        return false;
+        return blocked;
     }
 
     public int getClientId() {
-        return 0;
+        return clientId;
+    }
+
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
+    }
+
+    public void setBlock(boolean block) {
+        this.blocked = block;
+    }
+
+    public String toString() {
+        return String.join(";", this.id + "", "" + this.number, "" + this.blocked, "" + this.clientId);
     }
 }

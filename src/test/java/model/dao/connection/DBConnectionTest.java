@@ -10,7 +10,7 @@ import java.sql.Statement;
  */
 class DBConnectionTest {
     public static void main(String[] args) throws SQLException {
-        Statement st = new DBConnection().getStatement();
+        Statement st = new DBConnectionSingle().getStatement();
         ResultSet rs = st.executeQuery("SELECT * from accounts");
         if (rs != null) {
             while (rs.next()) {

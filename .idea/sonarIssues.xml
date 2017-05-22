@@ -578,6 +578,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/connection/DBConnectionSingle.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/model/dao/connection/DBDriverBase.java">
           <value>
             <set />
@@ -589,6 +594,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/model/dao/connection/DBDriverMysql.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/connection/DBPool.java">
           <value>
             <set />
           </value>
@@ -754,6 +764,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/model/services/ServiceFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/utils/PrintResultSet.java">
           <value>
             <set />
           </value>
