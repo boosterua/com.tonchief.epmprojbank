@@ -43,6 +43,6 @@ public class Account implements Entity {
     }
 
     public String toString() {
-        return String.join(";", this.id + "", "" + this.number, "" + this.blocked, "" + this.clientId);
+        return "" + this.id + "; " + this.number + "; " + this.blocked + "; " + this.clientId;
     }
 }

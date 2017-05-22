@@ -1,5 +1,6 @@
 package model.dao.jdbc;
 
+import com.mysql.jdbc.exceptions.MySQLTimeoutException;
 import model.dao.AccountsDAO;
 import model.dao.connection.ConnectionToDB;
 import model.dao.connection.DBPool;
@@ -13,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -40,8 +42,21 @@ import java.util.ResourceBundle;
 public class AccountsDAOimpl implements AccountsDAO {
     //TODO Singleton!!
 
+    private static AccountsDAOimpl instance = null;
     private final ResourceBundle accountsPS = ResourceBundle.getBundle("database.psqueries");
     private final Logger logger = Logger.getLogger(AccountsDAOimpl.class);
+
+    private AccountsDAOimpl() {
+    }
+
+    ;
+
+    public static synchronized AccountsDAOimpl getInstance() {
+        if (instance == null)
+            instance = new AccountsDAOimpl();
+        return instance;
+    }
+
 
     public Integer insert(Entity acct) throws Exception {
         // TODO - read ~ logger - passing value / error. Add data here.
@@ -70,6 +85,8 @@ public class AccountsDAOimpl implements AccountsDAO {
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 rs.next();
                 return rs.getInt(1); //rs.getLong(1)
+            } finally {
+                ps.close();
             }
         } catch (SQLException e) {
             logger.error("SQL exception", e);
@@ -174,16 +191,18 @@ public class AccountsDAOimpl implements AccountsDAO {
                 rs.next();
                 Account acct = new Account();
                 acct.setId(rs.getInt(1));
-                acct.setName("" + rs.getLong(2));
+                acct.setName(Long.toString(rs.getLong(2)));
                 acct.setBlock(rs.getBoolean(3));
 
                 acct.setClientId(rs.getInt(4));
                 DBPool.pool.returnObject(conn);
+                ps.close();
                 return acct;
             } catch (SQLException e) {
                 logger.error("SQLex." + e.toString());
-                return null;
+//                return null;
             }
+
         } catch (SQLException e) {
             logger.error("SQL exception.", e);
         } catch (Exception e) {
@@ -194,28 +213,36 @@ public class AccountsDAOimpl implements AccountsDAO {
 
 
     public List findAll() throws ExceptionDAO {
-        return null;
+        return new ArrayList();
     }
 
     @Override
     public boolean isBlocked(Account account) throws MySqlPoolException, SQLException {
         logger.info("fetching isBlocked for " + account + " id:" + account.getId());
+        Connection conn = null;
         try {
-            Connection conn = (Connection) DBPool.pool.borrowObject();
-            PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.isBlocked"), 1);
+            conn = (Connection) DBPool.pool.borrowObject();
+            if (conn == null) throw new MySqlPoolException("No connection", new MySQLTimeoutException());
+        } catch (Exception e) {
+            new MySqlPoolException("Db Pool aquire failed for isBlocked.", e);
+        }
+        try (
+                PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.isBlocked"), 1);
+        ) {
             logger.info("got conn, acct id:" + account.getId());
             ps.setInt(1, account.getId());
             try (ResultSet rs = ps.executeQuery()) {
                 rs.next();
                 boolean res = rs.getBoolean(1);
                 DBPool.pool.returnObject(conn);
+                ps.close();
 //                ConnectionToDB.closeAll(conn, ps, rs);
                 return res;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } /*catch (NullPointerException e) { // Will never get here, as NP is checked before trying PS. Put this catch here only for Sonar to be happy ;)
+            logger.error("", e);
+        } */ catch (Exception e) {
+            logger.error("", e);
         } finally {
 
         }
@@ -246,7 +273,7 @@ public class AccountsDAOimpl implements AccountsDAO {
             ps.setInt(2, account.getId());
             return (ps.executeUpdate() != 0);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("", e);
         }
         return false;
     }

@@ -47,7 +47,7 @@ public class Main {
 //                cdb.closeAll(con, ps, rs0);
         }
 
-        AccountsDAOimpl acct = new AccountsDAOimpl();
+        AccountsDAOimpl acct = AccountsDAOimpl.getInstance();
         Account account = new Account();
         account.setId(5);
         System.out.println(acct.isBlocked(account));
