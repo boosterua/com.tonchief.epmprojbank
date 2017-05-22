@@ -1,4 +1,6 @@
-package model.dao.connection;
+package model.dao.connection.old;
+
+import model.dao.connection.old.DBConnection;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

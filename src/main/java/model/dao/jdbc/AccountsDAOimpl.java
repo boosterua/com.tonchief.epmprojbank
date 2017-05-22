@@ -1,9 +1,9 @@
 package model.dao.jdbc;
 
 import model.dao.AccountsDAO;
-import model.dao.ExceptionDAO;
-import model.dao.connection.DBConnection;
-import model.dao.connection.DataSourceMgr;
+import model.dao.connection.ConnectionToDB;
+import model.dao.exceptions.ExceptionDAO;
+import model.dao.exceptions.MySqlPoolException;
 import model.dto.Account;
 import model.dto.Entity;
 import org.apache.log4j.Logger;
@@ -15,19 +15,22 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
+
 public class AccountsDAOimpl implements AccountsDAO {
     //TODO Singleton!!
 
     private final ResourceBundle accountsPS = ResourceBundle.getBundle("database.psqueries");
     private final Logger logger = Logger.getLogger(AccountsDAOimpl.class);
 
-    public boolean insert(Entity acct) throws ExceptionDAO {
+    public boolean insert(Entity acct) throws Exception {
         // TODO - read ~ logger - passing value / error. Add data here.
         logger.info("Insert into accounts: " + acct);
 
+        // TODO QQQ: Try with resources - how to return connection back to pool
         try (
 //          Connection conn = new DBConnection().getConnection();
-                Connection conn = DataSourceMgr.getConnection();
+//          Connection conn = DataSourceMgr.getConnection();
+                Connection conn = new ConnectionToDB().getConnection();
                 PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.insert"), 1);
         ) {
             Account account = (Account) acct;
@@ -42,18 +45,20 @@ public class AccountsDAOimpl implements AccountsDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return false;
 
         /* Для СУБД, которые поддерживают "auto increment" поля
+
         *  добавляем запись...
             int rowCount = stmt.executeUpdate(
                 "INSERT INTO Messages(Msg) VALUES ('Test')",
             Statement.RETURN_GENERATED_KEYS);
 
         // ... и получаем ключ
-    ResultSet rs = stmt.getGeneratedKeys();
-    rs.next();
-    long primaryKey = rs.getLong(1);*/
+        ResultSet rs = stmt.getGeneratedKeys();
+        rs.next();
+        long primaryKey = rs.getLong(1);*/
     }
 
 
@@ -74,29 +79,34 @@ public class AccountsDAOimpl implements AccountsDAO {
     }
 
     @Override
-    public boolean isBlocked(Account account) {
-        logger.info("fetching isBlocked for " + account);
+    public boolean isBlocked(Account account) throws MySqlPoolException, SQLException {
+        logger.info("fetching isBlocked for " + account + " id:" + account.getId());
         try (
-                Connection conn = new DBConnection().getConnection();
-                PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.isblocked"), 1);
+                Connection conn = ConnectionToDB.getConnection();
+                PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.isBlocked"), 1);
         ) {
+            logger.info("got conn, acct id:" + account.getId());
             ps.setInt(1, account.getId());
             try (ResultSet rs = ps.executeQuery()) {
                 rs.next();
-                return rs.getBoolean(1);
+                boolean res = rs.getBoolean(1);
+                ConnectionToDB.closeAll(conn, ps, rs);
+                return res;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+
         }
         return false;
     }
 
 
     @Override
-    public boolean setblock(Account account, boolean block) {
+    public boolean setblock(Account account, boolean block) throws MySqlPoolException {
         logger.info("setting isBlocked=true for " + account);
         try (
-                Connection conn = new DBConnection().getConnection();
+                Connection conn = ConnectionToDB.getConnection();
                 PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.setblock"), 1);
         ) {
             ps.setBoolean(1, block);

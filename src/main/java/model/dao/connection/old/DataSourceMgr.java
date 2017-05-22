@@ -1,5 +1,6 @@
-package model.dao.connection;
+package model.dao.connection.old;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.apache.log4j.Logger;
 
 import javax.naming.Context;
@@ -11,13 +12,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
+@Ignore
 public class DataSourceMgr {
     private static final Logger logger = Logger.getLogger(DataSourceMgr.class);
     /**
      * Data source object used to get db connection.
      */
     private static DataSource ds;
+
+    //TO.DO Pool from apache: http://stackoverflow.com/questions/7592056/am-i-using-jdbc-connection-pooling
+
+
     private static final String SQLEX = "SQLException, full stack trace:";
 
     static {
@@ -25,7 +30,9 @@ public class DataSourceMgr {
             logger.debug("Attempting to get connection pool");
             Context initialContext = new InitialContext();
             Context envContext = (Context) initialContext.lookup("java:/comp/env");
-            ds = (DataSource) envContext.lookup("jdbc/epmprojbank");
+
+            ds = (DataSource)initialContext.lookup("java:comp/env/jdbc/MySQLDB");
+
             if (ds != null)
                 logger.debug("Connection pool received");
             else

@@ -1,4 +1,4 @@
-package model.dao;
+package model.dao.exceptions;
 
 /**
  * Created by tonchief on 05/21/2017.
