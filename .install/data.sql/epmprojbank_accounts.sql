@@ -1,0 +1,11 @@
+INSERT INTO epmprojbank.accounts (number, is_blocked, clients_id) VALUES ('26206432082001', 1, 1);
+INSERT INTO epmprojbank.accounts (number, is_blocked, clients_id) VALUES ('26003654789987', 0, 2);
+INSERT INTO epmprojbank.accounts (number, is_blocked, clients_id) VALUES ('263014528796', 1, 3);
+INSERT INTO epmprojbank.accounts (number, is_blocked, clients_id) VALUES ('262536521478', 0, 3);
+INSERT INTO epmprojbank.accounts (number, is_blocked, clients_id) VALUES ('26253652147894', 1, 3);
+INSERT INTO epmprojbank.accounts (number, is_blocked, clients_id) VALUES ('6', 0, 4);
+INSERT INTO epmprojbank.accounts (number, is_blocked, clients_id) VALUES ('7', 1, 5);
+INSERT INTO epmprojbank.accounts (number, is_blocked, clients_id) VALUES ('8', 0, 6);
+INSERT INTO epmprojbank.accounts (number, is_blocked, clients_id) VALUES ('10101010', 1, 6);
+INSERT INTO epmprojbank.accounts (number, is_blocked, clients_id) VALUES ('2600', 1, 5);
+INSERT INTO epmprojbank.accounts (number, is_blocked, clients_id) VALUES ('2600', 1, 5);
