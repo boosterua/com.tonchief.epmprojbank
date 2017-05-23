@@ -71,8 +71,6 @@ public class Main {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-//                cdb.closeAll(con, ps, rs0);
         }
 
         AccountsDAOimpl acct = AccountsDAOimpl.getInstance();
@@ -104,13 +102,13 @@ public class Main {
         System.out.println("AfterUpdate: Acct 10 isBlocked = " + ((Account) acct.getById(10)).getBlockedStatus());
 
 
+        System.out.println(  acct.getById(10));
         System.out.println(  acct.getByIdTWR(10));
         System.out.println(  acct.getByIdTWR(10));
-        System.out.println(  acct.getByIdTWR(10));
-        System.out.println(Test.tryme());
+        //System.out.println(Test.tryme());
     }
 
-    static class Test{
+/*    static class Test{
         static int tryme(){
             try{
                 return 2;
@@ -121,7 +119,7 @@ public class Main {
             }
             return 1;
         }
-    }
+    }*/
 }
 
 

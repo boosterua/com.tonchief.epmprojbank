@@ -10,6 +10,5 @@ import java.sql.SQLException;
  */
 public interface AccountsDAO extends EntityDao {
     boolean isBlocked(Account entity) throws MySqlPoolException, SQLException;
-
     boolean setblock(Account account, boolean block) throws MySqlPoolException;
 }

@@ -8,15 +8,11 @@ import java.util.List;
 public interface EntityDao<T extends Entity> {
 
     //void createTableIfNotExist();
-
-    Integer insert(T tdata) throws Exception;
-
+    int insert(T tdata) throws Exception;
     boolean update(int id, T data) throws ExceptionDAO;
-
-    boolean delete(int id) throws ExceptionDAO;
-
+    boolean delete(long id) throws ExceptionDAO;
     T getById(int id) throws ExceptionDAO;
+//    List<T> findAll() throws ExceptionDAO;
 
-    List<T> findAll() throws ExceptionDAO;
 
 }

@@ -13,15 +13,15 @@ public class CardsDAOimpl implements CardsDAO {
 
     }
 
-    public Integer insert(Entity tdata) {
-        return null;
+    public int insert(Entity tdata) {
+        return 0;
     }
 
     public boolean update(int id, Entity data) {
         return false;
     }
 
-    public boolean delete(int id) {
+    public boolean delete(long id) {
         return false;
     }
 

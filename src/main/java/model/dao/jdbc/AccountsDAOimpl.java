@@ -20,29 +20,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/*TEMPLATE:
-        logger.info("fetching .... for " + account + " id:" + account.getId());
-        try  {
-            Connection conn = (Connection) DBPool.pool.borrowObject();
-            PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts."), 1);
-            logger.info("got conn, acct id:" + account.getId());
-            ps.setInt(1, account.getId());
-            try (ResultSet rs = ps.executeQuery()) {
-                rs.next();
-                boolean res = rs.getBoolean(1);
-                DBPool.pool.returnObject(conn);
-                return res;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
+/* Replaced Apache commons pool to v2. */
+/* apache pool v1 would not let close connection manually.
+    SQL exception.
+            com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: No operations allowed after connection closed. */
 
-        }
-* */
+// DoneTODO - read ~ logger - passing value / error. Add data here.
+// DoneTODO QQQ: Try with resources - how to return connection back to pool
+// DoneTODO QQQ: Singleton - what's best impl for this exact var        // TODO: update all indexes in db - to bigint (Long);
+/* TODO QQQ: Which is better? try (ResultSet rs = ps.getGeneratedKeys()) { rs.next(); return true;}     --OR--  return (ps.executeUpdate() != 0);
+TODO QQQ: Если запрашиваемого клиента/счета и т.п. не существует - правильнее вернуть null и проверить это в логике или бросить эксепшн, который поймать и обработать через try/catch ?
+ */
+
 public class AccountsDAOimpl implements AccountsDAO {
-    //TODO Singleton!!
 
     private static AccountsDAOimpl instance = null;
     private final ResourceBundle accountsPS = ResourceBundle.getBundle("database.psqueries");
@@ -58,19 +48,12 @@ public class AccountsDAOimpl implements AccountsDAO {
     }
 
 
-    public Integer insert(Entity acct) throws Exception {
-        // DoneTODO - read ~ logger - passing value / error. Add data here.
-        // TODO: update all indexes in db - to bigint;
-        // TODO QQQ: Try with resources - how to return connection back to pool
-        // TODO QQQ: Singleton - what's best impl for this exact var
-        /* TODO QQQ: Which is better? try (ResultSet rs = ps.getGeneratedKeys()) { rs.next(); return true;}     --OR--  return (ps.executeUpdate() != 0);
-        TODO QQQ: Если запрашиваемого клиента/счета и т.п. не существует - правильнее вернуть null и проверить это в логике или бросить эксепшн, который поймать и обработать через try/catch ?
-         */
-        Connection conn;
+    public int insert(Entity acct) throws Exception {
+
         logger.info("Insert into [accounts]: " + acct);
-        try {
-            conn = (Connection) DBPool.pool.borrowObject();
-            PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.insert"), 1);
+        try (Connection conn = pool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.insert"), 1);
+        ) {
             logger.info("Got conn for insert. ");
 
             Account account = (Account) acct;
@@ -93,48 +76,16 @@ public class AccountsDAOimpl implements AccountsDAO {
         } catch (SQLException e) {
             logger.error("SQL exception", e);
         }
-        return null;
-
-/*        try (
-//          Connection conn = new DBConnectionSingle().getConnection();
-//          Connection conn = DataSourceMgr.getConnection();
-            Connection conn = new DBConnection().getConnection();
-            PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.insert"), 1);
-        ) {
-            Account account = (Account) acct;
-            ps.setString(1, account.getName());
-            ps.setBoolean(2, account.getBlockedStatus());
-            ps.setInt(3, account.getClientId());
-            ps.executeUpdate();
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                rs.next();
-                return true; //rs.getLong(1)
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
-
-
-        /* Для СУБД, которые поддерживают "auto increment" поля
-
-        *  добавляем запись...
-            int rowCount = stmt.executeUpdate(
-                "INSERT INTO Messages(Msg) VALUES ('Test')",
-            Statement.RETURN_GENERATED_KEYS);
-
-        // ... и получаем ключ
-        ResultSet rs = stmt.getGeneratedKeys();
-        rs.next();
-        long primaryKey = rs.getLong(1);*/
+        return 0;
     }
 
 
     public boolean update(int id, Entity acct) throws ExceptionDAO {
 
         logger.info("Update [accounts] for acct.id: " + id);
-        try {
-            Connection conn = (Connection) DBPool.pool.borrowObject();
-            PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.update"), 1);
+        try (Connection conn = pool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.update"), 0);
+        ) {
             logger.info("Got connection for update. ");
 
             Account account = (Account) acct;
@@ -157,13 +108,13 @@ public class AccountsDAOimpl implements AccountsDAO {
         return false;
     }
 
-    public boolean delete(int id) throws ExceptionDAO {
+    public boolean delete(long id) throws ExceptionDAO {
         logger.info("Account  sql delete for id=" + id);
-        try {
-            Connection conn = (Connection) DBPool.pool.borrowObject();
-            PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.deleteById"), 1);
+        try (Connection conn = pool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.deleteById"), 0);
+        ){
             logger.info("got conn.");
-            ps.setInt(1, id);
+            ps.setLong(1, id);
             logger.info("Trying PS:" + ps);
 
             return ps.executeUpdate() != 0;
@@ -180,33 +131,27 @@ public class AccountsDAOimpl implements AccountsDAO {
 
     public Entity getById(int id) throws ExceptionDAO {
         logger.info("fetching Account Entity for id:" + id);
-        try {
-            //Connection conn = (Connection) DBPool.pool.borrowObject();
-            Connection conn = (Connection) DBPool.pool.borrowObject();
-            PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.getById"), 1);
+        try (Connection conn = pool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.getById"), 0);
+        ){
             logger.info("got conn.");
             ps.setInt(1, id);
             logger.info("Trying PS:" + ps);
 
             try (ResultSet rs = ps.executeQuery()) {
-                model.utils.PrintResultSet.printDump(rs);
+//                model.utils.PrintResultSet.printDump(rs);
 
                 rs.next();
                 Account acct = new Account();
                 acct.setId(rs.getInt(1));
                 acct.setName(Long.toString(rs.getLong(2)));
                 acct.setBlock(rs.getBoolean(3));
-
                 acct.setClientId(rs.getInt(4));
-                conn.close();
-//                DBPool.pool.returnObject(conn);
-                ps.close();
+                rs.close();
                 return acct;
             } catch (SQLException e) {
                 logger.error("SQLex." + e.toString());
-//                return null;
             }
-
         } catch (SQLException e) {
             logger.error("SQL exception.", e);
         } catch (Exception e) {
@@ -220,6 +165,80 @@ public class AccountsDAOimpl implements AccountsDAO {
         return new ArrayList();
     }
 
+    @Override
+    public boolean isBlocked(Account account) throws MySqlPoolException, SQLException {
+        logger.info("fetching isBlocked for " + account + " id:" + account.getId());
+        try (Connection conn = pool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.isBlocked"), 0);
+        ){
+            if (conn == null) throw new MySqlPoolException("No connection", new MySQLTimeoutException());
+            logger.info("got conn, acct id:" + account.getId());
+            ps.setInt(1, account.getId());
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                boolean res = rs.getBoolean(1);
+                ps.close();
+                return res;
+            }
+        } catch (Exception e) {
+            new MySqlPoolException("Db Pool aquire failed for isBlocked.", e);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean setblock(Account account, boolean block) throws MySqlPoolException {
+        logger.info("setting isBlocked=(" + block + ") for " + account);
+        try (
+                Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.setblock"), 0);
+        ) {
+            ps.setBoolean(1, block);
+            ps.setInt(2, account.getId());
+            return (ps.executeUpdate() != 0);
+        } catch (SQLException e) {
+            logger.error("", e);
+        }
+        return false;
+    }
+
+
+
+
+    public Entity getByIdTWR(int id) throws ExceptionDAO, SQLException {
+
+        logger.info("fetching Account Entity for id:" + id);
+        try(ResultSet rs = UtilDAO.getRsById(id, accountsPS.getString("accounts.getById"))){
+                // System.out.println("pDfrom getByIdTWR"); model.utils.PrintResultSet.printDump(rs);
+            rs.next();
+            Account acct = new Account();
+            acct.setId(rs.getInt(1));
+            acct.setBlock(rs.getBoolean(3));
+            acct.setName(Long.toString(rs.getLong(2)));
+
+            acct.setClientId(rs.getInt(4));
+            rs.close();
+            return acct;
+            } catch (Exception e) {
+                logger.error("getRsById." + e.toString());
+            }
+       return null;
+    }
+}
+
+
+
+
+/* Для СУБД, которые поддерживают "auto increment" поля -  добавляем запись...
+        int rowCount = stmt.executeUpdate(
+            "INSERT INTO Messages(Msg) VALUES ('Test')", Statement.RETURN_GENERATED_KEYS);
+    // ... и получаем ключ
+    ResultSet rs = stmt.getGeneratedKeys();
+    rs.next();
+    long primaryKey = rs.getLong(1);
+*/
+
+/* // OLDER Impl (apache pool v1)
     @Override
     public boolean isBlocked(Account account) throws MySqlPoolException, SQLException {
         logger.info("fetching isBlocked for " + account + " id:" + account.getId());
@@ -238,138 +257,13 @@ public class AccountsDAOimpl implements AccountsDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 rs.next();
                 boolean res = rs.getBoolean(1);
-                DBPool.pool.returnObject(conn);
                 ps.close();
-//                DBConnection.closeAll(conn, ps, rs);
                 return res;
             }
-        } /*catch (NullPointerException e) { // Will never get here, as NP is checked before trying PS. Put this catch here only for Sonar to be happy ;)
-            logger.error("", e);
-        } */ catch (Exception e) {
-            logger.error("", e);
-        } finally {
-
-        }
-        /*try ( Connection conn = DBConnection.getConnection();
-        PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.isBlocked"), 1);) {
-            ps.setInt(1, account.getId());
-                try (ResultSet rs = ps.executeQuery()) {
-                    rs.next();
-                    boolean res = rs.getBoolean(1);
-                    DBConnection.closeAll(conn, ps, rs);
-                    return res;
-                }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {}*/
-        return false;
-    }
-
-
-    @Override
-    public boolean setblock(Account account, boolean block) throws MySqlPoolException {
-        logger.info("setting isBlocked=(" + block + ") for " + account);
-        try (
-                Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.setblock"), 1);
-        ) {
-            ps.setBoolean(1, block);
-            ps.setInt(2, account.getId());
-            return (ps.executeUpdate() != 0);
-        } catch (SQLException e) {
+        }  catch (Exception e) {
             logger.error("", e);
         }
         return false;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public Entity getByIdTWR(int id) throws ExceptionDAO, SQLException {
-
-        /*SQL exception.
-com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: No operations allowed after connection closed.
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
-	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
-	at com.mysql.jdbc.Util.handleNewInstance(Util.java:425)
-	at com.mysql.jdbc.Util.getInstance(Util.java:408)
-	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:918)
-	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:897)
-	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:886)
-	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:860)
-	at com.mysql.jdbc.ConnectionImpl.throwConnectionClosedException(ConnectionImpl.java:1187)
-	at com.mysql.jdbc.ConnectionImpl.checkClosed(ConnectionImpl.java:1182)
-	at com.mysql.jdbc.ConnectionImpl.prepareStatement(ConnectionImpl.java:4035)
-	at com.mysql.jdbc.ConnectionImpl.prepareStatement(ConnectionImpl.java:4004)
-	at com.mysql.jdbc.ConnectionImpl.prepareStatement(ConnectionImpl.java:4011)
-	at model.dao.jdbc.AccountsDAOimpl.getByIdTWR(AccountsDAOimpl.java:308)
-	at Main.main(Main.java:80)
-null*/
-
-        logger.info("fetching Account Entity for id:" + id);
-
-        Connection connection2 = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try (Connection conn = pool.getConnection();
-            PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.getById"), 1);
-        ){
-            logger.info("got conn.");
-            ps.setInt(1, id);
-            logger.info("Trying PS:" + ps);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                model.utils.PrintResultSet.printDump(rs);
-
-                rs.next();
-                Account acct = new Account();
-                acct.setId(rs.getInt(1));
-                acct.setBlock(rs.getBoolean(3));
-                acct.setName(Long.toString(rs.getLong(2)));
-
-                acct.setClientId(rs.getInt(4));
-                rs.close();
-                ps.close();
-                return acct;
-            } catch (SQLException e) {
-                logger.error("SQLex." + e.toString());
-            }
-        } catch (SQLException e) {
-            logger.error("SQL exception.", e);
-        } catch (Exception e) {
-            logger.error("Fatal General Exception.", e);
-        }
-        return null;
-    }
-
-
-
-
-
-
-
-
-
-
-}
+ */
