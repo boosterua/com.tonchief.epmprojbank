@@ -1,8 +1,8 @@
 package model.dao.connection;
 
+import model.dao.connection.old.MySqlPoolableObjectFactory;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.PoolableObjectFactory;
-import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool.Config;
 import org.apache.commons.pool2.impl.GenericObjectPoolFactory;
 

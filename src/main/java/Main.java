@@ -1,7 +1,7 @@
-import model.dao.connection.DBConnection;
-import model.dao.connection.DBConnectionSingle;
+import model.dao.connection.DataSource;
 import model.dao.jdbc.AccountsDAOimpl;
 import model.dto.Account;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
  * Created by tonchief on 05/20/2017.
  */
 public class Main {
+    private static BasicDataSource pool = DataSource.getInstance().getBds();
+
     public static void main(String[] args) throws Exception {
 
 
@@ -39,6 +41,7 @@ public class Main {
 
 
 
+/*
         Statement st = new DBConnectionSingle().getStatement();
         ResultSet rs = st.executeQuery("SELECT * from accounts");
         if (rs != null) {
@@ -54,20 +57,22 @@ public class Main {
         if (rs2 != null && rs2.next())
             System.out.println("via POOL:\n\t" + "id_Account=" + rs2.getString(1) +
                     "; number=" + rs2.getString(2) + ";");
-
+*/
 
         Connection con;
         ResultSet rs0;
         try {
             ResourceBundle accountsPS = ResourceBundle.getBundle("database.psqueries");
             for (int i = 1; i < 6; i++) {
-                con = DBConnection.getConnection();
-                PreparedStatement ps = con.prepareStatement(accountsPS.getString("accounts.isBlocked"), 1);
+                Connection conn = pool.getConnection();
+                PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.isBlocked"), 0);
+
                 ps.setInt(1, i);
                 rs0 = ps.executeQuery();
                 rs0.next();
                 boolean res = rs0.getBoolean(1);
                 System.out.println("*** " + i + ". Res from Main: " + res);
+                ps.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,8 +84,8 @@ public class Main {
         System.out.println(acct.isBlocked(account));
         account.setId(4);
         System.out.println(acct.isBlocked(account));
-        rs.close();
-        st.close();
+//        rs.close();
+//        st.close();
 
         Account newAccount = new Account();
         newAccount.setName("2600");
@@ -123,4 +128,4 @@ public class Main {
 }
 
 
-//TODO Alter table transactions, add column description varchar 128
+//doneTODO Alter table transactions, add column description varchar 128

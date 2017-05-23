@@ -1,4 +1,4 @@
-package model.dao.connection;
+package model.dao.connection.old;
 
 import org.apache.log4j.Logger;
 import snaq.db.ConnectionPool;

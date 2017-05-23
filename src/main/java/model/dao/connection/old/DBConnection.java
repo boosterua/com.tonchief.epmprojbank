@@ -1,4 +1,4 @@
-package model.dao.connection;
+package model.dao.connection.old;
 
 import model.dao.exceptions.MySqlPoolException;
 import org.apache.log4j.Logger;
@@ -81,6 +81,4 @@ public class DBConnection {
             }
         }
     }
-
-
 }

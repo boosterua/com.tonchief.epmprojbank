@@ -2,8 +2,6 @@ package model.dao.jdbc;
 
 import com.mysql.jdbc.exceptions.MySQLTimeoutException;
 import model.dao.AccountsDAO;
-import model.dao.connection.DBConnection;
-import model.dao.connection.DBPool;
 import model.dao.connection.DataSource;
 import model.dao.exceptions.ExceptionDAO;
 import model.dao.exceptions.MySqlPoolException;
@@ -71,7 +69,7 @@ public class AccountsDAOimpl implements AccountsDAO {
                 return rs.getInt(1); //rs.getLong(1)
             } finally {
                 ps.close();
-                DBPool.pool.returnObject(conn);
+                //DBPool.pool.returnObject(conn);
             }
         } catch (SQLException e) {
             logger.error("SQL exception", e);
@@ -189,10 +187,9 @@ public class AccountsDAOimpl implements AccountsDAO {
     @Override
     public boolean setblock(Account account, boolean block) throws MySqlPoolException {
         logger.info("setting isBlocked=(" + block + ") for " + account);
-        try (
-                Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.setblock"), 0);
-        ) {
+        try (Connection conn = pool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.isBlocked"), 0);
+        ){
             ps.setBoolean(1, block);
             ps.setInt(2, account.getId());
             return (ps.executeUpdate() != 0);

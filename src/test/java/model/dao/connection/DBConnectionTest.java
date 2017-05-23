@@ -1,6 +1,8 @@
 package model.dao.connection;
 
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,7 +11,9 @@ import java.sql.Statement;
  * Created by tonchief on 05/21/2017.
  */
 class DBConnectionTest {
+
     public static void main(String[] args) throws SQLException {
+        /*
         Statement st = new DBConnectionSingle().getStatement();
         ResultSet rs = st.executeQuery("SELECT * from accounts");
         if (rs != null) {
@@ -20,6 +24,7 @@ class DBConnectionTest {
         }
         rs.close();
         st.close();
+*/
     }
 
 }
