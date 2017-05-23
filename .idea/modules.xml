@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/com.tonchief.epm.projbank.iml" filepath="$PROJECT_DIR$/com.tonchief.epm.projbank.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/com.tonchief.java.epm.lab04.iml" filepath="$PROJECT_DIR$/.idea/com.tonchief.java.epm.lab04.iml" />
     </modules>
   </component>
 </project>

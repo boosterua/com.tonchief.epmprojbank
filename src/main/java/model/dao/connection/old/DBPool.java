@@ -1,11 +1,16 @@
 package model.dao.connection;
 
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.PoolableObjectFactory;
+import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPool.Config;
+import org.apache.commons.pool2.impl.GenericObjectPoolFactory;
 
-import org.apache.commons.pool.ObjectPool;
-import org.apache.commons.pool.PoolableObjectFactory;
-import org.apache.commons.pool.impl.GenericObjectPool;
-import org.apache.commons.pool.impl.GenericObjectPool.Config;
-import org.apache.commons.pool.impl.GenericObjectPoolFactory;
+//import org.apache.commons.pool.ObjectPool;
+//import org.apache.commons.pool.PoolableObjectFactory;
+//import org.apache.commons.pool.impl.GenericObjectPool;
+//import org.apache.commons.pool.impl.GenericObjectPool.Config;
+//import org.apache.commons.pool.impl.GenericObjectPoolFactory;
 
 import java.util.ResourceBundle;
 
@@ -22,7 +27,7 @@ public class DBPool {
 
         PoolableObjectFactory mySqlPoolableObjectFactory =
                 new MySqlPoolableObjectFactory(host, Integer.parseInt(port), schema, user, password);
-        Config config = new GenericObjectPool.Config();
+        Config config = new GenericObjectPool2.Config();
         config.maxActive = 10; //Integer.parseInt(r.getString("pool.maxActive")); //10
         config.testOnBorrow = true;
         config.testOnReturn = true;

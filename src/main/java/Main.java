@@ -1,7 +1,8 @@
-import model.dao.connection.ConnectionToDB;
+import model.dao.connection.DBConnection;
 import model.dao.connection.DBConnectionSingle;
 import model.dao.jdbc.AccountsDAOimpl;
 import model.dto.Account;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ResourceBundle;
@@ -11,6 +12,33 @@ import java.util.ResourceBundle;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
+
+
+        final Logger LOG = Logger.getLogger(AccountsDAOimpl.class);
+        try {
+            LOG.info("org.apache.commons.dbcp2.BasicDataSource found "
+                    + Thread.currentThread()
+                    .getContextClassLoader()
+                    .loadClass(
+                            "org.apache.commons.dbcp2.BasicDataSource")
+                    .getProtectionDomain().getCodeSource()
+                    .getLocation());
+            LOG.info("org.apache.commons.pool2.impl.GenericObjectPool found "
+                    + Thread.currentThread()
+                    .getContextClassLoader()
+                    .loadClass(
+                            "org.apache.commons.pool2.impl.GenericObjectPool")
+                    .getProtectionDomain().getCodeSource()
+                    .getLocation());
+        } catch (Exception e) {
+            System.out.println("ERROR" + e);
+        }
+
+
+
+
+
+
         Statement st = new DBConnectionSingle().getStatement();
         ResultSet rs = st.executeQuery("SELECT * from accounts");
         if (rs != null) {
@@ -21,7 +49,7 @@ public class Main {
         }
 
 
-        Connection conn = new ConnectionToDB().getConnection();
+        Connection conn = new DBConnection().getConnection();
         ResultSet rs2 = conn.createStatement().executeQuery("SELECT * from accounts ");
         if (rs2 != null && rs2.next())
             System.out.println("via POOL:\n\t" + "id_Account=" + rs2.getString(1) +
@@ -33,7 +61,7 @@ public class Main {
         try {
             ResourceBundle accountsPS = ResourceBundle.getBundle("database.psqueries");
             for (int i = 1; i < 6; i++) {
-                con = ConnectionToDB.getConnection();
+                con = DBConnection.getConnection();
                 PreparedStatement ps = con.prepareStatement(accountsPS.getString("accounts.isBlocked"), 1);
                 ps.setInt(1, i);
                 rs0 = ps.executeQuery();
@@ -76,6 +104,23 @@ public class Main {
         System.out.println("AfterUpdate: Acct 10 isBlocked = " + ((Account) acct.getById(10)).getBlockedStatus());
 
 
+        System.out.println(  acct.getByIdTWR(10));
+        System.out.println(  acct.getByIdTWR(10));
+        System.out.println(  acct.getByIdTWR(10));
+        System.out.println(Test.tryme());
+    }
+
+    static class Test{
+        static int tryme(){
+            try{
+                return 2;
+            } catch(Exception e){
+                e.getStackTrace();
+            } finally {
+                System.out.println("FINALLY");
+            }
+            return 1;
+        }
     }
 }
 

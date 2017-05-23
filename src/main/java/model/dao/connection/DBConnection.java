@@ -8,11 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ConnectionToDB {
-    private static final Logger LOGGER = Logger.getLogger(ConnectionToDB.class);
+public class DBConnection {
+    private static final Logger LOGGER = Logger.getLogger(DBConnection.class);
     private static final String SQLEX = "SQLException, full stack trace:";
 
-    public ConnectionToDB() throws MySqlPoolException, SQLException {
+    public DBConnection() throws MySqlPoolException, SQLException {
     }
 
     public static Connection getConnection() throws SQLException, MySqlPoolException {
