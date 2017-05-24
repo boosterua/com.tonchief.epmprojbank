@@ -1,11 +1,13 @@
 package model.dao.jdbc;
 
 import com.mysql.jdbc.exceptions.MySQLTimeoutException;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import model.dao.AccountsDAO;
 import model.dao.connection.DataSource;
 import model.dao.exceptions.ExceptionDAO;
 import model.dao.exceptions.MySqlPoolException;
 import model.dto.Account;
+import model.dto.Client;
 import model.dto.Entity;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
@@ -18,10 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/* Replaced Apache commons pool to v2. */
-/* apache pool v1 would not let close connection manually.
-    SQL exception.
-            com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: No operations allowed after connection closed. */
+/* Replaced Apache commons pool to v2.
+   For v1 - PS and RS has to be closed manually, while borrowed connection has to stay open when returned back to pool. Crashes otherwise.
+   apache pool v1 would not let close connection manually.
+   SQL exception: com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException:
+    No operations allowed after connection closed. */
 
 // DoneTODO - read ~ logger - passing value / error. Add data here.
 // DoneTODO QQQ: Try with resources - how to return connection back to pool
@@ -36,6 +39,11 @@ public class AccountsDAOimpl implements AccountsDAO {
     private final ResourceBundle accountsPS = ResourceBundle.getBundle("database.psqueries");
     private final Logger logger = Logger.getLogger(AccountsDAOimpl.class);
     private BasicDataSource pool = DataSource.getInstance().getBds();
+    private static final int ID = 1;
+    private static final int NUM = 2;
+    private static final int BLK = 3;
+    private static final int CLI = 4;
+    private static final int BAL = 5;
 
     private AccountsDAOimpl() { }
 
@@ -45,10 +53,12 @@ public class AccountsDAOimpl implements AccountsDAO {
         return instance;
     }
 
-
+    @Override
     public int insert(Entity acct) throws Exception {
 
         logger.info("Insert into [accounts]: " + acct);
+
+        // try with resources works perfectly with apache pool v2. Closing connection and prepSt automatically
         try (Connection conn = pool.getConnection();
              PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.insert"), 1);
         ) {
@@ -69,7 +79,6 @@ public class AccountsDAOimpl implements AccountsDAO {
                 return rs.getInt(1); //rs.getLong(1)
             } finally {
                 ps.close();
-                //DBPool.pool.returnObject(conn);
             }
         } catch (SQLException e) {
             logger.error("SQL exception", e);
@@ -77,7 +86,7 @@ public class AccountsDAOimpl implements AccountsDAO {
         return 0;
     }
 
-
+    @Override
     public boolean update(int id, Entity acct) throws ExceptionDAO {
 
         logger.info("Update [accounts] for acct.id: " + id);
@@ -92,7 +101,8 @@ public class AccountsDAOimpl implements AccountsDAO {
             ps.setString(1, account.getName());
             ps.setBoolean(2, account.getBlockedStatus());
             ps.setInt(3, account.getClientId());
-            ps.setInt(4, id);
+            ps.setBigDecimal(4, account.getBalance());
+            ps.setInt(5, id);
 
             logger.info("PS: " + ps.toString());
 
@@ -106,6 +116,7 @@ public class AccountsDAOimpl implements AccountsDAO {
         return false;
     }
 
+    @Override
     public boolean delete(long id) throws ExceptionDAO {
         logger.info("Account  sql delete for id=" + id);
         try (Connection conn = pool.getConnection();
@@ -126,7 +137,7 @@ public class AccountsDAOimpl implements AccountsDAO {
         return false;
     }
 
-
+    @Override
     public Entity getById(int id) throws ExceptionDAO {
         logger.info("fetching Account Entity for id:" + id);
         try (Connection conn = pool.getConnection();
@@ -137,14 +148,14 @@ public class AccountsDAOimpl implements AccountsDAO {
             logger.info("Trying PS:" + ps);
 
             try (ResultSet rs = ps.executeQuery()) {
-//                model.utils.PrintResultSet.printDump(rs);
-
+                    //  model.utils.PrintResultSet.printDump(rs);
                 rs.next();
                 Account acct = new Account();
-                acct.setId(rs.getInt(1));
-                acct.setName(Long.toString(rs.getLong(2)));
-                acct.setBlock(rs.getBoolean(3));
-                acct.setClientId(rs.getInt(4));
+                acct.setId(rs.getInt(ID));
+                acct.setName(Long.toString(rs.getLong(NUM)));
+                acct.setBlock(rs.getBoolean(BLK));
+                acct.setClientId(rs.getInt(CLI));
+                acct.setBalance(rs.getBigDecimal(BAL));
                 rs.close();
                 return acct;
             } catch (SQLException e) {
@@ -159,9 +170,40 @@ public class AccountsDAOimpl implements AccountsDAO {
     }
 
 
-    public List findAll() throws ExceptionDAO {
-        return new ArrayList();
+    public List findAllByClient(Client client) throws ExceptionDAO {
+        List<Account> resultList = new ArrayList<>();
+        logger.info("fetching Account Entities for Userid:" + client.getId());
+        try (Connection conn = pool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.getByClient"), 0);
+        ){
+            logger.info("Got connection.");
+            ps.setInt(1, client.getId());
+            logger.info("Trying PS:" + ps);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()) {
+                    Account acct = new Account();
+                    acct.setId(rs.getInt(ID));
+                    acct.setName(Long.toString(rs.getLong(NUM)));
+                    acct.setBlock(rs.getBoolean(BLK));
+                    acct.setClientId(rs.getInt(CLI));
+                    acct.setBalance(rs.getBigDecimal(BAL));
+                    resultList.add(acct);
+                }
+                rs.close();
+                return resultList;
+            } catch (SQLException e) {
+                logger.error("SQLex." + e.toString());
+            }
+        } catch (SQLException e) {
+            logger.error("SQL exception.", e);
+        } catch (Exception e) {
+            logger.error("Fatal General Exception.", e);
+        }
+        return null;
     }
+
+
 
     @Override
     public boolean isBlocked(Account account) throws MySqlPoolException, SQLException {
@@ -171,7 +213,7 @@ public class AccountsDAOimpl implements AccountsDAO {
         ){
             if (conn == null) throw new MySqlPoolException("No connection", new MySQLTimeoutException());
             logger.info("got conn, acct id:" + account.getId());
-            ps.setInt(1, account.getId());
+            ps.setInt(ID, account.getId());
             try (ResultSet rs = ps.executeQuery()) {
                 rs.next();
                 boolean res = rs.getBoolean(1);
@@ -185,12 +227,13 @@ public class AccountsDAOimpl implements AccountsDAO {
     }
 
     @Override
-    public boolean setblock(Account account, boolean block) throws MySqlPoolException {
-        logger.info("setting isBlocked=(" + block + ") for " + account);
-        try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.isBlocked"), 0);
+    public boolean setBlock(Account account) throws MySqlPoolException {
+        logger.info("setting isBlocked=(" + account.getBlockedStatus() + ") for " + account);
+        try (
+        Connection conn = pool.getConnection();
+            PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.setblock"), 0);
         ){
-            ps.setBoolean(1, block);
+            ps.setBoolean(1, account.getBlockedStatus());
             ps.setInt(2, account.getId());
             return (ps.executeUpdate() != 0);
         } catch (SQLException e) {
@@ -201,7 +244,7 @@ public class AccountsDAOimpl implements AccountsDAO {
 
 
 
-
+@Deprecated
     public Entity getByIdTWR(int id) throws ExceptionDAO, SQLException {
 
         logger.info("fetching Account Entity for id:" + id);

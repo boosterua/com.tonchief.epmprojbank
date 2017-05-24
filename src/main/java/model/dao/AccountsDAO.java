@@ -1,14 +1,14 @@
 package model.dao;
 
+import model.dao.exceptions.ExceptionDAO;
 import model.dao.exceptions.MySqlPoolException;
 import model.dto.Account;
 
 import java.sql.SQLException;
+import java.util.List;
 
-/**
- * Created by tonchief on 05/20/2017.
- */
-public interface AccountsDAO extends EntityDao {
-    boolean isBlocked(Account entity) throws MySqlPoolException, SQLException;
-    boolean setblock(Account account, boolean block) throws MySqlPoolException;
+public interface AccountsDAO extends EntityDAO {
+    boolean isBlocked(Account account) throws MySqlPoolException, SQLException;
+    boolean setBlock(Account account) throws MySqlPoolException;
+    List findAllByClient(model.dto.Client client) throws  ExceptionDAO;
 }

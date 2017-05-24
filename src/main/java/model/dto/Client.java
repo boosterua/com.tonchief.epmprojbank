@@ -1,11 +1,23 @@
-package main.java.model.dto;
+package model.dto;
 
 
 import model.dto.Entity;
 
-/**
- * Created by p on 05/20/2017.
- */
+/*
+
+     Client-> Cards[] <-Accounts[]
+
+     Client
+     -> makePayment(details);
+     -> replenishAccount(acctId, amount, source[anotherAccount|cash]);
+     -> blockAccount(acctId);
+
+     Administrator
+     -> removeAccountBlock();
+     -> raiseCreditCardLimit();
+     -> blockAccount();
+*/
+
 public class Client implements Entity {
     private int id;
     private String name;

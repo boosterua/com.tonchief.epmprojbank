@@ -1,16 +1,33 @@
 package model.dao.jdbc;
 
 import model.dao.CardsDAO;
+import model.dao.connection.DataSource;
 import model.dto.Entity;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.log4j.Logger;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
-/**
- * Created by tonchief on 05/21/2017.
- */
+
 public class CardsDAOimpl implements CardsDAO {
-    public void createTableIfNotExist() {
 
+    private static CardsDAOimpl instance = null;
+    private final ResourceBundle resBundle = ResourceBundle.getBundle("database.psqueries");
+    private final Logger logger = Logger.getLogger(AccountsDAOimpl.class);
+    private BasicDataSource pool = DataSource.getInstance().getBds();
+    private static final int ID = 1;
+    private static final int NUM = 2;
+    private static final int EXP = 3;
+    private static final int FID = 4;
+    private static final int AID = 5;
+
+    private CardsDAOimpl() { }
+
+    public static synchronized CardsDAOimpl getInstance() {
+        if (instance == null)
+            instance = new CardsDAOimpl();
+        return instance;
     }
 
     public int insert(Entity tdata) {
@@ -22,14 +39,15 @@ public class CardsDAOimpl implements CardsDAO {
     }
 
     public boolean delete(long id) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     public Entity getById(int id) {
         return null;
     }
 
-    public List findAll() {
+    @Override
+    public List listCardsOfType() {
         return null;
     }
 }

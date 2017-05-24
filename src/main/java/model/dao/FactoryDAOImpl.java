@@ -5,6 +5,7 @@ package model.dao;
  */
 
 import jdk.nashorn.internal.ir.annotations.Ignore;
+import model.dao.jdbc.AccountsDAOimpl;
 
 @Ignore
 public class FactoryDAOImpl extends FactoryDAO {
@@ -33,6 +34,13 @@ public class FactoryDAOImpl extends FactoryDAO {
         return instance;
     }
 
+
+    public AccountsDAO getAccountsDAO() {
+        if(accountsDAO==null)
+            accountsDAO = AccountsDAOimpl.getInstance();
+        return accountsDAO;
+    }
+
     public FeesDAO getFeesDAO() {
         return feesDAO;
     }
@@ -42,9 +50,7 @@ public class FactoryDAOImpl extends FactoryDAO {
         return usersDAO;
     }
 
-    public AccountsDAO getAccountsDAO() {
-        return accountsDAO;
-    }
+
 
     public CardsDAO getCardsDAO() {
         return cardsDAO;

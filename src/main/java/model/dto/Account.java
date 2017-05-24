@@ -1,14 +1,22 @@
 package model.dto;
 
 
-/**
- * Created by p on 05/20/2017.
- */
+import model.dao.AccountsDAO;
+import model.dao.FactoryDAOImpl;
+import model.dao.exceptions.MySqlPoolException;
+
+import java.math.BigDecimal;
+
+
 public class Account implements Entity {
-    int id;
-    String number;
-    int clientId;
-    boolean blocked;
+    private int id;
+    private String number; /* number is also a name of account. Always a number [Ususally 10..16 digits]. String data type in dto, Long in dao. */
+    private int clientId;
+    private boolean blocked;
+    private BigDecimal balance;
+
+
+    private AccountsDAO accountsDAO = FactoryDAOImpl.getInstance().getAccountsDAO();
 
     public int getId() {
         return id;
@@ -26,23 +34,37 @@ public class Account implements Entity {
         this.number = name;
     }
 
+    public String toString() {
+        return "" + this.id + "; " + this.number + "; " + this.blocked + "; " + this.clientId;
+    }
+
+
     public boolean getBlockedStatus() {
         return blocked;
+    }
+
+    public void setBlock(boolean block) throws MySqlPoolException {
+        this.blocked = block;
+        accountsDAO.setBlock(this);
     }
 
     public int getClientId() {
         return clientId;
     }
-
     public void setClientId(int clientId) {
         this.clientId = clientId;
     }
-
-    public void setBlock(boolean block) {
-        this.blocked = block;
+    public void replenish(BigDecimal amt){
+        this.balance = balance.add(amt);
     }
 
-    public String toString() {
-        return "" + this.id + "; " + this.number + "; " + this.blocked + "; " + this.clientId;
+    public BigDecimal getBalance() {
+        return balance;
     }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+
 }

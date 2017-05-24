@@ -5,7 +5,7 @@ import model.dto.Entity;
 
 import java.util.List;
 
-public interface EntityDao<T extends Entity> {
+public interface EntityDAO<T extends Entity> {
 
     //void createTableIfNotExist();
     int insert(T tdata) throws Exception;

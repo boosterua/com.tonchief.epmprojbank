@@ -5,15 +5,14 @@ package model.dto;
  */
 public interface Entity {
 
-    int getId();
-    void setId(int id);
+    int     getId();
+    void    setId(int id);
 
-    String getName();
-
-    void setName(String name);
+    String  getName();
+    void    setName(String name);
 
     @Override
-    String toString();
+    String  toString();
 
 
 }

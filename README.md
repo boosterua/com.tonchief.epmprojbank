@@ -37,14 +37,21 @@
      Client-> Cards[] <-Accounts[]
      
      Client
-     -> makePayment(details);
+     -> makePayment(details: from, to, amount, descr);
      -> replenishAccount(acctId, amount, source[anotherAccount|cash]);
      -> blockAccount(acctId);
+     -> register(); // fill out form including client id fields as well as type of card requested.
      
      Administrator
-     -> removeAccountBlock(); 
-     -> raiseCreditCardLimit();
      -> blockAccount();
+     -> removeAccountBlock(); 
+     -> issueNewCard();
+     -> listClientsByCardType(VisaClassic); list all clients with Visa Classic Cards
+     -> listClientsWithBlockedAccounts();
+     -> approveClient(); // incl.issue new account and card.
+     -> listCardsOfType;
+     
+
 ```
 *DB:*
 ```    
@@ -53,5 +60,12 @@
           Accounts [id, nr, clientId, isActive]
           Payments [id, dtAcct, crAcct, amt, date]
 ```
+
+
+Service.Client: 
+ - make payment: choose account*, choose action [block,replenish,makepayment]. *select accounts
+
+ 
+
 
 To be continued...

@@ -13,7 +13,7 @@ import java.sql.SQLException;
 /**
  * Created by tonchief on 05/23/2017.
  */
-//TODO: is this a good practice to use UtilDAO class for this proj.
+//TODO: is this a good practice to use UtilDAO class for this proj ?
 public class UtilDAO {
     private static final Logger logger = Logger.getLogger(AccountsDAOimpl.class);
     protected static BasicDataSource pool = DataSource.getInstance().getBds();
