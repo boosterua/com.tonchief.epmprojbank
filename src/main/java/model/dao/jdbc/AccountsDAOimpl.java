@@ -1,14 +1,13 @@
 package model.dao.jdbc;
 
 import com.mysql.jdbc.exceptions.MySQLTimeoutException;
-import jdk.nashorn.internal.ir.annotations.Ignore;
-import model.dao.AccountsDAO;
+import model.dao.interfaces.AccountsDAO;
 import model.dao.connection.DataSource;
 import model.dao.exceptions.ExceptionDAO;
 import model.dao.exceptions.MySqlPoolException;
-import model.dto.Account;
-import model.dto.Client;
-import model.dto.Entity;
+import model.entity.Account;
+import model.entity.Client;
+import model.entity.Entity;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 
@@ -18,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 /* Replaced Apache commons pool to v2.
    For v1 - PS and RS has to be closed manually, while borrowed connection has to stay open when returned back to pool. Crashes otherwise.
@@ -26,17 +24,12 @@ import java.util.ResourceBundle;
    SQL exception: com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException:
     No operations allowed after connection closed. */
 
-// DoneTODO - read ~ logger - passing value / error. Add data here.
-// DoneTODO QQQ: Try with resources - how to return connection back to pool
-// DoneTODO QQQ: Singleton - what's best impl for this exact var        // TODO: update all indexes in db - to bigint (Long);
-/* TODO QQQ: Which is better? try (ResultSet rs = ps.getGeneratedKeys()) { rs.next(); return true;}     --OR--  return (ps.executeUpdate() != 0);
-TODO QQQ: Если запрашиваемого клиента/счета и т.п. не существует - правильнее вернуть null и проверить это в логике или бросить эксепшн, который поймать и обработать через try/catch ?
- */
+
 
 public class AccountsDAOimpl implements AccountsDAO {
 
     private static AccountsDAOimpl instance = null;
-    private final ResourceBundle accountsPS = ResourceBundle.getBundle("database.psqueries");
+//    private final ResourceBundle BUNDLE = ResourceBundle.getBundle("database.psqueries");
     private final Logger logger = Logger.getLogger(AccountsDAOimpl.class);
     private BasicDataSource pool = DataSource.getInstance().getBds();
     private static final int ID = 1;
@@ -60,7 +53,7 @@ public class AccountsDAOimpl implements AccountsDAO {
 
         // try with resources works perfectly with apache pool v2. Closing connection and prepSt automatically
         try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.insert"), 1);
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.insert"), 1);
         ) {
             logger.info("Got conn for insert. ");
 
@@ -91,20 +84,22 @@ public class AccountsDAOimpl implements AccountsDAO {
 
         logger.info("Update [accounts] for acct.id: " + id);
         try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.update"), 0);
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.update"), 0);
         ) {
             logger.info("Got connection for update. ");
 
             Account account = (Account) acct;
             logger.info("Params from account passed:(" + account.toString() + ")");
             //UPDATE accounts SET number=(?), is_blocked=(?), clients_id=(?)  WHERE id_account = (?);
+            logger.info("** PS: " + ps.toString());
+
             ps.setString(1, account.getName());
             ps.setBoolean(2, account.getBlockedStatus());
             ps.setInt(3, account.getClientId());
             ps.setBigDecimal(4, account.getBalance());
             ps.setInt(5, id);
 
-            logger.info("PS: " + ps.toString());
+            logger.info("** PS: " + ps.toString());
 
             return (ps.executeUpdate() != 0);
 
@@ -120,7 +115,7 @@ public class AccountsDAOimpl implements AccountsDAO {
     public boolean delete(long id) throws ExceptionDAO {
         logger.info("Account  sql delete for id=" + id);
         try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.deleteById"), 0);
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.deleteById"), 0);
         ){
             logger.info("got conn.");
             ps.setLong(1, id);
@@ -141,7 +136,7 @@ public class AccountsDAOimpl implements AccountsDAO {
     public Entity getById(int id) throws ExceptionDAO {
         logger.info("fetching Account Entity for id:" + id);
         try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.getById"), 0);
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.getById"), 0);
         ){
             logger.info("got conn.");
             ps.setInt(1, id);
@@ -174,7 +169,7 @@ public class AccountsDAOimpl implements AccountsDAO {
         List<Account> resultList = new ArrayList<>();
         logger.info("fetching Account Entities for Userid:" + client.getId());
         try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.getByClient"), 0);
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.getByClient"), 0);
         ){
             logger.info("Got connection.");
             ps.setInt(1, client.getId());
@@ -209,7 +204,7 @@ public class AccountsDAOimpl implements AccountsDAO {
     public boolean isBlocked(Account account) throws MySqlPoolException, SQLException {
         logger.info("fetching isBlocked for " + account + " id:" + account.getId());
         try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.isBlocked"), 0);
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.isBlocked"), 0);
         ){
             if (conn == null) throw new MySqlPoolException("No connection", new MySQLTimeoutException());
             logger.info("got conn, acct id:" + account.getId());
@@ -230,8 +225,8 @@ public class AccountsDAOimpl implements AccountsDAO {
     public boolean setBlock(Account account) throws MySqlPoolException {
         logger.info("setting isBlocked=(" + account.getBlockedStatus() + ") for " + account);
         try (
-        Connection conn = pool.getConnection();
-            PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.setblock"), 0);
+                Connection conn = pool.getConnection();
+                PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.setblock"), 0);
         ){
             ps.setBoolean(1, account.getBlockedStatus());
             ps.setInt(2, account.getId());
@@ -243,12 +238,11 @@ public class AccountsDAOimpl implements AccountsDAO {
     }
 
 
-
-@Deprecated
+    /* Newer implementation, using Util DAO*/
     public Entity getByIdTWR(int id) throws ExceptionDAO, SQLException {
 
         logger.info("fetching Account Entity for id:" + id);
-        try(ResultSet rs = UtilDAO.getRsById(id, accountsPS.getString("accounts.getById"))){
+        try(ResultSet rs = UtilDAO.getRsById(id, BUNDLE.getString("accounts.getById"))){
                 // System.out.println("pDfrom getByIdTWR"); model.utils.PrintResultSet.printDump(rs);
             rs.next();
             Account acct = new Account();
@@ -267,6 +261,10 @@ public class AccountsDAOimpl implements AccountsDAO {
 }
 
 
+// DoneTODO - read ~ logger - passing value / error. Add data here.
+// DoneTODO QQQ: Try with resources - how to return connection back to pool
+// DoneTODO QQQ: Singleton - what's best impl for this exact var
+// CancelledTODO: update all indexes in db - to bigint (Long);
 
 
 /* Для СУБД, которые поддерживают "auto increment" поля -  добавляем запись...
@@ -290,7 +288,7 @@ public class AccountsDAOimpl implements AccountsDAO {
             new MySqlPoolException("Db Pool aquire failed for isBlocked.", e);
         }
         try (
-                PreparedStatement ps = conn.prepareStatement(accountsPS.getString("accounts.isBlocked"), 1);
+                PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.isBlocked"), 1);
         ) {
             logger.info("got conn, acct id:" + account.getId());
             ps.setInt(1, account.getId());

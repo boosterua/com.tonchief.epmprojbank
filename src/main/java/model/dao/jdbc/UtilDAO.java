@@ -2,6 +2,8 @@ package model.dao.jdbc;
 
 import model.dao.connection.DataSource;
 import model.dao.exceptions.ExceptionDAO;
+import model.entity.Account;
+import model.entity.Entity;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 
@@ -14,7 +16,9 @@ import java.sql.SQLException;
  * Created by tonchief on 05/23/2017.
  */
 //TODO: is this a good practice to use UtilDAO class for this proj ?
+
 public class UtilDAO {
+
     private static final Logger logger = Logger.getLogger(AccountsDAOimpl.class);
     protected static BasicDataSource pool = DataSource.getInstance().getBds();
 
@@ -41,4 +45,10 @@ public class UtilDAO {
         }
         return null;
     }
+
+
+
+
+
+
 }

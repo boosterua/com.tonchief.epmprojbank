@@ -1,7 +1,5 @@
-package model.dto;
+package model.entity;
 
-
-import model.dto.Entity;
 
 /*
 
@@ -21,8 +19,7 @@ import model.dto.Entity;
 public class Client implements Entity {
     private int id;
     private String name;
-    private int cardId;
-    //...
+    private int accountId;
 
 
     public Client(int id, String name) {
@@ -43,8 +40,8 @@ public class Client implements Entity {
     public void setName() {
     }
 
-    public int getCardId() {
-        return cardId;
+    public int getAccountId() {
+        return accountId;
     }
 
     public int getId() {

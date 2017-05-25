@@ -1,8 +1,5 @@
-package model.dto;
+package model.entity;
 
-/**
- * Created by tonchief on 05/20/2017.
- */
 public interface Entity {
 
     int     getId();

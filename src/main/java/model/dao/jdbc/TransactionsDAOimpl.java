@@ -1,16 +1,19 @@
 package model.dao.jdbc;
 
-import model.dao.TransactionsDAO;
-import model.dto.Entity;
+import model.dao.interfaces.TransactionsDAO;
+import model.entity.Entity;
 
 import java.util.List;
 
-/**
- * Created by tonchief on 05/21/2017.
- */
-public class TransactionsDAOimpl implements TransactionsDAO {
-    public void createTableIfNotExist() {
 
+public class TransactionsDAOimpl implements TransactionsDAO {
+
+    private static TransactionsDAOimpl instance = null;
+
+    public static TransactionsDAOimpl getInstance() {
+        if(instance==null)
+            instance = new TransactionsDAOimpl();
+        return instance;
     }
 
     public int insert(Entity tdata) {
@@ -28,7 +31,5 @@ public class TransactionsDAOimpl implements TransactionsDAO {
         return null;
     }
 
-    public List findAll() {
-        return null;
-    }
+
 }

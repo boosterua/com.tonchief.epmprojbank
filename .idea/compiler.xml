@@ -6,11 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="com.tonchief.java.epm.lab04" />
+        <module name="com.tonchief.epmprojbank" />
         <module name="com.tonchief.java.epm.lav04" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="com.tonchief.epmprojbank" target="1.8" />
       <module name="com.tonchief.java.epm.lab04" target="1.8" />
       <module name="com.tonchief.java.epm.lav04" target="1.8" />
     </bytecodeTargetLevel>

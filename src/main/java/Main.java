@@ -1,6 +1,6 @@
 import model.dao.connection.DataSource;
 import model.dao.jdbc.AccountsDAOimpl;
-import model.dto.Account;
+import model.entity.Account;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 
@@ -39,7 +39,7 @@ public class Main {
 
 
 
-
+        ResourceBundle.clearCache();
 
 /*
         Statement st = new DBConnectionSingle().getStatement();

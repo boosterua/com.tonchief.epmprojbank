@@ -1,11 +1,12 @@
-package model.dao;
+package model.dao.interfaces;
 
 import model.dao.exceptions.ExceptionDAO;
-import model.dto.Entity;
+import model.entity.Entity;
 
-import java.util.List;
+import java.util.ResourceBundle;
 
 public interface EntityDAO<T extends Entity> {
+   ResourceBundle BUNDLE = ResourceBundle.getBundle("database.psqueries");
 
     //void createTableIfNotExist();
     int insert(T tdata) throws Exception;

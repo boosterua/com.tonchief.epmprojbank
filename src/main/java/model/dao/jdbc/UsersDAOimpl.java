@@ -1,7 +1,7 @@
 package model.dao.jdbc;
 
-import model.dao.UsersDAO;
-import model.dto.Entity;
+import model.dao.interfaces.UsersDAO;
+import model.entity.Entity;
 
 import java.util.List;
 
@@ -9,8 +9,13 @@ import java.util.List;
  * Created by tonchief on 05/21/2017.
  */
 public class UsersDAOimpl implements UsersDAO {
-    public void createTableIfNotExist() {
 
+    private static UsersDAOimpl instance = null;
+
+    public static UsersDAOimpl getInstance() {
+        if(instance==null)
+            instance = new UsersDAOimpl();
+        return instance;
     }
 
     public int insert(Entity tdata) {
@@ -28,7 +33,4 @@ public class UsersDAOimpl implements UsersDAO {
         return null;
     }
 
-    public List findAll() {
-        return null;
-    }
 }

@@ -1,7 +1,7 @@
 package model.dao.jdbc;
 
-import model.dao.FeesDAO;
-import model.dto.Entity;
+import model.dao.interfaces.FeesDAO;
+import model.entity.Entity;
 
 import java.util.List;
 
@@ -9,9 +9,14 @@ import java.util.List;
  * Created by tonchief on 05/21/2017.
  */
 public class FeesDAOimpl implements FeesDAO {
-    public void createTableIfNotExist() {
+    private static FeesDAOimpl instance = null; // Lazy instantiation
 
+    public static FeesDAO getInstance() {
+        if (instance==null)
+            instance = new FeesDAOimpl();
+        return instance;
     }
+
 
     public int insert(Entity tdata) {
         return 0;
@@ -29,7 +34,4 @@ public class FeesDAOimpl implements FeesDAO {
         return null;
     }
 
-    public List findAll() {
-        return null;
-    }
 }

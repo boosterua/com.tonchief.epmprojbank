@@ -1,15 +1,20 @@
-package model.dao;
+package model.dao.factory;
 
 /**
  * Created by p on 05/20/2017.
  */
 
 import jdk.nashorn.internal.ir.annotations.Ignore;
+import model.dao.interfaces.*;
 import model.dao.jdbc.AccountsDAOimpl;
+import model.dao.jdbc.FeesDAOimpl;
+import model.dao.jdbc.*;
+
+import java.util.Optional;
 
 @Ignore
-public class FactoryDAOImpl extends FactoryDAO {
-    private static FactoryDAOImpl instance = null;
+public class DAOFactoryImpl extends DAOFactory {
+    private static DAOFactoryImpl instance = null;
 
 
 //    private FeesDAO feesDAO = new FeesDAO();
@@ -24,36 +29,35 @@ public class FactoryDAOImpl extends FactoryDAO {
     private CardsDAO cardsDAO;
     private TransactionsDAO transactionsDAO;
 
-    private FactoryDAOImpl() {
+    private DAOFactoryImpl() {
     }
 
-    public static FactoryDAOImpl getInstance() {
-        if (instance == null){
-            return new FactoryDAOImpl();
-        }
+    public static synchronized DAOFactoryImpl getInstance() {
+        instance = Optional.ofNullable(instance).orElse(new DAOFactoryImpl());
         return instance;
     }
 
 
     public AccountsDAO getAccountsDAO() {
-        if(accountsDAO==null)
-            accountsDAO = AccountsDAOimpl.getInstance();
-        return accountsDAO;
+        return AccountsDAOimpl.getInstance();
     }
 
     public FeesDAO getFeesDAO() {
-        return feesDAO;
+        // feesDAO = Optional.ofNullable(feesDAO).orElse(new FeesDAOimpl()); return feesDAO;
+/*      if(feesDAO==null)
+            feesDAO = new FeesDAOimpl();
+        return feesDAO; */
+        return FeesDAOimpl.getInstance();
     }
 
     public UsersDAO getUsersDAO() {
-
-        return usersDAO;
+        if(usersDAO==null)
+            usersDAO = new UsersDAOimpl();
+        return UsersDAOimpl.getInstance();
     }
 
-
-
     public CardsDAO getCardsDAO() {
-        return cardsDAO;
+        return CardsDAOimpl.getInstance();
     }
 
     public TransactionsDAO getTransactionsDAO() {
