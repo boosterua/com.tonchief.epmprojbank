@@ -1,7 +1,7 @@
 <%--
   Created by IntelliJ IDEA.
   User: p
-  Date: 01/25/2017
+  Date: 05/25/2017
   Time: 16:42
   To change this template use File | Settings | File Templates.
 --%>
@@ -11,6 +11,7 @@
     <title>$Title$</title>
   </head>
   <body>
+  <h3 class="message"><%=model.services.Admin.getMessage()%></h3>
   $END$
   </body>
 </html>

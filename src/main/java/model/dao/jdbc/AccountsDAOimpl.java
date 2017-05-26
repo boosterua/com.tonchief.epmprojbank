@@ -222,7 +222,7 @@ public class AccountsDAOimpl implements AccountsDAO {
     }
 
     @Override
-    public boolean setBlock(Account account) throws MySqlPoolException {
+    public boolean setBlock(Account account) {
         logger.info("setting isBlocked=(" + account.getBlockedStatus() + ") for " + account);
         try (
                 Connection conn = pool.getConnection();
@@ -230,6 +230,21 @@ public class AccountsDAOimpl implements AccountsDAO {
         ){
             ps.setBoolean(1, account.getBlockedStatus());
             ps.setInt(2, account.getId());
+            return (ps.executeUpdate() != 0);
+        } catch (SQLException e) {
+            logger.error("", e);
+        }
+        return false;
+    }
+
+    public boolean setBlock(int accId) {
+        logger.info("setting isBlocked=TRUE for accountId=" + accId);
+        try (
+                Connection conn = pool.getConnection();
+                PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.setblock"), 0);
+        ){
+            ps.setBoolean(1, true);
+            ps.setInt(2, accId);
             return (ps.executeUpdate() != 0);
         } catch (SQLException e) {
             logger.error("", e);

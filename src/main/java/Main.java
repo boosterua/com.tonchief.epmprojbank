@@ -1,10 +1,14 @@
 import model.dao.connection.DataSource;
 import model.dao.jdbc.AccountsDAOimpl;
+import model.dao.jdbc.CardsDAOimpl;
 import model.entity.Account;
+import model.entity.Card;
+import model.services.Admin;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 /**
@@ -35,8 +39,6 @@ public class Main {
         } catch (Exception e) {
             System.out.println("ERROR" + e);
         }
-
-
 
 
         ResourceBundle.clearCache();
@@ -107,25 +109,26 @@ public class Main {
         System.out.println("AfterUpdate: Acct 10 isBlocked = " + ((Account) acct.getById(10)).getBlockedStatus());
 
 
-        System.out.println(  acct.getById(10));
-        System.out.println(  acct.getByIdTWR(10));
-        System.out.println(  acct.getByIdTWR(10));
-        //System.out.println(Test.tryme());
-    }
+        System.out.println(acct.getById(10));
+        System.out.println(acct.getByIdTWR(10));
+        System.out.println(acct.getByIdTWR(10));
 
-/*    static class Test{
-        static int tryme(){
-            try{
-                return 2;
-            } catch(Exception e){
-                e.getStackTrace();
-            } finally {
-                System.out.println("FINALLY");
-            }
-            return 1;
-        }
-    }*/
+
+    }
 }
+
+
+/*
+// PRESENTATION:
+AccountsDAOimpl - dao
+UtilDAO
+Service.User - documentation
+Admin - comments
+*/
+
+
+
+
 
 
 //doneTODO Alter table transactions, add column description varchar 128

@@ -8,8 +8,5 @@ public interface Entity {
     String  getName();
     void    setName(String name);
 
-    @Override
     String  toString();
-
-
 }

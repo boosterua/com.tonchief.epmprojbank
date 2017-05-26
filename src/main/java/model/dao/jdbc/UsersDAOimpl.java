@@ -21,6 +21,7 @@ public class UsersDAOimpl implements UsersDAO {
     public int insert(Entity tdata) {
         return 0;
     }
+
     public boolean update(int id, Entity data) {
         return false;
     }
