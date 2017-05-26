@@ -4,7 +4,6 @@ import model.dao.interfaces.CardsDAO;
 import model.dao.connection.DataSource;
 import model.entity.Card;
 import model.entity.Entity;
-import model.services.Admin;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 
@@ -13,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 

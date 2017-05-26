@@ -1,11 +1,8 @@
-package model.services;
+package service;
 
-import model.dao.exceptions.ExceptionDAO;
 import model.dao.exceptions.MySqlPoolException;
 import model.dao.factory.DAOFactoryImpl;
-import model.dao.interfaces.TransactionsDAO;
 import model.entity.Account;
-import model.entity.Entity;
 import model.entity.Transaction;
 
 import java.math.BigDecimal;

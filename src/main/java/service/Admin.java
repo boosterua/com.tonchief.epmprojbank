@@ -1,4 +1,4 @@
-package model.services;
+package service;
 
 
 import model.dao.exceptions.MySqlPoolException;

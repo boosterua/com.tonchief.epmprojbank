@@ -5,13 +5,13 @@
          version="3.1">
 
     <servlet>
-        <servlet-name>mainServlet</servlet-name>
-        <servlet-class>controller.servlet.MyServlet</servlet-class>
+        <servlet-name>controller</servlet-name>
+        <servlet-class>controller.servlets.MyServlet</servlet-class>
         <!--<servlet-class>controller.servlet.MyServlet</servlet-class>-->
     </servlet>
     
     <servlet-mapping>
-        <servlet-name>mainServlet</servlet-name>
+        <servlet-name>controller</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 

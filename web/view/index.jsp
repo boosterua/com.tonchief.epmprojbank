@@ -11,7 +11,7 @@
     <title>$Title$</title>
   </head>
   <body>
-  <h3 class="message"><%=model.services.Admin.getMessage()%></h3>
+  <h3 class="message"><%=service.Admin.getMessage()%></h3>
   $END$
   </body>
 </html>
