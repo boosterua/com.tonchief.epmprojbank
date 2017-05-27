@@ -1,9 +1,5 @@
 package model.dao.factory;
 
-/**
- * Created by p on 05/20/2017.
- */
-
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import model.dao.interfaces.*;
 import model.dao.jdbc.AccountsDAOimpl;

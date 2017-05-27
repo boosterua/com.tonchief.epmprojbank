@@ -20,6 +20,13 @@ public class Client implements Entity {
     private int id;
     private String name;
     private int accountId;
+    private String email;
+
+    public String getPassword() {
+        return password;
+    }
+
+    private String password;
 
 
     public Client(int id, String name) {
@@ -55,5 +62,8 @@ public class Client implements Entity {
         this.id = id;
     }
 
+    public String getEmail() {
+        return email;
+    }
 
 }

@@ -5,11 +5,15 @@ import model.entity.Entity;
 
 import java.util.List;
 
-/**
- * Created by tonchief on 05/21/2017.
- */
 public class FeesDAOimpl implements FeesDAO {
+//TODO full instantiation
     private static FeesDAOimpl instance = null; // Lazy instantiation
+    private static final int ID = 1;
+    private static final int NAM = 2;
+    private static final int TRF = 3;
+    private static final int NCF = 4;
+    private static final int APR = 5;
+    //Checked for fields equality b/w dao and db(v2), 2017-05-27
 
     public static FeesDAO getInstance() {
         if (instance==null)

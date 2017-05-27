@@ -1,4 +1,4 @@
-package model.services;
+package service;
 
 
 import model.dao.exceptions.MySqlPoolException;
@@ -18,7 +18,7 @@ public class Admin {
     private DAOFactoryImpl DAO = DAOFactoryImpl.getInstance();
 
     public static String getMessage() {
-        return "#EPMPROJBANK_TC plain String";
+        return "#EPMPROJBANK_TC plain String Upd";
     }
 
     public boolean blockAccount(Account account) throws MySqlPoolException {

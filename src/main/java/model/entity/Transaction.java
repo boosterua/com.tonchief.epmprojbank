@@ -7,6 +7,7 @@ public class Transaction implements Entity {
 
     private long crAccount;
     private Account dtAccount;
+    private int dtAcctId;
     private BigDecimal amount;
     private LocalDate trDate;
     private String description;
@@ -47,4 +48,23 @@ public class Transaction implements Entity {
     }
 
 
+    public LocalDate getDate() {
+        return trDate;
+    }
+
+    public long getCreditAccount() {
+        return crAccount;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getDtAccountID() {
+        return dtAcctId;
+    }
 }

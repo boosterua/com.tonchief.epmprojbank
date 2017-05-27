@@ -9,4 +9,6 @@ public interface Entity {
     void    setName(String name);
 
     String  toString();
+
+
 }

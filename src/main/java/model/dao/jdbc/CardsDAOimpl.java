@@ -4,7 +4,6 @@ import model.dao.interfaces.CardsDAO;
 import model.dao.connection.DataSource;
 import model.entity.Card;
 import model.entity.Entity;
-import model.services.Admin;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 
@@ -13,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 
@@ -22,7 +20,6 @@ public class CardsDAOimpl implements CardsDAO {
 
 
     private static CardsDAOimpl instance = null;
-    private final ResourceBundle resBundle = ResourceBundle.getBundle("database.psqueries2");
     private final Logger logger = Logger.getLogger(AccountsDAOimpl.class);
     private BasicDataSource pool = DataSource.getInstance().getBds();
     private static final int ID = 1;
@@ -30,6 +27,7 @@ public class CardsDAOimpl implements CardsDAO {
     private static final int EXP = 3;
     private static final int FID = 4;
     private static final int AID = 5;
+    //Checked for fields equality b/w dao and db(v2), 2017-05-27
 
     private CardsDAOimpl() { }
 

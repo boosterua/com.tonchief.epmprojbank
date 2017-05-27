@@ -22,6 +22,13 @@ public class TransactionsDAOimpl  implements TransactionsDAO {
     private final ResourceBundle resBundle = ResourceBundle.getBundle("database.psqueries");
     private final Logger logger = Logger.getLogger(AccountsDAOimpl.class);
     private BasicDataSource pool = DataSource.getInstance().getBds();
+    private static final int TID = 1;
+    private static final int CRA = 2;
+    private static final int AMT = 3;
+    private static final int DAT = 4;
+    private static final int DSC = 5;
+    private static final int AID = 6;
+    //Checked for fields equality b/w dao and db(v2), 2017-05-27
 
     public static TransactionsDAOimpl getInstance() {
         if(instance==null)
@@ -33,18 +40,17 @@ public class TransactionsDAOimpl  implements TransactionsDAO {
         logger.info("Insert into [transaction]: " + transaction);
 
         try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("cards.insert"), 1);
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("transactions.insert"), 1);
         ) {
             Transaction tr = (Transaction) transaction;
             logger.info("Params from account passed:(" + tr.toString() + ")");
-            //  cards.insert=INSERT INTO cards (number, exp_date, fee_id, account_id) VALUES (?,TIMESTAMP(?),?,?);
-//TODO: Fix this ps impl
-/*
-            ps.setString(1, tr.getName());
-            ps.setDate  (2, java.sql.Date.valueOf((tr.getExpDate()  )));
-            ps.setInt   (3, tr.getFeeId());
-            ps.setInt   (4, tr.getAccountId());
-*/
+
+            ps.setLong      (CRA, tr.getCreditAccount());
+            ps.setBigDecimal(AMT, tr.getAmount());
+            ps.setDate      (DAT, java.sql.Date.valueOf((tr.getDate()  )));
+            ps.setString    (DSC, tr.getDescription());
+            ps.setInt       (AID, tr.getDtAccountID());
+
             logger.info("PS: " + ps.toString());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {

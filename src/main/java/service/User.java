@@ -1,19 +1,26 @@
-package model.services;
+package service;
 
-import model.dao.exceptions.ExceptionDAO;
 import model.dao.exceptions.MySqlPoolException;
 import model.dao.factory.DAOFactoryImpl;
-import model.dao.interfaces.TransactionsDAO;
 import model.entity.Account;
-import model.entity.Entity;
 import model.entity.Transaction;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+
 import static java.time.LocalDate.now;
 
 public class User {
 
     private DAOFactoryImpl DAO = DAOFactoryImpl.getInstance();
+    private String name;
+    private String email;
+    private String password;
+    private Long role;
+
+    public static String getMessage() {
+        return "Authorised User. Welcome.";
+    }
 
 //    -> makePayment(details: from, to, amount, descr);
 //    -> replenishAccount(acctId, amount, source[anotherAccount|cash]);
@@ -77,4 +84,19 @@ dbConnection.commit(); //transaction block end
         return DAO.getAccountsDAO().setBlock(account);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public long getRole() {
+        return role;
+    }
 }
