@@ -20,6 +20,7 @@ public class Controller extends HttpServlet {
 
     //TODO ??? Зачем?
     //TODO ??? How to create WAR file automaticalyy w/o changing type of server start? Where do i put it then?
+    //TODO ??? Как отлавливать 500е ошибки.
     public Controller(){ super();}
 
     @Override
