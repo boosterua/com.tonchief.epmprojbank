@@ -15,10 +15,10 @@
 <%@include file="includes/toplogo.jsp" %>
 
 
-<%--
-<h3 class="message"><%=service.Login.getMessage()%></h3>
---%>
+
 <div class="container">
+  <%--${condition ? "some text when true" : "some text when false"}--%>
+<c:if test="${errormsg}"><div class="alert alert-danger" role="alert">${errormsg}</div></c:if>
 <div class="alert alert-danger" role="alert">${errormsg}</div>
   <form class="form-signin" action="?command=authenticate" method="POST">
     <h2 class="form-signin-heading">Please Log In</h2>
@@ -33,6 +33,10 @@
 
 </div> <!-- /container -->
 
+
+<%--
+<h3 class="message"><%=service.Login.getMessage()%></h3>
+--%>
 <%--
 
 <div class="container">
