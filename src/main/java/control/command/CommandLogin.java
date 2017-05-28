@@ -21,7 +21,7 @@ public class CommandLogin implements Command {
             if(!req.getMethod().equals("GET")) {
                 req.setAttribute("errormsg", "Wrong login [" + login + "] or password [" + password + "]");
                 req.setAttribute("errormsg_html",
-                        "<div class=\"alert alert-danger\" role=\"alert\">Wrong login [" + login + "] or password [" + password + "]</div>" + req.getMethod());
+                        "<br><div class=\"alert alert-danger\" role=\"alert\">Wrong login [" + login + "] or password [" + password + "]</div>");
                 req.setAttribute("errorcode", 9401);
             }
             page = PROPS.getString("user.login");

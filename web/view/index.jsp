@@ -21,7 +21,9 @@ Reference my css file as follows:
 
 <div style="height: 100vh">
   <div class="flex-center flex-column">
-    <h1 class="animated fadeInUp mb-2" style="color:#0b51c5">the.BANK</h1>
+    <h1 class="animated fadeInUp mb-2 mdb-color darken-3 deep-orange-text z-depth-3" style="color:#0b51c5">
+        &nbsp; <b class="text-white">the.</b>BANK &nbsp;
+    </h1>
 
     <h5 class="animated fadeInDownBig mb-1 red-text">your money is safe with us</h5>
 
@@ -35,7 +37,8 @@ Reference my css file as follows:
     <a href="/bank/?command=register">register</a><br>
 
     <div style="text-align: right">
-      <p class="animated fadeIn text-muted" >epm.proj.bank by Ton Chief</p>
+        <span class="badge badge-default animated fadeIn">epm.proj.bank by Ton Chief</span>
+      <%--<p class="animated fadeIn text-muted" ></p>--%>
     </div>
 
   </div>

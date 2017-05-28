@@ -19,7 +19,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>controller</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/?command</url-pattern>
     </servlet-mapping>
 
     <!--

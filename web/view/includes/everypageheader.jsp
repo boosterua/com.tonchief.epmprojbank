@@ -8,3 +8,8 @@
 <link href="<%=request.getContextPath()%>/resources/css/mdb.min.css" rel="stylesheet">
 <!-- Your custom styles (optional) -->
 <link href="<%=request.getContextPath()%>/resources/css/style.css" rel="stylesheet">
+
+<style type="text/css">
+    body { back-ground: #eaedf1  !important; }
+
+</style>

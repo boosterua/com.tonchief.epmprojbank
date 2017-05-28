@@ -1,10 +1,16 @@
 package service;
 
+import model.entity.Fee;
+
+import java.util.HashMap;
+import java.util.List;
+
 public class SvcFactoryImpl extends ServiceFactory {
     private User user = null;
     private Admin admin = null;
     private Login login;
     private static SvcFactoryImpl instance = null;
+    private Fees fee;
 
 
     private SvcFactoryImpl(){    }
@@ -19,14 +25,14 @@ public class SvcFactoryImpl extends ServiceFactory {
     public User getUser() {
         if (user == null)
             user = new User();
-        return null;
+        return user;
     }
 
     @Override
-    public User getAdmin() {
+    public Admin getAdmin() {
         if (admin==null)
             admin = new Admin();
-        return null;
+        return admin;
     }
 
     public Login getLogin() {
@@ -34,4 +40,14 @@ public class SvcFactoryImpl extends ServiceFactory {
             login = new Login();
         return login;
     }
+
+    public Fees getFees(){
+        if(fee==null)
+            fee = new Fees();
+        return fee;
+    }
+
+//    public HashMap<Integer, String> getFeesSchedule() {
+//        return null;
+//    }
 }
