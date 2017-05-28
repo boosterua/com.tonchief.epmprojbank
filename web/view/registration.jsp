@@ -12,7 +12,7 @@
 <body>
 <%@include file="includes/toplogo.jsp" %>
 
-<div class="container w-50">
+<div class="container w-25">
 
   <%--<div class="md-form form-sm">--%>
     <div class="card">
@@ -24,11 +24,31 @@
 
     ${errormsg_html}
 
-    <div class="panel-body" style="width:50%">
+    <div class="panel-body">
       <form action="?command=register" method="POST" class="form-signin">
 
 
-          <input type="text" name="name" value="" id="name" class="form-control"
+
+
+        <div class="md-form">
+          <i class="fa fa-user prefix"></i>
+          <input type="text" id="name" class="form-control">
+          <label for="name">Your Full Name</label>
+        </div>
+        <div class="md-form">
+          <i class="fa fa-envelope prefix"></i>
+          <input type="text" id="email" class="form-control">
+          <label for="email">Your email</label>
+        </div>
+
+        <div class="md-form">
+          <i class="fa fa-lock prefix"></i>
+          <input type="password" id="password" class="form-control">
+          <label for="password">Your password</label>
+        </div>
+
+<%--
+        <input type="text" name="name" value="" id="name" class="form-control"
                  placeholder="Full name" required>
         <label for="name" class="">Your full name</label>
         <br>
@@ -40,25 +60,68 @@
 
           <input type="password" name="password" id="password" class="form-control"
                  placeholder="Password" required><br>
-        <label for="password" class="sr-only">Email address</label>
+        <label for="password" class="sr-only">Email address</label>--%>
 
         <c:if test="${not empty feeNames}">
-          <div class="form-group">
-            <i class="fa fa-list-ul" aria-hidden="true"></i>
+          <div class="md-form">
+            <i class="fa fa-list-ul prefix"></i>
             <label for="fee">Select the type of card you would like to get</label>
-            <select class="form-control" id="fee">
-              <c:forEach var="fee" items="${feeNames}">
-                <option value="${fee.key}">${fee.value}</option>
+
+            <select class="form-control" id="fee" name="fee">
+              <c:forEach var="feeKV" items="${feeNames}">
+                <option value="${feeKV.key}">${feeKV.value}</option>
+
+                ${feeKV.getKey()}
+                ${feeKV.name}
+
+
+
               </c:forEach>
             </select>
           </div>
         </c:if>
 
 
-
+        <c:forEach var = "fee" items = "${feeList}">
+          ${fee.id}
+          *
+          ${fee.getId()}
+          **
+          ${fee}.getId()
+          ***${fee}<br>
+          ****${fee.getId}
+           <c:out value = "${fee}" />
+        </c:forEach>
+        <hr>
+        ${feeList}
 
         <input type="submit" value="Proceed" class="btn btn-sm  mdb-color darken-3 white-text">
       </form>
+
+
+
+
+
+
+
+      <!--Body-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
     </div>
 
@@ -68,6 +131,7 @@
 
 
 
+<%--
 
 
 <div class="container w-25">
@@ -154,6 +218,7 @@
 </div>
 <!--/Form with header-->
 </div>
+--%>
 
 
 <%@include file="includes/btmlinks.jsp" %>

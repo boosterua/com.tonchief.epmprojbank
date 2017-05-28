@@ -1,12 +1,14 @@
 package control.command;
 
 
+import model.entity.Fee;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class CommandRegister implements Command {
@@ -28,9 +30,18 @@ public class CommandRegister implements Command {
             page = PROPS.getString("user.login");
         } else {
             Map<Integer,String> fees = SERVICE.getFees().getFeeNamesMap();
+
             req.setAttribute("feeNames", fees);
-            logger.info("MAP feeNames:");
-            for (int i: fees.keySet())
+
+            List<Fee> feeList = SERVICE.getFees().getFees();
+            req.setAttribute("feeList", feeList);
+
+
+
+
+            logger.info("* MAP feeNames:");
+            logger.info(fees);
+            for (Integer i: fees.keySet())
                 logger.info(i+"."+fees.get(i));
 
 

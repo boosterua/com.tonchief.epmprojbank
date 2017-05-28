@@ -50,6 +50,7 @@ public class FeesDAOimpl implements FeesDAO {
                     fee.setNewCardFee(rs.getDouble(NCF));
                     fee.setAPR(rs.getDouble(APR));
                     feeList.add(fee);
+                    logger.info(fee.toString());
                 }
                 rs.close();
                 return feeList;
