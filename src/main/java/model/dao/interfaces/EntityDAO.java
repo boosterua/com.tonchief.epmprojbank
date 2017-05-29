@@ -5,11 +5,11 @@ import model.entity.Entity;
 
 import java.util.ResourceBundle;
 
-public interface EntityDAO<T extends Entity> {
+public interface EntityDAO<T extends model.entity.Entity> {
    ResourceBundle BUNDLE = ResourceBundle.getBundle("database.psqueries");
 
     //void createTableIfNotExist();
-    int insert(T tdata) throws Exception;
+    int insert(Object tdata) throws Exception;
     boolean update(int id, T data) throws ExceptionDAO;
     boolean delete(long id) throws ExceptionDAO;
     T getById(int id) throws ExceptionDAO;
@@ -17,3 +17,4 @@ public interface EntityDAO<T extends Entity> {
 
 
 }
+

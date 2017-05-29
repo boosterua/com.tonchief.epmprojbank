@@ -23,7 +23,6 @@ public class Fees {
         if (res==null) return null;
         for(Fee fee: res){
             feeNames.put(fee.getId(), fee.getName());
-//            logger.info(fee.getId() + ":" + fee.getName());
         }
         return feeNames;
     }

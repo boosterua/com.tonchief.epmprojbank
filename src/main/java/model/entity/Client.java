@@ -28,11 +28,18 @@ public class Client implements Entity {
 
     private String password;
 
+    public Client(){}
 
     public Client(int id, String name) {
         this.id = id;
         this.name = name;
     }
+    public Client(int cid, String nm, String eml, int acctId) {
+        this(cid,nm);
+        this.accountId = acctId;
+        this.email = eml;
+    }
+
 
 
     public String getName() {

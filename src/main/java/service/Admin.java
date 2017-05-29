@@ -10,6 +10,7 @@ import model.entity.Client;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
 
 
@@ -76,6 +77,10 @@ public class Admin {
         return issueNewCard(client.getId());
     }
 
+    public List<Client> getClientsByRole(Long role){
+        if(role==null) role=0L;
+        return DAO.getUsersDAO().getUsersByRole(role);
+    }
 }
 
 

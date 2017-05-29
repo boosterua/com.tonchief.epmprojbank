@@ -50,22 +50,21 @@ public class AccountsDAOimpl implements AccountsDAO {
     }
 
     @Override
-    public int insert(Entity acct) throws Exception {
-
+    public int insert(Object account) throws Exception {
+        Account acct = (Account) account;
         logger.info("Insert into [accounts]: " + acct);
 
-        /* try with resources works perfectly with apache pool v2. Closing connection and prepSt automatically */
+        /* try with resources works perfectly with apache pool v2.
+        Closing connection and prepSt automatically */
         try (Connection conn = pool.getConnection();
              PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.insert"), 1);
         ) {
             logger.info("Got conn for insert. ");
-
-            Account account = (Account) acct;
             logger.info("Params from account passed:(" + account.toString() + ")");
 
-            ps.setString(1, account.getName());
-            ps.setBoolean(2, account.getBlockedStatus());
-            ps.setInt(3, account.getClientId());
+            ps.setString(1, acct.getName());
+            ps.setBoolean(2, acct.getBlockedStatus());
+            ps.setInt(3, acct.getClientId());
 
             logger.info("PS: " + ps.toString());
 

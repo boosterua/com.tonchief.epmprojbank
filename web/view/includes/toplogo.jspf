@@ -1,20 +1,6 @@
-<%--
-<div class="container-fluid" style="display:none">
-    <div class="flex-center flex-column" style="font-size: 50%;">
-        <h1 class="animated fadeInUp mb-2" style="color:#0b51c5">the.BANK</h1>
+<%-- TODO: ???? How to include dynamic jsp (with jstl tags) into another jsp --%>
 
-        <h6 class="animated fadeInDownBig mb-1 red-text">your money is safe with us</h6>
-
-        <hr>
-
-         <div style="text-align: right">
-            <p class="animated fadeIn text-muted" >epm.proj.bank by Ton Chief</p>
-        </div>
-    </div>
-</div>
---%>
-
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!--Navbar-->
 <nav class="navbar navbar-toggleable-md navbar-dark bg-primary mdb-color white-text fixed-top">
@@ -38,18 +24,25 @@
         <div class="collapse navbar-collapse" id="navbarNav1">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/bank/">Home
+                        <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">Features</a>
+                    <a class="nav-link"
+                       href="<%=request.getContextPath()%>/bank/?command=showfees">Fee Schedule</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link">Pricing</a>
-                </li>
+
+                <c:if test="${isAuthorized==true}">
+                    <li class="nav-item">
+                        <a class="nav-link">Features</a>
+                    </li>
+                </c:if>
+
+
 
             </ul>
             <ul>
-                <div class="" style="margin-left: 100px;"></div>
+                <div class="w-50" style="margin-left: 10px;"></div>
             </ul>
             <ul class="navbar-nav mr-auto pull-right text-right">
                 <li class="nav-item pull-right text-right">
@@ -65,6 +58,10 @@
     </div>
 </nav>
 <br>
+
+<%--<c:out value = "<hr><br>" />
+<c:out value="${param.myVar}"/>--%>
+
 
 <%--
 

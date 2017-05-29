@@ -66,7 +66,7 @@ public class FeesDAOimpl implements FeesDAO {
 
 
 
-    public int insert(Entity tdata) {
+    public int insert(Object tdata) {
         return 0;
     }
 

@@ -5,6 +5,31 @@ Create a folder if does not already exist under webapps called resources
 Place your css folder along with css files there
 Reference my css file as follows:
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/960.css"/>
+
+variables used on pages:
+
+infoMsg
+errorMsg
+errorCode
+dateTime
+returnPage
+feeNames : HashMap
+feeList : List<Fee>
+isAdmin : bool
+isAuthorized : bool
+
+tableName
+tableHeadersArr
+tableDataArr
+
+title
+body
+includeJSP
+
+-sectionID : String
++action: String
+
+todo: jstl tags: info, error
 --%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -13,10 +38,10 @@ Reference my css file as follows:
 <head>
   <%--<link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'>--%>
   <meta charset="utf-8">
-  <%@ include file="includes/everypageheader.jsp" %>
+  <%@ include file="includes/everypageheader.jspf" %>
 
 </head>
-<title>---EPMPROJBANK---</title>
+<title>[EPMPROJBANK]</title>
 <body>
 
 <div style="height: 100vh">
@@ -45,8 +70,8 @@ Reference my css file as follows:
 </div>
 
 
-<%@include file="includes/btmlinks.jsp" %>
-<%@include file="includes/everypagefooter.jsp" %>
+<%@include file="includes/btmlinks.jspf" %>
+<%@include file="includes/everypagefooter.jspf" %>
 
 </body>
 
@@ -62,21 +87,21 @@ My root pages template:
 <html>
 <head>
 <meta charset="utf-8">
-<%@ include file="includes/everypageheader.jsp" %>
+<%@ include file="includes/everypageheader.jspf" %>
 
 </head>
 <title>
 
 </title>
 <body>
-<%@include file="includes/toplogo.jsp" %>
+<%@include file="includes/toplogo.jspf" %>
 
 
 
 
 
-<%@include file="includes/btmlinks.jsp" %>
-<%@include file="includes/everypagefooter.jsp" %>
+<%@include file="includes/btmlinks.jspf" %>
+<%@include file="includes/everypagefooter.jspf" %>
  </body>
 </html>
 

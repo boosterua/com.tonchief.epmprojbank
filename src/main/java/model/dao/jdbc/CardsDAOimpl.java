@@ -38,7 +38,7 @@ public class CardsDAOimpl implements CardsDAO {
     }
 
 
-    public int insert(Entity eCard) {
+    public int insert(Object eCard) {
         logger.info("Insert into [cards]: " + eCard);
 
         try (Connection conn = pool.getConnection();

@@ -1,9 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" errorPage="errorjsp.jsp" %>
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" errorPage="/view/error.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
 <head>
   <meta charset="utf-8">
-  <%@ include file="includes/everypageheader.jsp" %>
+  <%@ include file="includes/everypageheader.jspf" %>
 
   <!-- Custom styles for this template -->
   <link href="<%=request.getContextPath()%>/resources/css/signin.css" rel="stylesheet">
@@ -12,7 +15,11 @@
 <title>User Login Page</title>
 
 <body>
-<%@include file="includes/toplogo.jsp" %>
+<%--<jsp:param name="myVar" value="${instanceVar}"/>--%>
+
+<%@include file="includes/toplogo.jspf" %>
+<%--<jsp:include page="includes/toplogo.jspf" />--%>
+
 
 
 <%--${condition ? "some text when true" : "some text when false"}--%>
@@ -31,7 +38,8 @@
     <div class="card-block">
         <br><br>
         <div class="panel-heading">
-          <h3 class="panel-title  mdb-color lighten-5">&nbsp; Authorization Page &nbsp;</h3>
+          <h2 class="panel-title badge indigo">&nbsp; Authorization Page &nbsp;</h2>
+
         </div>
 
         ${errormsg_html}
@@ -98,9 +106,9 @@
 </div>
 --%>
 
-<%@include file="includes/btmlinks.jsp" %>
+<%@include file="includes/btmlinks.jspf" %>
 
-<%@include file="includes/everypagefooter.jsp" %>
+<%@include file="includes/everypagefooter.jspf" %>
 
 
 

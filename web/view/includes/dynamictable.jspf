@@ -1,0 +1,90 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+<%--    JSTL quick reminder:
+http://beginnersbook.com/2013/12/fncontains-jstl-function/
+
+<c:if test="${isAuthorized==true}">
+
+<c:if test="${condition}">  </c:if>
+
+<c:set var="name" scope="application" value="Chaitanya Pratap Singh"/>
+  <a href="display.jsp">Display</a>
+    * display.jsp
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <c:out value="${name}"/>
+
+<c:remove> tag is used for removing an attribute from a specified scope or from all scopes (page, request, session and application).
+
+<c:choose>
+    <c:when test="${condition1}">    </c:when>
+    <c:when test="${condition2}">    </c:when>
+    <c:otherwise>     </c:otherwise>
+</c:choose>
+
+<c:catch var ="variable_name">
+ //Set of statements in which exception can occur
+</c:catch>
+
+<c:import var="variable_name" url="relative_url"/>
+    Here variable_name is a variable which stores the data imported from another url.
+    relative_url is the address of the file/page which needs to be imported.
+
+<c:forEach var="counter" begin="1" end="10">
+ <c:out value="${counter}"/>
+</c:forEach>
+
+<c:forEach var="feeKV" items="${feeNames}">
+    <option value="${feeKV.key}">${feeKV.value}</option>
+</c:forEach>
+
+<c:forTokens items="value(s)" delims="delimiter" var="variable_name">
+ //Set of statements
+</c:forTokens>
+
+<c:url value="/mypage.jsp" var="completeURL">
+ <c:param name="Id" value="736"/>
+ <c:param name="user" value="chaitanya"/>
+</c:url>
+
+
+<c:redirect url="/display.jsp" >
+ <c:param name="UserId" value="222"/>
+ <c:param name="UserName" value="ChaitanyaSingh"/>
+</c:redirect>
+${completeURL}
+
+--  display.jsp
+        USER ID IS: ${param.UserId}
+        USER NAME IS: ${param.UserName}
+--%>
+
+<div class="container">
+    <%--
+    .table-success	Indicates a successful or positive action
+    .table-info	Indicates a neutral informative change or action
+    .table-warning	Indicates a warning that might need attention
+    .table-danger
+    --%>
+    <c:if test="not empty ${tableName}">
+        <h4 class="badge indigo">${tableName}</h4>
+    </c:if>
+
+    <table class="table table-striped table-hover table-sm">
+        <thead class="thead-default">
+        <tr><c:forEach var="th" items="${tableHeadersArr}">
+            <th>${th}</th>
+            </c:forEach>
+        </tr>
+        </thead>
+
+        <tbody>
+        <c:forEach var="tdArr" items="${tableDataArr}">
+            <tr><c:forEach var="td" items="${tdArr}">
+                <td>${td}</td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+
+</div>

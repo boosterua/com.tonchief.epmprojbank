@@ -3,17 +3,27 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="/a.dummy">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/fragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$APPLICATION_CONFIG_DIR$/consoles/db/78a105fb-8e75-4090-8aeb-35c027a68e2f/console.sql">
+        <entry key="$PROJECT_DIR$/README.md">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/control/command/CommandLogin.java">
+        <entry key="$PROJECT_DIR$/pom.xml">
           <value>
             <set />
           </value>
@@ -23,7 +33,12 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/control/servlets/Controller.java">
+        <entry key="$PROJECT_DIR$/src/main/java/control/command/CommandShowClients.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/control/command/CommandShowFees.java">
           <value>
             <set />
           </value>
@@ -33,7 +48,22 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/model/dao/interfaces/FeesDAO.java">
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/interfaces/EntityDAO.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/interfaces/UsersDAO.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/jdbc/AccountsDAOimpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/jdbc/CardsDAOimpl.java">
           <value>
             <set />
           </value>
@@ -43,7 +73,32 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/jdbc/TransactionsDAOimpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/dao/jdbc/UsersDAOimpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/entity/Client.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/model/entity/Fee.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/utils/PrintResultSet.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/service/Admin.java">
           <value>
             <set />
           </value>
@@ -53,7 +108,7 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/service/SvcFactoryImpl.java">
+        <entry key="$PROJECT_DIR$/src/main/java/service/User.java">
           <value>
             <set />
           </value>
@@ -68,22 +123,47 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/web/WEB-INF/web.xml">
+        <entry key="$PROJECT_DIR$/web/resources/js/bootstrap.js">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/web/view/includes/btmlinks.jsp">
+        <entry key="$PROJECT_DIR$/web/resources/js/jquery-2.2.3.js">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/web/view/includes/everypageheader.jsp">
+        <entry key="$PROJECT_DIR$/web/resources/js/jquery-3.1.1.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/web/view/error.jsp">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/web/view/fee_table.jsp">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/web/view/includes/btmlinks.jspf">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/web/view/includes/dynamictable.jspf">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/web/view/includes/toplogo.jsp">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/web/view/includes/toplogo.jspf">
           <value>
             <set />
           </value>
@@ -103,7 +183,12 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/web/view/successful_reg.jsp">
+        <entry key="$PROJECT_DIR$/web/view/user.jsp">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../epm.projects.ohters/ua.rd.project4-master/ua.rd.project4/src/main/ua/rd/project4/controller/MainController.java">
           <value>
             <set />
           </value>
@@ -114,6 +199,16 @@
           </value>
         </entry>
         <entry key="E:/PROJECTS/Idea/employees-app/src/main/java/com/example/employees/EmployeeServlet.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="E:/PROJECTS/Idea/employees-app/src/main/java/com/example/employees/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="E:/PROJECTS/Idea/employees-app/src/main/webapp/WEB-INF/web.xml">
           <value>
             <set />
           </value>

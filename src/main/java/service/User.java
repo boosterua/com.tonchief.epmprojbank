@@ -3,12 +3,17 @@ package service;
 import model.dao.exceptions.MySqlPoolException;
 import model.dao.factory.DAOFactoryImpl;
 import model.entity.Account;
+import model.entity.Entity;
 import model.entity.Transaction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static java.time.LocalDate.now;
+
+//    -> makePayment(details: from, to, amount, descr);
+//    -> replenishAccount(acctId, amount, source[anotherAccount|cash]);
+//    -> blockAccount(acctId);
 
 public class User {
 
@@ -18,13 +23,16 @@ public class User {
     private String password;
     private Long role;
 
-    public static String getMessage() {
-        return "Authorised User. Welcome.";
+    public User(){}
+
+    /* The default constructor. Used in service - upon receiving application from web-user.*/
+    public User(String name, String email, String password, Long role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
-//    -> makePayment(details: from, to, amount, descr);
-//    -> replenishAccount(acctId, amount, source[anotherAccount|cash]);
-//    -> blockAccount(acctId);
 
     /**
      * process the account replenishment
@@ -75,6 +83,9 @@ dbConnection.commit(); //transaction block end
          return 1;
     }
 
+    public static String getMessage() {
+        return "Authorised User. Welcome.";
+    }
 
     public boolean blockAccount(int acctId){
         return DAO.getAccountsDAO().setBlock(acctId);
@@ -98,5 +109,29 @@ dbConnection.commit(); //transaction block end
 
     public long getRole() {
         return role;
+    }
+
+    @Override
+    public String toString(){
+        return String.format("%S <%s> **** ROLE=%d", name, email, role );
+    }
+
+    public int register(User user) {
+        if (user.isValid())
+            try {
+                return DAO.getUsersDAO().insert(user);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                return  -1;
+            }
+        return -1;
+    }
+
+    public boolean isValid() {
+
+        return ((name != null) && !name.equals("") &&
+                (email != null) && !email.equals("") &&
+                (password != null) && !password.equals(""));
     }
 }

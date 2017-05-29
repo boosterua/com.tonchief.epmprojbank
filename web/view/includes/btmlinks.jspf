@@ -6,3 +6,8 @@
     <i class="fa fa-eur" aria-hidden="true"></i>
     <i class="fa fa-dollar" aria-hidden="true"></i>
 </div>
+
+<div>
+    DEBUG:
+    <a href="/bank/?command=showclients&action=showClientsByRole&role=0">Admin.showClientsByRole(0)</a>
+</div>

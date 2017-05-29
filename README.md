@@ -43,9 +43,9 @@
      -> register(); // fill out form including client id fields as well as type of card requested.
      
      Administrator
-     +> blockAccount();
+     +> blockAccount();   //+ListAccounts
      +> removeAccountBlock(); 
-     +> issueNewCard();
+     +> issueNewCard(); // List Fresh Users 
      -> listClientsByCardType(VisaClassic); list all clients with Visa Classic Cards
      -> listClientsWithBlockedAccounts();
      -> approveClient(); // incl.issue new account and card.

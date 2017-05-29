@@ -36,7 +36,8 @@ public class TransactionsDAOimpl  implements TransactionsDAO {
         return instance;
     }
 
-    public int insert(Entity transaction) {
+    public int insert(Object trans) {
+        Transaction transaction = (Transaction) trans;
         logger.info("Insert into [transaction]: " + transaction);
 
         try (Connection conn = pool.getConnection();

@@ -4,25 +4,16 @@ package model.entity;
  * Created by tonchief on 05/26/2017.
  */
 public class Fee implements Entity {
+    public int id = 0;
+    private String name;
     private double transferFee;
     private double newCardFee;
     private double apr;
-    private String name;
-    public int id = 0;
 
-    @Override
-    public int getId() {
-        return id;
-    }
 
     @Override
     public void setId(int id) {
         this.id = id;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 
     @Override
@@ -40,6 +31,28 @@ public class Fee implements Entity {
 
     public void setAPR(double APR) {
         this.apr = APR;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public double getTransferFee() {
+        return transferFee;
+    }
+
+    public double getNewCardFee() {
+        return newCardFee;
+    }
+
+    public double getApr() {
+        return apr;
     }
 
     @Override
