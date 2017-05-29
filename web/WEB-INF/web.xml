@@ -11,7 +11,7 @@
         <servlet-class>control.servlets.Controller</servlet-class>
         <!--<servlet-class>control.servlets.TestServlet</servlet-class>-->
     </servlet>
-    
+
 
     <servlet-mapping>
         <servlet-name>controller</servlet-name>
@@ -27,7 +27,6 @@
             <servlet-name>static</servlet-name>
             <servlet-class>control.servlets.Static</servlet-class>
         </servlet>
-
         <servlet-mapping>
             <servlet-name>static</servlet-name>
             <url-pattern>/js/*</url-pattern>
@@ -46,23 +45,22 @@
 
 
 
-<!--
-https://stackoverflow.com/questions/870150/how-to-access-static-resources-when-mapping-a-global-front-controller-servlet-on
-<filter>
-<filter-name>filter</filter-name>
-<filter-class>com.example.Filter</filter-class>
-</filter>
-<filter-mapping>
-<filter-name>filter</filter-name>
-<url-pattern>/*</url-pattern>
-</filter-mapping>
-
-<servlet>
-<servlet-name>controller</servlet-name>
-<servlet-class>com.example.Controller</servlet-class>
-</servlet>
-<servlet-mapping>
-<servlet-name>controller</servlet-name>
-<url-pattern>/pages/*</url-pattern>
-</servlet-mapping>
--->
+        <!--
+        https://stackoverflow.com/questions/870150/how-to-access-static-resources-when-mapping-a-global-front-controller-servlet-on
+        <filter>
+        <filter-name>filter</filter-name>
+        <filter-class>com.example.Filter</filter-class>
+        </filter>
+        <filter-mapping>
+        <filter-name>filter</filter-name>
+        <url-pattern>/*</url-pattern>
+        </filter-mapping>
+        <servlet>
+        <servlet-name>controller</servlet-name>
+        <servlet-class>com.example.Controller</servlet-class>
+        </servlet>
+        <servlet-mapping>
+        <servlet-name>controller</servlet-name>
+        <url-pattern>/pages/*</url-pattern>
+        </servlet-mapping>
+        -->

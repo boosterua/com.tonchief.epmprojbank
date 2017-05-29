@@ -9,7 +9,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="" style="position: absolute;">
-        <a class="navbar-brand" href="<%=request.getContextPath()%>/bank">
+        <a class="navbar-brand" href="<%=request.getContextPath()%>/bank/">
             <h2 class="animated fadeInLeftBig mb-2 mdb-color darken-3 deep-orange-text z-depth-2" style="color:#0b51c5;padding-bottom:0;margin-bottom:0;">
                 &nbsp; <b class="text-white">the.</b>BANK &nbsp;
             </h2>
