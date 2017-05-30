@@ -6,6 +6,7 @@ import model.dao.factory.DAOFactoryImpl;
 import model.entity.Account;
 import model.entity.Card;
 import model.entity.Client;
+import org.apache.log4j.Logger;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -17,6 +18,8 @@ import java.util.Random;
 public class Admin {
 
     private DAOFactoryImpl DAO = DAOFactoryImpl.getInstance();
+    private final Logger logger = Logger.getLogger(Admin.class);
+
 
     public static String getMessage() {
         return "#EPMPROJBANK_TC plain String Upd";
@@ -77,9 +80,15 @@ public class Admin {
         return issueNewCard(client.getId());
     }
 
+
     public List<Client> getClientsByRole(Long role){
         if(role==null) role=0L;
-        return DAO.getUsersDAO().getUsersByRole(role);
+
+        List<Client> list = DAO.getUsersDAO().getUsersByRole(role);
+//        logger.info("From Amdin.getClientsByRole:" + list.size());
+        return list;
+//        logger.info();
+//        return DAO.getUsersDAO().getUsersByRole(role);
     }
 }
 

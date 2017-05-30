@@ -20,9 +20,8 @@ public class PrintResultSet {
         int columnsNumber = rsmd.getColumnCount();
         while (rs.next()) {
             for (int i = 1; i <= columnsNumber; i++) {
-                if (i > 1) System.out.print(",  ");
                 String columnValue = rs.getString(i);
-                d.append(i + ") " + rsmd.getColumnName(i) + "=" + columnValue + "");
+                d.append((i > 1 ? ",  ":"") + "["+i + "]:" + rsmd.getColumnName(i) + "=" + columnValue + "");
             }
             d.append("\n");
         }

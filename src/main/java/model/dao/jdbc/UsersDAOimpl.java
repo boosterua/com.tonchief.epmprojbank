@@ -75,6 +75,7 @@ public class UsersDAOimpl implements UsersDAO {
 
     public Integer authenticateUser(String email, String password) {
         logger.info("fetching User with given credentials: " + email + ":*****");
+        if(email==null || email.isEmpty() || password==null || password.isEmpty()) return null;
         try (Connection conn = pool.getConnection();
              PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.checkLoginPwd"),0);
         ){
@@ -112,7 +113,16 @@ public class UsersDAOimpl implements UsersDAO {
             logger.info("Trying PS:" + ps);
 
             try (ResultSet rs = ps.executeQuery()) {
+//                logger.info(PrintResultSet.getDump(rs));
+                int i=1;
                 while(rs.next()) {
+/*                    logger.warn(i++);
+                    logger.info("\t1\t"+ rs.getString(UID));
+                    logger.info("\t2\t"+ rs.getInt(UID));
+                    logger.info("\t3\t"+ rs.getString(NAM));
+                    logger.info("\t4\t"+ rs.getString(EML));
+                    logger.info( rs.getLong(ROL));*/
+
                     Client cl= new Client( rs.getInt(UID), rs.getString(NAM),
                             rs.getString(EML), rs.getInt(ROL) );
                     resultList.add(cl);

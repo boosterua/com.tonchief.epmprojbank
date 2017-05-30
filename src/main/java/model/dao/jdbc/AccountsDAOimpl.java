@@ -29,7 +29,7 @@ import java.util.List;
 public class AccountsDAOimpl implements AccountsDAO {
 
     private static AccountsDAOimpl instance = null;
-//    private final ResourceBundle BUNDLE = ResourceBundle.getBundle("database.psqueries");
+//  private final ResourceBundle BUNDLE = ResourceBundle.getBundle("database.psqueries");
 // Moved to I:EntityDAO
     private final Logger logger = Logger.getLogger(AccountsDAOimpl.class);
     private BasicDataSource pool = DataSource.getInstance().getBds();
@@ -44,8 +44,10 @@ public class AccountsDAOimpl implements AccountsDAO {
     private AccountsDAOimpl() { }
 
     public static synchronized AccountsDAOimpl getInstance() {
-        if (instance == null)
-            instance = new AccountsDAOimpl();
+        synchronized (AccountsDAOimpl.class){
+            if (instance == null)
+                instance = new AccountsDAOimpl();
+        }
         return instance;
     }
 

@@ -9,7 +9,14 @@
 <!-- Your custom styles (optional) -->
 <link href="<%=request.getContextPath()%>/resources/css/style.css" rel="stylesheet">
 
+
+<%--<fmt:setLocale value="${sessionScope.locale}"/>--%>
+<fmt:setLocale value="ua"/>
+<%--<fmt:setBundle basename="locale.locale" var="loc"/>--%>
+<fmt:setBundle basename="locale.locale" var="lang"/>
+
 <style type="text/css">
-    body { back-ground: #eaedf1  !important; }
+    body { background: #eaedf1  !important; }
+    .table th {        text-align: center;    }
 
 </style>

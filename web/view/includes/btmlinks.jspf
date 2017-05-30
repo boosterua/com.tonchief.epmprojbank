@@ -1,3 +1,5 @@
+</main>
+<footer>
 <div class="container">
 <a href="<%=request.getContextPath()%>/"><i class="fa fa-home" aria-hidden="true" title="Home"></i></a> |
 <a href="<%=request.getContextPath()%>/bank/?command=logout"><i class="fa fa-power-off" aria-hidden="true" title="Logout"></i></a>
@@ -7,7 +9,16 @@
     <i class="fa fa-dollar" aria-hidden="true"></i>
 </div>
 
-<div>
-    DEBUG:
-    <a href="/bank/?command=showclients&action=showClientsByRole&role=0">Admin.showClientsByRole(0)</a>
+<div class="h-25">&nbsp;
+    <div style="height: 4em;"></div>
 </div>
+
+<div class="text-right navbar-brand navbar-light teal lighten-4">
+    <div>
+DEBUG:&nbsp;
+    <a href="/bank/?command=showclients&action=showClientsByRole&role=0">Admin.showClientsByRole(0)</a>
+    </div>
+</div>
+
+
+</footer>

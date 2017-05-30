@@ -46,18 +46,18 @@
 
         <div class="md-form">
           <i class="fa fa-user prefix"></i>
-          <input type="text" id="name" name="name" class="form-control" required>
+          <input type="text" id="name" name="name" class="form-control" NOplaceholder="Name"  required>
           <label for="name">Your Full Name</label>
         </div>
         <div class="md-form">
           <i class="fa fa-envelope prefix"></i>
-          <input type="text" id="email" name="email" class="form-control" required>
+          <input type="email" id="email" name="email" class="form-control" NOplaceholder="Email address" required>
           <label for="email">Your email</label>
         </div>
 
         <div class="md-form">
           <i class="fa fa-lock prefix"></i>
-          <input type="password" id="password" name="password" class="form-control" required>
+          <input type="password" id="password" name="password" class="form-control" NOplaceholder="Password" required>
           <label for="password">Your password</label>
         </div>
 

@@ -7,63 +7,62 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <%@ include file="includes/everypageheader.jspf" %>
+    <%@ include file="../includes/everypageheader.jspf" %>
 </head>
 <title>${title}</title>
 
 <body>
 
-<%@include file="includes/toplogo.jspf" %>
+<%@include file="../includes/toplogo.jspf" %>
 
 
-<div class="container w-50">
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
 
-    <div class="card">
-      <div class="card-block">
-      <br><br>
-      <div class="panel-heading">
-        <h3 class="panel-title badge indigo">&nbsp; Fee Schedule &nbsp;</h3>
-      </div>
+        <div class="col-md-6">
+             <div class="card-block">
+                 <br><br>
+                 <div class="panel-heading">
+                    <h3 class="panel-title badge indigo">&nbsp; Fee Schedule &nbsp;</h3>
+                 </div>
 
-    ${errormsg_html}
+                 ${errormsg_html}
 
-    <div class="panel-body">
+                <div class="panel-body">
+                    <c:if test="${not empty feeList}">
+                      <c:if test="not empty ${tableName}">
+                        <h4 class="badge indigo">${tableName}</h4>
+                      </c:if>
 
-        <c:if test="${not empty feeList}">
-          <c:if test="not empty ${tableName}">
-            <h4 class="badge indigo">${tableName}</h4>
-          </c:if>
+                      <table class="table table-striped table-hover table-sm   table-info ">
+                        <thead class="teal darken-3 text-white">
+                        <tr class="text-center"><c:forEach var="th" items="${tableHeadersArr}">
+                          <th>${th}</th>
+                        </c:forEach>
+                        </tr>
+                        </thead>
 
-          <table class="table table-striped table-hover table-sm   table-info ">
-            <thead class="teal darken-3 text-white">
-            <tr class="text-center"><c:forEach var="th" items="${tableHeadersArr}">
-              <th>${th}</th>
-            </c:forEach>
-            </tr>
-            </thead>
+                        <tbody>
+                        <c:forEach var="fee" items="${feeList}">
+                        <tr class="text-center">
+                          <td>${fee.getId()}</td>
+                          <td class="text-left">${fee.getName()}</td>
+                          <td>${fee.getTransferFee()}</td>
+                          <td>${fee.getNewCardFee()}</td>
+                          <td>${fee.getApr()}%</td>
+                        </tr>
+                        </c:forEach>
+                        </tbody>
+                      </table>
 
-            <tbody>
-            <c:forEach var="fee" items="${feeList}">
-            <tr class="text-center">
-              <td>${fee.getId()}</td>
-              <td class="text-left">${fee.getName()}</td>
-              <td>${fee.getTransferFee()}</td>
-              <td>${fee.getNewCardFee()}</td>
-              <td>${fee.getApr()}%</td>
-            </tr>
-            </c:forEach>
-            </tbody>
-          </table>
-
-          <%--<%@include file="includes/dynamictable.jspf" %>--%>
-        </c:if>
-
-
-    </div>
-    </div>
-
-  </div>
-
+                      <%--<%@include file="includes/dynamictable.jspf" %>--%>
+                    </c:if>
+                </div>
+             </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div><%--/row--%>
 </div>
 
 
@@ -158,7 +157,7 @@
 --%>
 
 
-<%@include file="includes/btmlinks.jspf" %>
-<%@include file="includes/everypagefooter.jspf" %>
+<%@include file="../includes/btmlinks.jspf" %>
+<%@include file="../includes/everypagefooter.jspf" %>
 </body>
 </html>

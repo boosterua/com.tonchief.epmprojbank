@@ -6,7 +6,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <%@ include file="includes/everypageheader.jspf" %>
+  <%@ include file="../includes/everypageheader.jspf" %>
 
   <!-- Custom styles for this template -->
   <link href="<%=request.getContextPath()%>/resources/css/signin.css" rel="stylesheet">
@@ -17,7 +17,7 @@
 <body>
 <%--<jsp:param name="myVar" value="${instanceVar}"/>--%>
 
-<%@include file="includes/toplogo.jspf" %>
+<%@include file="../includes/toplogo.jspf" %>
 <%--<jsp:include page="includes/toplogo.jspf" />--%>
 
 
@@ -106,9 +106,9 @@
 </div>
 --%>
 
-<%@include file="includes/btmlinks.jspf" %>
+<%@include file="../includes/btmlinks.jspf" %>
 
-<%@include file="includes/everypagefooter.jspf" %>
+<%@include file="../includes/everypagefooter.jspf" %>
 
 
 
