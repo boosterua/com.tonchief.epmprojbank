@@ -23,6 +23,10 @@
 <body>
 <%@include file="includes/toplogo.jspf" %>
 
+<%--
+<div class="badge badge-warning">  <fmt:message key="Test message Wiith Spaces in it" bundle="${lang}"/>.</div><br>
+<div class="badge badge-warning">  <fmt:message key="Test message with spaces w/o prop" bundle="${lang}"/>.</div><br>
+--%>
 
 
 <div class="container">
@@ -51,7 +55,6 @@
                 <th><fmt:message key="NAME" bundle="${lang}"/></th>
                 <th><fmt:message key="EMAIL" bundle="${lang}"/></th>
                 <th><fmt:message key="ACCOUNT_ID" bundle="${lang}"/></th>
-                <th><fmt:message key="NEW_CLIENTS_APPROVE_LIST" bundle="${lang}"/></th>
               </tr>
               </thead>
 
@@ -68,7 +71,7 @@
             </table>
           </c:if>
           <c:if test="${clientList.size() == 0}">
-            <div class="badge badge-warning"> NO_CLIENTS_PER_REQUEST.</div><br>
+            <div class="badge badge-warning">  <fmt:message key="NO_CLIENTS_PER_REQUEST" bundle="${lang}"/>.</div><br>
           </c:if>
         </c:if>
       <%--</c:if>--%>
@@ -95,3 +98,5 @@
 
   </body>
 </html>
+
+<%--//TODO:Formatting numbers -= which layer??--%>

@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" errorPage="/view/error.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,6 +37,8 @@
         8-2-8
       </c:if>
 
+      <%-- ########  LOGIN  ######## --%>
+
       <c:if test="${action=='login'}">
         <div class="card">
           <div class="card-block">
@@ -43,35 +49,36 @@
 
             <div class="panel-body">
               <form class="form-signin" action="?command=authenticate" method="POST">
-                <h2 class="form-signin-heading ">Please Log In</h2>
-                <label for="email" class="sr-only">Email address</label>
+                <h2 class="form-signin-heading "><fmt:message key="Please Log In" bundle="${lang}"/></h2>
+                <label for="email" class="sr-only">Email</label>
                 <input name="email" value="${email}" type="email" id="email" class="form-control" placeholder="Email address" required autofocus>
-                <label for="password" class="sr-only">Password</label>
+                <label for="password" class="sr-only"><fmt:message key="Password" bundle="${lang}"/></label>
                 <input name="password" type="password" id="password" class="form-control" placeholder="Password" required>
                 <button class="btn mdb-color darken-3 white-text btn-sm" type="submit">Sign in</button>
               </form>
             </div>
           </div>
         </div>
-      </c:if>       <%--/Login--%>
+      </c:if>
+      <%--/Login--%>
 
       <c:if test="${action=='fees_table'}">
         <div class="card-block">
           <br><br>
           <div class="panel-heading">
-            <h3 class="panel-title badge indigo">&nbsp; Fee Schedule &nbsp;</h3>
+            <h3 class="panel-title badge indigo">&nbsp; <fmt:message key="Fee Schedule" bundle="${lang}"/> &nbsp;</h3>
           </div>
 
           <div class="panel-body">
             <c:if test="${not empty feeList}">
               <c:if test="not empty ${tableName}">
-                <h4 class="badge indigo">${tableName}</h4>
+                <h4 class="badge indigo"><fmt:message key="${tableName}" bundle="${lang}"/></h4>
               </c:if>
 
               <table class="table table-striped table-hover table-sm   table-info ">
                 <thead class="teal darken-3 text-white">
                 <tr class="text-center"><c:forEach var="th" items="${tableHeadersArr}">
-                  <th>${th}</th>
+                  <th><fmt:message key="${th}" bundle="${lang}"/></th>
                 </c:forEach>
                 </tr>
                 </thead>
