@@ -1,5 +1,5 @@
-# com.tonchief.java.e.lab04
-/* Created by ton chief (user "p" in headers) on 01/25/2017. */
+# com.tonchief.epmprojbank
+/* Created by ton chief . */
 
 
 ###*ТРЕБОВАНИЯ К ВЫПОЛНЕНИЮ ПРОЕКТА*
