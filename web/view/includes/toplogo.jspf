@@ -27,24 +27,26 @@
         </div>
 
 
-        <div class="w-75" ></div>
+        <div class="col-3" ></div>
 
 
 
-        <div class="collapse navbar-collapse" id="navbarNav1">
+        <div class="collapse navbar-collapse col-6" id="navbarNav1">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/bank/">Home
-                        <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/bank/">
+                        <fmt:message key="toHome" bundle="${lang}"/>
+                        <span class="sr-only">(current)</span>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link"
-                       href="<%=request.getContextPath()%>/bank/?command=showfees">Fee Schedule</a>
+                       href="<%=request.getContextPath()%>/bank/?command=showfees"><fmt:message key="Fee Schedule" bundle="${lang}"/></a>
                 </li>
 
                 <c:if test="${isAuthorized==true}">
                     <li class="nav-item">
-                        <a class="nav-link">Features</a>
+                        <a class="nav-link">Features(auth+)</a>
                     </li>
                 </c:if>
 
@@ -56,7 +58,14 @@
             </ul>--%>
             <ul class="navbar-nav mr-auto pull-right text-right">
                 <li class="nav-item pull-right text-right">
-                    <a href="<%=request.getContextPath()%>/bank/?command=logout" class="nav-link">Logout </a>
+                    <c:choose>
+                    <c:when test="${isAuthorized==true}">
+                    <a href="<%=request.getContextPath()%>/bank/?command=logout" class="nav-link"><fmt:message key="Logout" bundle="${lang}"/></a>
+                    </c:when>
+                    <c:otherwise>
+                    <a href="<%=request.getContextPath()%>/bank/?command=login" class="nav-link"><fmt:message key="Login" bundle="${lang}"/></a>
+                    </c:otherwise>
+                    </c:choose>
                 </li>
 
             </ul>

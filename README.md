@@ -68,4 +68,9 @@ Service.Client:
  
 
 
+
 To be continued...
+
+
+Stack of tech
+JSP, JSTL, FrontEnd:Bootstrap,JavaScript,CSS

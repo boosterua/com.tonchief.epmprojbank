@@ -4,7 +4,6 @@ import model.dao.connection.DataSource;
 import model.dao.interfaces.UsersDAO;
 import model.entity.Client;
 import model.entity.Entity;
-import model.utils.PrintResultSet;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 import service.User;
@@ -43,14 +42,15 @@ public class UsersDAOimpl implements UsersDAO {
      * @param  user
      * @return int : userId obtained from db
      */
-    public int insert(Object user) {
-        logger.info("Insert into [clients]: " + user);
+    public Integer insert(Object user) {
+        //TODO: change new user registration to include new account creation at the time of submitting application
+
+        logger.info("Insert into [clients] - [user] passed by account:" + user);
 
         try (Connection conn = pool.getConnection();
              PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.insert"), 1);
         ) {
             User client = (User) user;
-            logger.info("Params from account passed:(" + user.toString() + ")");
 
             ps.setString    (NAM-1, client.getName());
             ps.setString    (EML-1, client.getEmail());
@@ -60,9 +60,10 @@ public class UsersDAOimpl implements UsersDAO {
             logger.info("PS: " + ps.toString());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
-                rs.next();
-                logger.info(PrintResultSet.getDump(rs));
-                return rs.getInt(1); //rs.getLong(1)
+                rs.next();  // logger.info(PrintResultSet.getDump(rs));
+                Integer newUserId = rs.getInt(1);
+                logger.info("New client Registration: ID="+newUserId);
+                return newUserId; //rs.getLong(1)
             } finally {
                 ps.close();
             }

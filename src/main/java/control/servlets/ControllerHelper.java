@@ -18,7 +18,8 @@ public class ControllerHelper {
         commands.put("showfees", new CommandShowFees());
         commands.put("submit_registration", new CommandRegister());
         commands.put("showclients", new CommandShowClients());
-        commands.put("logout", new CommandEmpty());//TODO logout logic here
+        commands.put("logout", new CommandLogin());
+        commands.put("switch_lang", new CommandEmpty());
     }
 
 

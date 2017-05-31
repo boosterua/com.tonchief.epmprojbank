@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" errorPage="/view/error.jsp" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="mft" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <!DOCTYPE html>
@@ -27,14 +28,22 @@
 
     <div class="col-md-8">
 
+
       ${errormsg_html}
+      <c:if test="${not empty errormsg}">
+        <%--<span class="badge badge-danger">${errormsg}</span>--%>
+        <div class="alert alert-danger" role="alert">${errormsg}</div>
+      </c:if>
+
       ${infomsg_html}
+        <c:if test="${not empty infomsg}">
+          <span class="badge badge-success"><fmt:message key="${infomsg}" bundle="${lang}"/></span>
+        </c:if>
 
 
-      <c:if test="${isAuthorized==true}">
+
+      <c:if test="${isAuthorized==true}"><br><br><br><br>
         <h2>Hello and welcome back!</h2>
-        <h3 class="badge indigo">TODO:Replace this with real auth!</h3>
-        8-2-8
       </c:if>
 
       <%-- ########  LOGIN  ######## --%>
@@ -42,9 +51,8 @@
       <c:if test="${action=='login'}">
         <div class="card">
           <div class="card-block">
-            <br><br>
             <div class="panel-heading">
-              <h2 class="panel-title badge indigo">&nbsp; Authorization Page &nbsp;</h2>
+              <h2 class="panel-title badge indigo">&nbsp; <fmt:message key="Authorization Page" bundle="${lang}"/> &nbsp;</h2>
             </div>
 
             <div class="panel-body">
@@ -53,8 +61,8 @@
                 <label for="email" class="sr-only">Email</label>
                 <input name="email" value="${email}" type="email" id="email" class="form-control" placeholder="Email address" required autofocus>
                 <label for="password" class="sr-only"><fmt:message key="Password" bundle="${lang}"/></label>
-                <input name="password" type="password" id="password" class="form-control" placeholder="Password" required>
-                <button class="btn mdb-color darken-3 white-text btn-sm" type="submit">Sign in</button>
+                <input name="password" type="password" id="password" class="form-control" placeholder='<fmt:message key="Password" bundle="${lang}"/>' required>
+                <button class="btn mdb-color darken-3 white-text btn-sm" type="submit"><fmt:message key="Sign In" bundle="${lang}"/></button>
               </form>
             </div>
           </div>
@@ -62,7 +70,10 @@
       </c:if>
       <%--/Login--%>
 
-      <c:if test="${action=='fees_table'}">
+
+        <%-- ########  FEES Tbl  ######## --%>
+
+        <c:if test="${action=='fees_table'}">
         <div class="card-block">
           <br><br>
           <div class="panel-heading">
@@ -89,8 +100,8 @@
                     <td>${fee.getId()}</td>
                     <td class="text-left">${fee.getName()}</td>
                     <td>${fee.getTransferFee()}</td>
-                    <td>${fee.getNewCardFee()}</td>
-                    <td>${fee.getApr()}%</td>
+                    <td><fmt:formatNumber value="${fee.getNewCardFee()}" type="currency" currencySymbol="_"/></td>
+                    <td><fmt:formatNumber type="percent" maxIntegerDigits="2" value="${fee.getApr()}" /></td>
                   </tr>
                 </c:forEach>
                 </tbody>

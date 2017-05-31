@@ -13,4 +13,5 @@ public interface AccountsDAO extends EntityDAO {
     boolean setBlock(int accId);
     List findAllByClient(model.entity.Client client) throws  ExceptionDAO;
 
+    Long getMaxNumByAccountNum(String like) throws ExceptionDAO;
 }

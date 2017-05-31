@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 
 public interface Command {
     SvcFactoryImpl SERVICE = SvcFactoryImpl.getInstance();
-    ResourceBundle PROPS = ResourceBundle.getBundle("webconfig.pagemapping");
+    ResourceBundle RB_PAGEMAP = ResourceBundle.getBundle("webconfig.pagemapping");
+//    ResourceBundle RB_LOCALE = ResourceBundle.getBundle("locale");
     String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException;
 }

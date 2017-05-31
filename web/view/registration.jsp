@@ -23,7 +23,7 @@
       <div class="card-block">
     <br><br>
     <div class="panel-heading">
-      <h3 class="panel-title  mdb-color lighten-5">&nbsp; REGISTRATION (new usr + new card)&nbsp;</h3>
+      <h3 class="panel-title  mdb-color lighten-5">&nbsp; <fmt:message key="Registration" bundle="${lang}"/>&nbsp;</h3>
     </div>
 
     ${errormsg_html}
@@ -47,25 +47,25 @@
         <div class="md-form">
           <i class="fa fa-user prefix"></i>
           <input type="text" id="name" name="name" class="form-control" NOplaceholder="Name"  required>
-          <label for="name">Your Full Name</label>
+          <label for="name"><fmt:message key="Full Name" bundle="${lang}"/></label>
         </div>
         <div class="md-form">
           <i class="fa fa-envelope prefix"></i>
           <input type="email" id="email" name="email" class="form-control" NOplaceholder="Email address" required>
-          <label for="email">Your email</label>
+          <label for="email">e-mail</label>
         </div>
 
         <div class="md-form">
           <i class="fa fa-lock prefix"></i>
           <input type="password" id="password" name="password" class="form-control" NOplaceholder="Password" required>
-          <label for="password">Your password</label>
+          <label for="password"><fmt:message key="Your" bundle="${lang}"/><fmt:message key="Password" bundle="${lang}"/></label>
         </div>
 
 
         <c:if test="${not empty feeNames}">
           <div class="form-group">
               <i class="fa fa-list-ul prefix"></i>
-            <label for="fee"  class="control-label">Select the type of card you would like to get</label>
+            <label for="fee"  class="control-label"><fmt:message key="SELECT_CARD_TYPE" bundle="${lang}"/></label>
               <div class="col-auto">
 
             <select class="form-control" id="fee" name="fee">
@@ -80,7 +80,7 @@
 
 
 
-        <input type="submit" value="Proceed" class="btn btn-orange btn btn-sm btn-block orange white-text">
+        <input type="submit" value="<fmt:message key="Proceed" bundle="${lang}"/>" class="btn btn-orange btn btn-sm btn-block orange white-text text-lg-center">
       </form>
 
 <%--

@@ -11,7 +11,7 @@
 
 
 <%--<fmt:setLocale value="${sessionScope.locale}"/>--%>
-<fmt:setLocale value="ua"/>
+<fmt:setLocale value="${sessionScope.locale}"/>
 <%--<fmt:setBundle basename="locale.locale" var="loc"/>--%>
 <fmt:setBundle basename="locale.locale" var="lang"/>
 

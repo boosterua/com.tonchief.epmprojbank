@@ -1,20 +1,17 @@
 package control.command;
 
 
-import model.entity.Fee;
 import org.apache.log4j.Logger;
 import service.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 public class CommandRegister implements Command {
     private final Logger logger = Logger.getLogger(CommandRegister.class);
@@ -25,6 +22,7 @@ public class CommandRegister implements Command {
         String name = req.getParameter("name");
         String login = req.getParameter("email");
         String password = req.getParameter("password");
+        HttpSession session = req.getSession();
 
 
         if(req.getMethod().equals("POST")){
@@ -35,32 +33,38 @@ public class CommandRegister implements Command {
              assigned after admin approves application and issues a new card */
             User user = new User(name, login, password, 0L);
 
-            logger.info("User registering: "+ user);
-            int uid = SERVICE.getUser().register(user);
-            if(uid<=0){
+            Integer uid = SERVICE.getUser().register(user);
+            if(uid!=null && uid>0) {
+                logger.info("saved to db with id=" + uid);
+
+                req.setAttribute("infomsg", "REG_SUCCESS_LOGIN_NOW");
+                //TODO: JSTL custom tags - error/info message
+
+                req.setAttribute("email", login);
+                req.setAttribute("action", "login");
+
+                page = RB_PAGEMAP.getString("jsp.user.login");
+
+
+            } else { // ERROR!!
+
                 logger.error("New user registration: failed to insert User into db. Ref.Err#1441.");
-                req.setAttribute("errorMsg", "Error adding your registration to database. Please contact support at 1-800-000-00-00 and provide this error code:<b>#1441</b> and the exact time of this incident (<b>"+ new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date())+"</b>).");
-                req.setAttribute("returnPage", PROPS.getString("user.registration"));
-                page = PROPS.getString("error") ;
+                req.setAttribute("errormsg", "Error adding your registration to database. Please contact support " +
+                        "at 1-800-000-00-00 and provide this error code:<b>#1441</b> and the exact time of this incident " +
+                        "(<b>"+ new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date())+"</b>).");
+                req.setAttribute("returnPage", RB_PAGEMAP.getString("jsp.user.registration"));
+                page = RB_PAGEMAP.getString("jsp.error") ;
                 return page;
             }
-            logger.info("saved to db with id="+uid);
-
-            req.setAttribute("infomsg_html","<br><span class=\"badge badge-success \">" +
-                    "Registration Successful. You may login now.</span>");
-            //TODO: JSTL tags - error/info message
-
-            req.setAttribute("email",login);
-            page = PROPS.getString("user.login");
 
 
         } else {
 
             Map<Integer,String> fees = SERVICE.getFees().getFeeNamesMap();
-            //req.setAttribute("feeNames", fees);
+            req.setAttribute("feeNames", fees);
             //TODO: CHOOSE BETWEEN THESE TWO!! FIXED: -For now - none works ( so using plain text
-            List<Fee> feeList = SERVICE.getFees().getFees();
-            req.setAttribute("feeList", feeList);
+            /*List<Fee> feeList = SERVICE.getFees().getFees();
+            req.setAttribute("feeList", feeList);*/
 
 /*
             //doneTODO: TEMP!: before i find how to make this f*kin jstl to work
@@ -71,9 +75,9 @@ public class CommandRegister implements Command {
             req.setAttribute("feeOptions", options.toString());
 */
 
-            logger.info("* MAP feeNames:"+fees);
+//            logger.info("* MAP feeNames:"+fees);
 
-            page =  PROPS.getString("user.registration");
+            page =  RB_PAGEMAP.getString("jsp.user.registration");
         }
         return page;
     }

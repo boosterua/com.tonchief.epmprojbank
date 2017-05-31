@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class CommandLogin implements Command {
@@ -14,30 +15,33 @@ public class CommandLogin implements Command {
         String page = null;
         String login = req.getParameter("email");
         String password = req.getParameter("password");
+        HttpSession session = req.getSession();
 
         Logger logger = Logger.getLogger(CommandLogin.class);
-        logger.info(login + ":"+ password+ ":"+SERVICE.getLogin().checkCredentials(login, password));
+        logger.info(login + ":" + password + ":" + SERVICE.getLogin().checkCredentials(login, password));
 
-
-        if(SERVICE.getLogin().checkCredentials(login, password)){
-
-            req.setAttribute("auth", true);
-            page = PROPS.getString("user.authorized");
+        if (req.getParameter("command").equals("logout")) {
+            session.invalidate();
+            req.setAttribute("infomsg", "YOU_HAVE_LOGGED_OUT");
+            page = RB_PAGEMAP.getString("jsp.user.main");
         } else {
-            if(!req.getMethod().equals("GET")) {
-                req.setAttribute("errormsg", "Wrong login [" + login + "] or password [" + password + "]");
-                req.setAttribute("errormsg_html",
-                        "<br><div class=\"alert alert-danger\" role=\"alert\">Wrong login [" + login + "] or password [" + password + "]</div>");
-                req.setAttribute("errorcode", 9401);
+
+            if (SERVICE.getLogin().checkCredentials(login, password)) {
+
+                req.setAttribute("isAuthorized", true);
+                session.setAttribute("isAuthorized", true);
+                page = RB_PAGEMAP.getString("jsp.user.authorized");
+
+            } else {
+
+                if (!req.getMethod().equals("GET")) {
+                    req.setAttribute("errormsg", "Wrong login  or password ");
+                    req.setAttribute("errorcode", 9401);
+                }
+                req.setAttribute("action", "login");
+                page = RB_PAGEMAP.getString("jsp.user.login");
             }
-//            page = PROPS.getString("user.login");
-
-            req.setAttribute("action","login");
-
-            page = PROPS.getString("user.main");
-
         }
-
         return page;
     }
 }

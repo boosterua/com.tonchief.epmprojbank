@@ -52,7 +52,7 @@ public class AccountsDAOimpl implements AccountsDAO {
     }
 
     @Override
-    public int insert(Object account) throws Exception {
+    public Integer insert(Object account) throws Exception {
         Account acct = (Account) account;
         logger.info("Insert into [accounts]: " + acct);
 
@@ -75,7 +75,8 @@ public class AccountsDAOimpl implements AccountsDAO {
                 rs.next();
                 return rs.getInt(1); //rs.getLong(1)
             } finally {
-                ps.close();
+                if(ps!=null)
+                    ps.close();
             }
         } catch (SQLException e) {
             logger.error("SQL exception", e);
@@ -157,7 +158,7 @@ Creates a default PreparedStatement object that has the capability to retrieve a
                 acct.setBlock(rs.getBoolean(BLK));
                 acct.setClientId(rs.getInt(CLI));
                 acct.setBalance(rs.getBigDecimal(BAL));
-                rs.close();
+//                rs.close();
                 return acct;
             } catch (SQLException e) {
                 logger.error("SQLex." + e.toString());
@@ -218,7 +219,7 @@ Creates a default PreparedStatement object that has the capability to retrieve a
             try (ResultSet rs = ps.executeQuery()) {
                 rs.next();
                 boolean res = rs.getBoolean(1);
-                ps.close();
+                if(ps!=null) ps.close();
                 return res;
             }
         } catch (Exception e) {
@@ -227,6 +228,7 @@ Creates a default PreparedStatement object that has the capability to retrieve a
         return false;
     }
 
+    /* Only transfers entity state to db, while setBlock(byId:int) - explicitly sets block state to true */
     @Override
     public boolean setBlock(Account account) {
         logger.info("setting isBlocked=(" + account.getBlockedStatus() + ") for " + account);
@@ -257,6 +259,32 @@ Creates a default PreparedStatement object that has the capability to retrieve a
         }
         return false;
     }
+
+
+
+    @Override
+    public Long getMaxNumByAccountNum(String like) throws ExceptionDAO {
+        logger.info("fetching Account Entity for id:" + like);
+        try (Connection conn = pool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.getMaxByNumLike"), 1);
+        ){
+            ps.setString(1, like);
+            logger.info("Trying PS:" + ps);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                return rs.getLong(1);
+            } catch (SQLException e) {
+                logger.error("SQLex." + e.toString());
+            }
+        } catch (SQLException e) {
+            logger.error("SQL exception.", e);
+        } catch (Exception e) {
+            logger.error("Fatal General Exception.", e);
+        }
+        return null;
+    }
+
 
 
     /* Newer implementation, using Util DAO*/
@@ -326,3 +354,7 @@ Creates a default PreparedStatement object that has the capability to retrieve a
     }
 
  */
+
+
+// TODO:ALL DAO - when closing PS - check for null - EVERYWHERE when it's not checked
+

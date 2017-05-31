@@ -2,7 +2,6 @@ package model.dao.jdbc;
 
 import model.dao.connection.DataSource;
 import model.dao.interfaces.TransactionsDAO;
-import model.entity.Card;
 import model.entity.Entity;
 import model.entity.Transaction;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -12,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.ResourceBundle;
 
 
@@ -36,7 +34,7 @@ public class TransactionsDAOimpl  implements TransactionsDAO {
         return instance;
     }
 
-    public int insert(Object trans) {
+    public Integer insert(Object trans) {
         Transaction transaction = (Transaction) trans;
         logger.info("Insert into [transaction]: " + transaction);
 

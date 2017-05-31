@@ -1,12 +1,24 @@
 </main>
 <footer>
 <div class="container">
+    <div class="row">
+    <div class="col-md-3">
 <a href="<%=request.getContextPath()%>/"><i class="fa fa-home" aria-hidden="true" title="Home"></i></a> |
 <a href="<%=request.getContextPath()%>/bank/?command=logout"><i class="fa fa-power-off" aria-hidden="true" title="Logout"></i></a>
 <%--<a href="<%=request.getContextPath()%>/?command=logout">Logout.Direct</a>--%>
-    &nbsp; &nbsp; &nbsp; &nbsp; <i class="fa fa-gbp" aria-hidden="true"></i>
+    </div>
+    <div class="col-md-6 text-center">
+
+        &nbsp; &nbsp; &nbsp; &nbsp; <i class="fa fa-gbp" aria-hidden="true"></i>
     <i class="fa fa-eur" aria-hidden="true"></i>
     <i class="fa fa-dollar" aria-hidden="true"></i>
+    </div>
+
+    <div class="col-md-3 text-right">
+    &nbsp;&nbsp;&nbsp;<i class="fa fa-language" aria-hidden="true"></i>
+    <a href="<%=request.getContextPath()%>/bank/?command=switch_lang&lang=ua">UKR</a>
+    <a href="<%=request.getContextPath()%>/bank/?command=switch_lang&lang=en">ENG</a>
+    </div>
 </div>
 
 <div class="h-25">&nbsp;
@@ -16,7 +28,7 @@
 <div class="text-right navbar-brand navbar-light teal lighten-4">
     <div>
 DEBUG:&nbsp;
-    <a href="/bank/?command=showclients&action=showClientsByRole&role=0">Admin.showClientsByRole(0)</a>
+    <a href="<%=request.getContextPath()%>/bank/?command=showclients&action=showClientsByRole&role=0">Admin.showClientsByRole(0)</a>
     </div>
 </div>
 

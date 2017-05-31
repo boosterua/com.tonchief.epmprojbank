@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <%@ include file="includes/everypageheader.jspf" %>
 
-
+<%--//TODO Catch 404  errors --%>
 </head>
 <title>ERROR</title>
 
@@ -18,7 +18,7 @@
 <%@include file="includes/toplogo.jspf" %>
 <body>
 
-<div class="container  w-50">
+<div class="container">
     <div class="">
         <div class="card">
             <div class="h-50">!</div><br>
@@ -32,9 +32,16 @@
             <div>
                 <c:set var="exception" value="${requestScope['javax.servlet.error.exception']}"/>
                 <pre class="text-sm-left">
-                <jsp:scriptlet>
-                    exception.printStackTrace(new java.io.PrintWriter(out));
-                </jsp:scriptlet>
+<%--                <jsp:scriptlet>
+                    if(exception!=null)
+                        exception.printStackTrace(new java.io.PrintWriter(out));
+                </jsp:scriptlet>--%>
+                    <c:forEach items="${exception.stackTrace}" var="element">
+                        <c:out value="${element}" />
+                    </c:forEach>
+
+${pageContext.out.flush();exception.printStackTrace(pageContext.response.writer)}
+
                 </pre>
             </div>
 

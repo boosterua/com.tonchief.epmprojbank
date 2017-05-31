@@ -17,6 +17,11 @@ public class Account implements Entity {
 
     private AccountsDAO accountsDAO = DAOFactoryImpl.getInstance().getAccountsDAO();
 
+    public Account(){
+        this.blocked=false;
+        this.balance = BigDecimal.ZERO;
+        this.number="";
+    }
 
     public int getId() {
         return id;

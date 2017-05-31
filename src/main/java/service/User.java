@@ -3,11 +3,11 @@ package service;
 import model.dao.exceptions.MySqlPoolException;
 import model.dao.factory.DAOFactoryImpl;
 import model.entity.Account;
-import model.entity.Entity;
 import model.entity.Transaction;
+import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Objects;
 
 import static java.time.LocalDate.now;
 
@@ -23,7 +23,11 @@ public class User {
     private String password;
     private Long role;
 
-    public User(){}
+    private final Logger logger = Logger.getLogger(User.class);
+
+
+    public User(){
+    }
 
     /* The default constructor. Used in service - upon receiving application from web-user.*/
     public User(String name, String email, String password, Long role) {
@@ -83,6 +87,33 @@ dbConnection.commit(); //transaction block end
          return 1;
     }
 
+    public Integer register(User user) { // Client vs user
+
+        if (user.isValid())
+            try {
+                Long lastAcct = DAO.getAccountsDAO().getMaxNumByAccountNum("2625%");
+                Account newAccount = new Account();
+                newAccount.setName(Objects.toString(lastAcct+1));
+                newAccount.setId(DAO.getAccountsDAO().insert(newAccount));
+                Integer acctId =  DAO.getAccountsDAO().insert(newAccount);
+
+//TODO:!user vs client; + regAcct-set to user, then insert new user                user.set
+                Integer uid = DAO.getUsersDAO().insert(user);
+                return uid;
+            } catch (Exception e) {
+                logger.error(e);
+            } finally {
+            }
+        return -1;
+    }
+
+    public boolean isValid() {
+
+        return ((name != null) && !name.equals("") &&
+                (email != null) && !email.equals("") &&
+                (password != null) && !password.equals(""));
+    }
+
     public static String getMessage() {
         return "Authorised User. Welcome.";
     }
@@ -116,22 +147,4 @@ dbConnection.commit(); //transaction block end
         return String.format("%S <%s> **** ROLE=%d", name, email, role );
     }
 
-    public int register(User user) {
-        if (user.isValid())
-            try {
-                return DAO.getUsersDAO().insert(user);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                return  -1;
-            }
-        return -1;
-    }
-
-    public boolean isValid() {
-
-        return ((name != null) && !name.equals("") &&
-                (email != null) && !email.equals("") &&
-                (password != null) && !password.equals(""));
-    }
 }

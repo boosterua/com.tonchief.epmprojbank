@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.ResourceBundle;
 
 
 public class CardsDAOimpl implements CardsDAO {
@@ -38,7 +37,7 @@ public class CardsDAOimpl implements CardsDAO {
     }
 
 
-    public int insert(Object eCard) {
+    public Integer insert(Object eCard) {
         logger.info("Insert into [cards]: " + eCard);
 
         try (Connection conn = pool.getConnection();

@@ -2,7 +2,6 @@ package model.dao.jdbc;
 
 import model.dao.connection.DataSource;
 import model.dao.interfaces.FeesDAO;
-import model.entity.Card;
 import model.entity.Entity;
 import model.entity.Fee;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -66,7 +65,7 @@ public class FeesDAOimpl implements FeesDAO {
 
 
 
-    public int insert(Object tdata) {
+    public Integer insert(Object tdata) {
         return 0;
     }
 
