@@ -52,7 +52,8 @@ public class AccountsDAOimpl implements AccountsDAO {
     }
 
     @Override
-    public Integer insert(Object account) throws Exception {
+    @Deprecated
+    public Integer insert(Object account) throws ExceptionDAO {
         Account acct = (Account) account;
         logger.info("Insert into [accounts]: " + acct);
 
@@ -73,10 +74,68 @@ public class AccountsDAOimpl implements AccountsDAO {
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 rs.next();
-                return rs.getInt(1); //rs.getLong(1)
+                return rs.getInt(1+0);
             } finally {
                 if(ps!=null)
                     ps.close();
+            }
+        } catch (SQLException e) {
+            logger.error("SQL.exception", e);
+        }
+        return 0;
+    }
+
+/*
+    @Override
+    public Integer generate(int clientId, String acctPrefix) throws ExceptionDAO {
+        logger.info("generate new acct for cl_id=" + clientId + " & acctPrefix="+ acctPrefix);
+
+        try (Connection conn = pool.getConnection();
+        ) {
+            conn.setAutoCommit(false);
+//            PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.generate"), 1);
+            PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.generate1"), 1);
+            ps.setInt(1, clientId);
+            logger.info("PS: " + ps.toString());
+            ps.executeUpdate();
+
+            PreparedStatement ps2 = conn.prepareStatement(BUNDLE.getString("accounts.generate2"), 1);
+            ps2.setString(1, acctPrefix);
+            logger.info("PS: " + ps2.toString());
+            ps.executeUpdate();
+
+//            ps.setString(2, acctPrefix);
+//            logger.info("PS: " + ps.toString());
+//            ps.executeUpdate();
+            conn.commit();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                rs.next();
+                return rs.getInt(1);
+            } finally {
+                if(ps!=null) ps.close();
+            }
+        } catch (SQLException e) {
+            logger.error("SQL exception", e);
+        }
+        return 0;
+    }*/
+
+    @Override
+    public Integer generate(int clientId, String acctPrefix) throws ExceptionDAO {
+        logger.info("generate new acct for cl_id=" + clientId + " & acctPrefix="+ acctPrefix);
+
+        try (Connection conn = pool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.generate"), 1);
+        ) {
+            ps.setInt(1, clientId);
+            ps.setString(2, acctPrefix);
+            logger.info("PS: " + ps.toString());
+            ps.executeUpdate();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                rs.next();
+                return rs.getInt(1);
+            } finally {
+                if(ps!=null) ps.close();
             }
         } catch (SQLException e) {
             logger.error("SQL exception", e);
@@ -234,7 +293,7 @@ Creates a default PreparedStatement object that has the capability to retrieve a
         logger.info("setting isBlocked=(" + account.getBlockedStatus() + ") for " + account);
         try (
                 Connection conn = pool.getConnection();
-                PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.setblock"), 0);
+                PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.setBlock"), 0);
         ){
             ps.setBoolean(1, account.getBlockedStatus());
             ps.setInt(2, account.getId());
@@ -249,7 +308,7 @@ Creates a default PreparedStatement object that has the capability to retrieve a
         logger.info("setting isBlocked=TRUE for accountId=" + accId);
         try (
                 Connection conn = pool.getConnection();
-                PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.setblock"), 0);
+                PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.setBlock"), 0);
         ){
             ps.setBoolean(1, true);
             ps.setInt(2, accId);
@@ -263,6 +322,8 @@ Creates a default PreparedStatement object that has the capability to retrieve a
 
 
     @Override
+    @Deprecated
+    /* Replaced with different implementation: see generate method above */
     public Long getMaxNumByAccountNum(String like) throws ExceptionDAO {
         logger.info("fetching Account Entity for id:" + like);
         try (Connection conn = pool.getConnection();

@@ -73,4 +73,5 @@ To be continued...
 
 
 Stack of tech
-JSP, JSTL, FrontEnd:Bootstrap,JavaScript,CSS
+Java-Core:Threads, JDBC (PS+Transactions), JSP, JSTL, FrontEnd:Bootstrap,JavaScript,CSS
+Multi-threading: new user> customer || new acct

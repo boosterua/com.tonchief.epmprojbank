@@ -35,7 +35,7 @@ public class CommandLogin implements Command {
             } else {
 
                 if (!req.getMethod().equals("GET")) {
-                    req.setAttribute("errormsg", "Wrong login  or password ");
+                    req.setAttribute("errormsg", "WRONG_LOGIN_PASS");
                     req.setAttribute("errorcode", 9401);
                 }
                 req.setAttribute("action", "login");
