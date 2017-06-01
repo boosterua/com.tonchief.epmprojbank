@@ -28,6 +28,7 @@ public class CommandRegister implements Command {
         if(req.getMethod().equals("POST")){
 
 //TODO - Filters - check for form validity - create some util methods for general checks!!
+//TODO: set Cookie with lang. Session is higher priority than cookie, ck gets overwritten by sess
             
             /* role=0 means - newly registered, but the value gets auto
              assigned after admin approves application and issues a new card */

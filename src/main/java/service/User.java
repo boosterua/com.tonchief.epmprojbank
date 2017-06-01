@@ -1,5 +1,6 @@
 package service;
 
+import model.dao.exceptions.ExceptionDAO;
 import model.dao.exceptions.MySqlPoolException;
 import model.dao.factory.DAOFactoryImpl;
 import model.entity.Account;
@@ -7,7 +8,6 @@ import model.entity.Transaction;
 import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 import static java.time.LocalDate.now;
 
@@ -89,17 +89,28 @@ dbConnection.commit(); //transaction block end
 
     public Integer register(User user) { // Client vs user
 
+//TODO: check if client is not in db yet
+//TODO:!user vs client; + regAcct-set to user, then insert new user                user.set
+
         if (user.isValid())
             try {
-                Long lastAcct = DAO.getAccountsDAO().getMaxNumByAccountNum("2625%");
-                Account newAccount = new Account();
-                newAccount.setName(Objects.toString(lastAcct+1));
-                newAccount.setId(DAO.getAccountsDAO().insert(newAccount));
-                Integer acctId =  DAO.getAccountsDAO().insert(newAccount);
+                /* Here's where magic happens: turn user into client ;) */
+                Integer clientId = DAO.getUsersDAO().insert(user);
 
-//TODO:!user vs client; + regAcct-set to user, then insert new user                user.set
-                Integer uid = DAO.getUsersDAO().insert(user);
-                return uid;
+                new Thread(new Runnable(){
+                    public void run(){
+                        try {
+                            Integer newUsrAcctId =
+                                DAO.getAccountsDAO().generate(clientId, "2625%");
+                            logger.info("Separate Thread: Generated new account id:"+newUsrAcctId);
+                        } catch (ExceptionDAO exceptionDAO) {
+                            logger.error(exceptionDAO);
+                        }
+                    }
+                }).start();
+
+                return clientId;
+
             } catch (Exception e) {
                 logger.error(e);
             } finally {

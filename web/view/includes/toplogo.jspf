@@ -21,7 +21,7 @@
             <a class="navbar-brand" href="<%=request.getContextPath()%>/bank/">
                 <h2 class="animated fadeInLeftBig mb-2 mdb-color darken-3 deep-orange-text z-depth-2" style="color:#0b51c5;padding:0;margin:0;line-height:.9em;height:1em;overflow:hidden;">
                     <%--border:1px solid white;border-width:1px 0px 0px 1px;--%>
-                    &nbsp; <b class="text-white">the.</b>BANK &nbsp;
+                    &nbsp; <b class="text-white">the.</b><i class="fa fa-btc" aria-hidden="true"></i>ANK &nbsp;
                 </h2>
             </a>
         </div>

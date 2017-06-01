@@ -32,7 +32,7 @@
       ${errormsg_html}
       <c:if test="${not empty errormsg}">
         <%--<span class="badge badge-danger">${errormsg}</span>--%>
-        <div class="alert alert-danger" role="alert">${errormsg}</div>
+        <div class="alert alert-danger" role="alert"><fmt:message key="${errormsg}" bundle="${lang}"/></div>
       </c:if>
 
       ${infomsg_html}
