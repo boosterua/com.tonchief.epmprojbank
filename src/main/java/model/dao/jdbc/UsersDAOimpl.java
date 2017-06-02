@@ -47,6 +47,7 @@ public class UsersDAOimpl implements UsersDAO {
      */
     public Integer insert(Object user) {
         //TO+DO: change new user registration to include new account creation at the time of submitting application
+        //TODO - Redesign DB, set email - as id (unique) -> catch exception &
 
         logger.info("Insert into [clients] - [user] passed by account:" + user);
 
@@ -71,11 +72,18 @@ public class UsersDAOimpl implements UsersDAO {
             } finally {
                 ps.close();
             }
-        } catch (SQLException e) {
-            logger.error("SQL exception", e);
+        } catch (SQLException sqlEx) {
+            if(isConstraintViolation(sqlEx)){
+                return -23; //made up code to indicate existing login (email)
+            }
+            logger.error("SQL exception", sqlEx);
         }
 
         return 0;
+    }
+
+    public static boolean isConstraintViolation(SQLException e) {
+        return e.getSQLState().startsWith("23");
     }
 
     public Integer authenticateUser(String email, String password) {

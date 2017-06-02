@@ -98,6 +98,9 @@ dbConnection.commit(); //transaction block end
             try {
                 /* Here's where magic happens: turn user into client ;) */
                 Integer clientId = DAO.getUsersDAO().insert(user);
+                if(clientId==-23) {//Constraint Violation = user email already in DB
+                    return -23;
+                }
 
                 //TODO: userReg: generate acct based on user's choice of card (set prefix);
                 // TODO: add prefix field to fees tbl
