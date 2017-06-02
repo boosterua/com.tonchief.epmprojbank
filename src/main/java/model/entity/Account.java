@@ -1,9 +1,9 @@
 package model.entity;
 
 
-import model.dao.interfaces.AccountsDAO;
-import model.dao.factory.DAOFactoryImpl;
 import model.dao.exceptions.MySqlPoolException;
+import model.dao.factory.DAOFactoryImpl;
+import model.dao.interfaces.AccountsDAO;
 
 import java.math.BigDecimal;
 
@@ -65,7 +65,7 @@ public class Account implements Entity {
     }
 
     public String toString() {
-        return "" + this.id + "; " + this.number + "; " + this.blocked + "; " + this.clientId;
+        return toString(id, number,"BLK:"+blocked,"CLid:"+clientId);
     }
 
 }

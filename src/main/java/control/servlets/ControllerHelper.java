@@ -17,10 +17,10 @@ public class ControllerHelper {
         commands.put("register", new CommandRegister());
         commands.put("showfees", new CommandShowFees());
         commands.put("submit_registration", new CommandRegister());
-        commands.put("showclients", new CommandShowClients());
+        commands.put("show_clients", new CommandShowClients());
         commands.put("logout", new CommandLogin());
         commands.put("switch_lang", new CommandEmpty());
-    }
+            }
 
 
 

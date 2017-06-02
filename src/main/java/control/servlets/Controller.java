@@ -1,6 +1,7 @@
 package control.servlets;
 
 import control.command.Command;
+import model.dao.exceptions.ExceptionDAO;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -18,9 +19,9 @@ public class Controller extends HttpServlet {
     transient private final Logger logger = Logger.getLogger(Controller.class);
     transient ControllerHelper controllerHelper = ControllerHelper.getInstance();
 
-    //TODO ??? Зачем?
     //TODO ??? How to create WAR file automaticalyy w/o changing type of server start? Where do i put it then?
     //TODO ??? Как отлавливать 500е ошибки.
+
     public Controller(){ super();}
 
     @Override
@@ -30,10 +31,10 @@ public class Controller extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
+            processRequest(req, resp);
     }
 
-    private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+    private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String page = null;
         try {
@@ -45,6 +46,8 @@ public class Controller extends HttpServlet {
         } catch (IOException ie){
             logger.error(ie);
             req.setAttribute("msgErr", "IO_EXCEPTION");
+        } catch (ExceptionDAO exceptionDAO) {
+            logger.error(exceptionDAO);
         }
         getServletContext().getRequestDispatcher(page).forward(req, resp);
     }

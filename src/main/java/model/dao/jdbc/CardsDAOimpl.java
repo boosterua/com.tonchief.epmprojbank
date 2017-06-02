@@ -37,7 +37,7 @@ public class CardsDAOimpl implements CardsDAO {
     }
 
 
-    public Integer insert(Object eCard) {
+    public Integer insert(Object eCard) throws SQLException {
         logger.info("Insert into [cards]: " + eCard);
 
         try (Connection conn = pool.getConnection();

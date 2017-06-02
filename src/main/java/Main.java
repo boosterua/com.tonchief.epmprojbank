@@ -1,10 +1,15 @@
 import model.dao.connection.DataSource;
 import model.dao.jdbc.AccountsDAOimpl;
 import model.entity.Account;
+import model.entity.Card;
+import model.entity.Entity;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
@@ -14,6 +19,7 @@ public class Main {
     private static BasicDataSource pool = DataSource.getInstance().getBds();
 
     public static void main(String[] args) throws Exception {
+
 
 
         final Logger LOG = Logger.getLogger(AccountsDAOimpl.class);

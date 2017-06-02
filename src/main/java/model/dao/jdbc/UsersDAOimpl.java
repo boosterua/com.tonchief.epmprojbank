@@ -28,6 +28,8 @@ public class UsersDAOimpl implements UsersDAO {
     private static final int EML = 3;
     private static final int PWD = 4;
     private static final int ROL = 5;
+    private static final int ACC = 6;
+    private static final int FEE = 6;
     //Checked for fields equality b/w dao and db(v2), 2017-05-27
 
 
@@ -43,7 +45,7 @@ public class UsersDAOimpl implements UsersDAO {
      * @return int : userId obtained from db
      */
     public Integer insert(Object user) {
-        //TODO: change new user registration to include new account creation at the time of submitting application
+        //TO+DO: change new user registration to include new account creation at the time of submitting application
 
         logger.info("Insert into [clients] - [user] passed by account:" + user);
 
@@ -56,6 +58,7 @@ public class UsersDAOimpl implements UsersDAO {
             ps.setString    (EML-1, client.getEmail());
             ps.setString    (PWD-1, client.getPassword());
             ps.setLong      (ROL-1, client.getRole());
+            ps.setInt       (FEE-1, client.getFeeId());
 
             logger.info("PS: " + ps.toString());
             ps.executeUpdate();
@@ -126,6 +129,7 @@ public class UsersDAOimpl implements UsersDAO {
 
                     Client cl= new Client( rs.getInt(UID), rs.getString(NAM),
                             rs.getString(EML), rs.getInt(ROL) );
+                    cl.setAccount(""+rs.getLong(ACC));
                     resultList.add(cl);
                 }
                 rs.close();
@@ -141,12 +145,30 @@ public class UsersDAOimpl implements UsersDAO {
         return null;
     }
 
-
-
-
-
-
-
+    public Client getDetailedById(Integer clientId) {
+        try (Connection conn = pool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.getAllById"), 1);
+        ){
+            logger.info("Got connection.");
+            ps.setInt(1, clientId);
+            logger.info("PS:" + ps);
+            try (ResultSet rs = ps.executeQuery()) {
+//                logger.info(PrintResultSet.getDump(rs));
+                rs.next();
+                Client cl= new Client( rs.getInt(UID), rs.getString(NAM), rs.getString(EML), rs.getInt(ROL) );
+                cl.setFeeName(rs.getString(FEE));
+                rs.close();
+                return cl;
+            } catch (SQLException e) {
+                logger.error("SQLex." + e.toString());
+            }
+        } catch (SQLException e) {
+            logger.error("SQL exception.", e);
+        } catch (Exception e) {
+            logger.error("Major General Exception.", e);
+        }
+        return null;
+    }
 
 
     public boolean update(int id, Entity data) {
@@ -157,8 +179,31 @@ public class UsersDAOimpl implements UsersDAO {
         return false;
     }
 
-    public Entity getById(int id) {
+    public Entity getById(int cid) {
+        try (Connection conn = pool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.getById"), 1);
+        ){
+            logger.info("Got connection.");
+            ps.setInt(1, cid);
+            logger.info("Trying PS:" + ps);
+            try (ResultSet rs = ps.executeQuery()) {
+//                logger.info(PrintResultSet.getDump(rs));
+                Client cl= new Client( rs.getInt(UID), rs.getString(NAM), rs.getString(EML), rs.getInt(ROL) );
+                cl.setFeeName(rs.getString(FEE));
+                rs.close();
+                return cl;
+            } catch (SQLException e) {
+                logger.error("SQLex." + e.toString());
+            }
+        } catch (SQLException e) {
+            logger.error("SQL exception.", e);
+        } catch (Exception e) {
+            logger.error("Major General Exception.", e);
+        }
         return null;
+
+
+
     }
 
 
