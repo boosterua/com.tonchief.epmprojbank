@@ -98,7 +98,7 @@
 
 
 
-        <input type="submit" value="<fmt:message key="Proceed" bundle="${lang}"/>" class="btn btn-orange btn btn-sm btn-block orange white-text text-lg-center">
+        <input type="submit" value="<fmt:message key="PROCEED" bundle="${lang}"/>" class="btn btn-orange btn btn-sm btn-block orange white-text text-lg-center">
       </form>
 
 <%--

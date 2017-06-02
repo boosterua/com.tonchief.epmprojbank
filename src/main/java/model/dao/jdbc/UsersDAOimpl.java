@@ -137,7 +137,7 @@ public class UsersDAOimpl implements UsersDAO {
                     logger.info( rs.getLong(ROL));*/
 
                     Client cl= new Client( rs.getInt(UID), rs.getString(NAM),
-                            rs.getString(EML), rs.getInt(ROL) );
+                            rs.getString(EML), rs.getInt(ROL));
                     cl.setAccount(""+rs.getLong(ACC));
                     resultList.add(cl);
                 }
@@ -156,7 +156,8 @@ public class UsersDAOimpl implements UsersDAO {
 
     public Client getDetailedById(Integer clientId) {
         try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.getAllById"), 1);
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.getDetailedById"), 1);
+             //id_client,clients.name,email,password,role,fees.name
         ){
             logger.info("Got connection.");
             ps.setInt(1, clientId);

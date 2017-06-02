@@ -24,8 +24,9 @@ public class Client implements Entity {
     private Integer feeId = 0;
     private Fee fee;
     private String feeName;
-    private String account;
+    private String account  ;
     private String password;
+    private Integer role;
 
     public Client(){}
 
@@ -33,11 +34,16 @@ public class Client implements Entity {
         this.id = id;
         this.name = name;
     }
-    public Client(int cid, String nm, String eml, int acctId) {
-        this(cid,nm);
-        this.accountId = acctId;
+    public Client(int cid, String nm, String eml, Integer rol) {
+        this(cid, nm);
         this.email = eml;
+        this.role = rol;
     }
+    public Client(int cid, String nm, String eml, Integer rol, int acctId) {
+        this(cid,nm,eml,rol);
+        this.accountId = acctId;
+    }
+
 
 
     public String getAccount() {
@@ -104,4 +110,11 @@ public class Client implements Entity {
         return (String.format("%s : %s : %s : %s : %s", id, name, accountId, email, feeId, feeName));
     }
 
+    public Integer getRole() {
+        return role;
+    }
+
+    public void setRole(Integer role) {
+        this.role = role;
+    }
 }

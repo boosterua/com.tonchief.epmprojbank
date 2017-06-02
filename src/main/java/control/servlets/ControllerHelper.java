@@ -14,6 +14,7 @@ public class ControllerHelper {
     private ControllerHelper() {
         commands.put("login", new CommandLogin());
         commands.put("authenticate", new CommandLogin());
+        commands.put("show_authuser_hp", new CommandLogin());
         commands.put("register", new CommandRegister());
         commands.put("showfees", new CommandShowFees());
         commands.put("submit_registration", new CommandRegister());
