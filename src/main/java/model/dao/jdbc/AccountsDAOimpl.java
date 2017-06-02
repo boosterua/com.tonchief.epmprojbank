@@ -6,7 +6,6 @@ import model.dao.connection.DataSource;
 import model.dao.exceptions.ExceptionDAO;
 import model.dao.exceptions.MySqlPoolException;
 import model.entity.Account;
-import model.entity.Client;
 import model.entity.Entity;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
@@ -231,14 +230,14 @@ Creates a default PreparedStatement object that has the capability to retrieve a
     }
 
 
-    public List findAllByClient(Client client) throws ExceptionDAO {
+    public List<Account> findAllByClientId(Integer client) throws ExceptionDAO {
         List<Account> resultList = new ArrayList<>();
-        logger.info("fetching Account Entities for Userid:" + client.getId());
+        logger.info("fetching Account Entities for Userid:" + client);
         try (Connection conn = pool.getConnection();
              PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.getByClient"), 0);
         ){
             logger.info("Got connection.");
-            ps.setInt(1, client.getId());
+            ps.setInt(1, client);
             logger.info("Trying PS:" + ps);
 
             try (ResultSet rs = ps.executeQuery()) {

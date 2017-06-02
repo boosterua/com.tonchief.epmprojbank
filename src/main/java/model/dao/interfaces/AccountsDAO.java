@@ -11,7 +11,7 @@ public interface AccountsDAO extends EntityDAO {
     boolean isBlocked(Account account) throws MySqlPoolException, SQLException;
     boolean setBlock(Account account) throws MySqlPoolException;
     boolean setBlock(int accId);
-    List findAllByClient(model.entity.Client client) throws  ExceptionDAO;
     Long getMaxNumByAccountNum(String like) throws ExceptionDAO;
     Integer generate(int clientId, String acctPrefix) throws ExceptionDAO ;
+    List<Account> findAllByClientId(Integer uid) throws ExceptionDAO;
 }

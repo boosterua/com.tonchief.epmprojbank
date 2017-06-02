@@ -55,9 +55,6 @@ public class Client implements Entity {
         this.name = name;
     }
 
-    public void setName() {
-    }
-
     public int getAccountId() {
         return accountId;
     }

@@ -8,6 +8,7 @@ import model.entity.Transaction;
 import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static java.time.LocalDate.now;
 
@@ -166,5 +167,9 @@ dbConnection.commit(); //transaction block end
 
     public void setFeeId(int feeId) {
         this.feeId = feeId;
+    }
+
+    public List<Account> getUserAccounts(Integer uid) throws ExceptionDAO {
+        return DAO.getAccountsDAO().findAllByClientId(uid);
     }
 }

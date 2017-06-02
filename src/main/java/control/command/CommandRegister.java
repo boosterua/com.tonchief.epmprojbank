@@ -34,7 +34,8 @@ public class CommandRegister implements Command {
             /* role=0 means - newly registered, but the value gets auto
              assigned after admin approves application and issues a new card */
             User user = new User(name, login, password, 0L);
-            if(feeId!=null) user.setFeeId(Integer.parseInt(feeId));
+            if(feeId==null) feeId="1";
+            user.setFeeId(Integer.parseInt(feeId));
 
             Integer uid = SERVICE.getUser().register(user);
             if(uid!=null && uid>0) {

@@ -40,14 +40,16 @@ todo: jstl tags: info, error
   <meta charset="utf-8">
 
   <%@ include file="includes/everypageheader.jspf" %>
+<style>
 
+</style>
 </head>
 <title>[EPMPROJBANK]</title>
 <body>
 
 <div style="height: 100vh">
   <div class="flex-center flex-column">
-    <h1 class="animated fadeInUp mb-2 mdb-color darken-3 deep-orange-text z-depth-3 display-2" style="color:#0b51c5;">
+    <h1 class="animated fadeInUp mb-2 mdb-color darken-3 deep-orange-text z-depth-3 display-4" style="color:#0b51c5;">
         &nbsp; <b class="text-white">the.</b>BANK &nbsp;
     </h1>
 
@@ -63,7 +65,7 @@ todo: jstl tags: info, error
     <a href="/bank/?command=register">register</a><br>
 
     <div style="text-align: right">
-        <span class="badge badge-default animated fadeIn">epm.proj.bank by Ton Chief</span>
+        <span class="badge badge-default animated fadeIn"><i class="fa fa-btc" aria-hidden="true"></i> epm.proj.bank by Ton Chief</span>
       <%--<p class="animated fadeIn text-muted" ></p>--%>
     </div>
 

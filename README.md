@@ -40,7 +40,8 @@
      -> makePayment(details: from, to, amount, descr);
      -> replenishAccount(acctId, amount, source[anotherAccount|cash]);
      -> blockAccount(acctId);
-     -> register(); // fill out form including client id fields as well as type of card requested.
+     -> + register(); // fill out form including client id fields as well as type of card requested.
+     -> showTransactions
      
      Administrator
      +> blockAccount();   //+ListAccounts
