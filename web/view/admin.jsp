@@ -97,6 +97,8 @@
                 <tr><td><fmt:message key="NAME" bundle="${lang}"/></td><td>${client.getName()}</td>
                 <tr><td><fmt:message key="EMAIL" bundle="${lang}"/></td><td>${client.getEmail()}</td>
                 <tr><td><fmt:message key="FEE_CARD_NAME" bundle="${lang}"/></td><td>${client.getFeeName()}</td>
+                <tr><td><fmt:message key="ROLE_CODE" bundle="${lang}"/></td><td>${client.getRole()}</td>
+                <tr><td><fmt:message key="APPROVE" bundle="${lang}"/></td><td><input type="checkbox" checked data-toggle="toggle"></td>
               </tbody>
             </table>
           </c:if>

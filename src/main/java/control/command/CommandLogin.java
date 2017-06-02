@@ -16,7 +16,8 @@ public class CommandLogin implements Command {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ExceptionDAO {
-        String page = null;
+        String page = RB_PAGEMAP.getString("jsp.user.login");
+        ;
         String login = req.getParameter("email");
         String password = req.getParameter("password");
         HttpSession session = req.getSession();
@@ -30,6 +31,16 @@ public class CommandLogin implements Command {
             req.setAttribute("action", "login");
             page = RB_PAGEMAP.getString("jsp.user.main");
             page = RB_PAGEMAP.getString("jsp.user.login");
+
+        } else if(req.getParameter("command").equals("show_authuser_hp")){
+            if(Boolean.parseBoolean((String) session.getAttribute("isAuthorized"))){
+                List<Account> accounts = SERVICE.getUser().getUserAccounts(
+                        ((Client)session.getAttribute("client")).getId());
+                req.setAttribute("accounts", accounts);
+                page = RB_PAGEMAP.getString("jsp.user.main");
+            } else {
+                req.setAttribute("errormsg", "UNAUTHORIZED");
+            }
 
         } else {
 
