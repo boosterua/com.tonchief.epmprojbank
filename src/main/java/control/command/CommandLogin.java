@@ -17,13 +17,15 @@ public class CommandLogin implements Command {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ExceptionDAO {
         String page = RB_PAGEMAP.getString("jsp.user.login");
-        ;
+
         String login = req.getParameter("email");
         String password = req.getParameter("password");
         HttpSession session = req.getSession();
 
         Logger logger = Logger.getLogger(CommandLogin.class);
         logger.info(login + ":" + password + ":" + SERVICE.getLogin().checkCredentials(login, password));
+
+        //TODO: split long method to custom methods
 
         if (req.getParameter("command").equals("logout")) {
             session.invalidate();
