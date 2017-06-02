@@ -49,6 +49,8 @@ public class Controller extends HttpServlet {
         } catch (ExceptionDAO exceptionDAO) {
             logger.error(exceptionDAO);
         }
+        String s = "12";
+        
         getServletContext().getRequestDispatcher(page).forward(req, resp);
     }
 

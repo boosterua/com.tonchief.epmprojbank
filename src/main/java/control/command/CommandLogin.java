@@ -33,7 +33,8 @@ public class CommandLogin implements Command {
             page = RB_PAGEMAP.getString("jsp.user.login");
 
         } else if(req.getParameter("command").equals("show_authuser_hp")){
-            if(Boolean.parseBoolean((String) session.getAttribute("isAuthorized"))){
+            Boolean isAuth=(Boolean)session.getAttribute("isAuthorized");
+            if(isAuth!=null && isAuth){
                 List<Account> accounts = SERVICE.getUser().getUserAccounts(
                         ((Client)session.getAttribute("client")).getId());
                 req.setAttribute("accounts", accounts);
