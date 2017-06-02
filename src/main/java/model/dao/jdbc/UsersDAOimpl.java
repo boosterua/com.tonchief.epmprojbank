@@ -30,6 +30,7 @@ public class UsersDAOimpl implements UsersDAO {
     private static final int ROL = 5;
     private static final int ACC = 6;
     private static final int FEE = 6;
+    private static final int FID = 6;
     //Checked for fields equality b/w dao and db(v2), 2017-05-27
 
 
@@ -46,6 +47,7 @@ public class UsersDAOimpl implements UsersDAO {
      */
     public Integer insert(Object user) {
         //TO+DO: change new user registration to include new account creation at the time of submitting application
+        //TODO - Redesign DB, set email - as id (unique) -> catch exception &
 
         logger.info("Insert into [clients] - [user] passed by account:" + user);
 
@@ -70,11 +72,18 @@ public class UsersDAOimpl implements UsersDAO {
             } finally {
                 ps.close();
             }
-        } catch (SQLException e) {
-            logger.error("SQL exception", e);
+        } catch (SQLException sqlEx) {
+            if(isConstraintViolation(sqlEx)){
+                return -23; //made up code to indicate existing login (email)
+            }
+            logger.error("SQL exception", sqlEx);
         }
 
         return 0;
+    }
+
+    public static boolean isConstraintViolation(SQLException e) {
+        return e.getSQLState().startsWith("23");
     }
 
     public Integer authenticateUser(String email, String password) {
@@ -156,7 +165,7 @@ public class UsersDAOimpl implements UsersDAO {
 //                logger.info(PrintResultSet.getDump(rs));
                 rs.next();
                 Client cl= new Client( rs.getInt(UID), rs.getString(NAM), rs.getString(EML), rs.getInt(ROL) );
-                cl.setFeeName(rs.getString(FEE));
+                cl.setFeeName(rs.getString(FID));
                 rs.close();
                 return cl;
             } catch (SQLException e) {
@@ -179,6 +188,7 @@ public class UsersDAOimpl implements UsersDAO {
         return false;
     }
 
+    /* For security reasons: Password is not passed / nor stored here! */
     public Entity getById(int cid) {
         try (Connection conn = pool.getConnection();
              PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.getById"), 1);
@@ -187,9 +197,9 @@ public class UsersDAOimpl implements UsersDAO {
             ps.setInt(1, cid);
             logger.info("Trying PS:" + ps);
             try (ResultSet rs = ps.executeQuery()) {
-//                logger.info(PrintResultSet.getDump(rs));
+                rs.next();
                 Client cl= new Client( rs.getInt(UID), rs.getString(NAM), rs.getString(EML), rs.getInt(ROL) );
-                cl.setFeeName(rs.getString(FEE));
+                cl.setFeeId(rs.getInt(FEE));
                 rs.close();
                 return cl;
             } catch (SQLException e) {
@@ -201,10 +211,9 @@ public class UsersDAOimpl implements UsersDAO {
             logger.error("Major General Exception.", e);
         }
         return null;
-
-
-
     }
+
+
 
 
 }

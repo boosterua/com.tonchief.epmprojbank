@@ -22,7 +22,25 @@
     <div class="card">
       <div class="card-block">
     <br><br>
-    <div class="panel-heading">
+
+
+
+        ${errormsg_html}
+        <c:if test="${not empty errormsg}">
+          <%--<span class="badge badge-danger">${errormsg}</span>--%>
+          <div class="alert alert-danger" role="alert"><fmt:message key="${errormsg}" bundle="${lang}"/></div>
+        </c:if>
+
+        ${infomsg_html}
+        <c:if test="${not empty infomsg}">
+          <span class="badge badge-success"><fmt:message key="${infomsg}" bundle="${lang}"/></span>
+        </c:if>
+
+
+
+
+
+        <div class="panel-heading">
       <h3 class="panel-title  mdb-color lighten-5">&nbsp; <fmt:message key="Registration" bundle="${lang}"/>&nbsp;</h3>
     </div>
 

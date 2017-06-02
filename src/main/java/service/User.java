@@ -8,6 +8,7 @@ import model.entity.Transaction;
 import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static java.time.LocalDate.now;
 
@@ -97,6 +98,9 @@ dbConnection.commit(); //transaction block end
             try {
                 /* Here's where magic happens: turn user into client ;) */
                 Integer clientId = DAO.getUsersDAO().insert(user);
+                if(clientId==-23) {//Constraint Violation = user email already in DB
+                    return -23;
+                }
 
                 //TODO: userReg: generate acct based on user's choice of card (set prefix);
                 // TODO: add prefix field to fees tbl
@@ -166,5 +170,9 @@ dbConnection.commit(); //transaction block end
 
     public void setFeeId(int feeId) {
         this.feeId = feeId;
+    }
+
+    public List<Account> getUserAccounts(Integer uid) throws ExceptionDAO {
+        return DAO.getAccountsDAO().findAllByClientId(uid);
     }
 }

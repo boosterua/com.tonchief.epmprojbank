@@ -34,7 +34,8 @@ public class CommandRegister implements Command {
             /* role=0 means - newly registered, but the value gets auto
              assigned after admin approves application and issues a new card */
             User user = new User(name, login, password, 0L);
-            if(feeId!=null) user.setFeeId(Integer.parseInt(feeId));
+            if(feeId==null) feeId="1";
+            user.setFeeId(Integer.parseInt(feeId));
 
             Integer uid = SERVICE.getUser().register(user);
             if(uid!=null && uid>0) {
@@ -49,7 +50,13 @@ public class CommandRegister implements Command {
                 page = RB_PAGEMAP.getString("jsp.user.login");
 
 
-            } else { // ERROR!!
+            } else if(uid==-23) {
+                logger.info("User registration - email constraint violation: already exists in db");
+                req.setAttribute("errormsg", "USER_ID_ALREADY_USED");
+                req.setAttribute("returnPage", RB_PAGEMAP.getString("jsp.user.registration"));
+                page = RB_PAGEMAP.getString("jsp.user.registration") ;
+
+            }else { // ERROR!!
 
                 logger.error("New user registration: failed to insert User into db. Ref.Err#1441.");
                 req.setAttribute("errormsg", "Error adding your registration to database. Please contact support " + "at 1-800-000-00-00 and provide this error code:<b>#1441</b> and the exact time of this incident " +

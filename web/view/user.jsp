@@ -21,7 +21,6 @@
 <%@include file="includes/toplogo.jspf" %>
 
 
-
 <div class="container">
   <div class="row">
     <div class="col-md-2"></div>
@@ -42,13 +41,97 @@
 
 
 
-      <c:if test="${isAuthorized==true}"><br><br><br><br>
-        <h2>Hello and welcome back!</h2>
+      <c:if test="${sessionScope.isAuthorized==true}">
+        <h3>Hello and welcome back, ${sessionScope.client.getName()}!</h3>
       </c:if>
 
-      <%-- ########  LOGIN  ######## --%>
 
-      <c:if test="${action=='login'}">
+
+
+
+
+        <%-- ########  AUTHORIZED USER INDEX  ######## --%>
+
+        <c:if test="${(empty action) }">
+          <div class="card">
+            <div class="card-block">
+              <div class="panel-heading">
+                <h2 class="panel-title badge indigo">&nbsp; <fmt:message key="YOUR_ACCOUNTS" bundle="${lang}"/> &nbsp;</h2>
+              </div>
+              <c:if test="${not empty accounts}">
+
+
+
+
+
+
+                <table class="table table-striped table-hover table-sm table-info">
+                  <thead class="teal darken-3 text-white">
+                  <tr class="text-center">
+                    <th><fmt:message key="ID" bundle="${lang}"/></th>
+                    <th><fmt:message key="ACCT_NUMBER" bundle="${lang}"/></th>
+                    <th><fmt:message key="STATE" bundle="${lang}"/></th>
+                    <th><fmt:message key="BALANCE" bundle="${lang}"/></th>
+                    <th><fmt:message key="ACTIONS" bundle="${lang}"/></th>
+                  </tr>
+                  </thead>
+
+                  <tbody>
+                  <c:forEach var="acct" items="${accounts}">
+                    <%--<c:out value="${acct}"/><br>--%>
+
+                    <tr class="text-center">
+                      <td>${acct.getId()}</td>
+                      <td>${acct.getName()}</td>
+                      <td><c:if test="${acct.getBlockedStatus()==true}">
+                          <fmt:message key="BLOCKED" bundle="${lang}"/>
+                          </c:if>
+                      </td>
+                      <td>${acct.getBalance()}</td>
+                      <td>
+                        <a href="?command=account&action=make_payment">pmnt</a> |
+                        <a href="?command=account&action=replenish">rpsh</a> |
+                        <a href="?command=account&action=block">blck</a>
+                      </td>
+                    </tr>
+                  </c:forEach>
+                  </tbody>
+                </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              </c:if>
+
+              <div class="panel-body">
+
+
+              </div>
+            </div>
+          </div>
+        </c:if>
+        <%--/Authorized Usr index--%>
+
+
+
+
+      <%-- ########  LOGIN  ######## --%>
+      <c:if test="${(action=='login')}">
         <div class="card">
           <div class="card-block">
             <div class="panel-heading">

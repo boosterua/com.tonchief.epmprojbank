@@ -12,6 +12,8 @@ public interface EntityDAO<T extends model.entity.Entity> {
     boolean update(int id, T data) throws ExceptionDAO;
     boolean delete(long id) throws ExceptionDAO;
     T getById(int id) throws ExceptionDAO;
+
+
 //    List<T> findAll() throws ExceptionDAO;
 
 
