@@ -37,12 +37,19 @@
       <h1> admin page</h1>
 
       ${errormsg_html}
-      ${infomsg_html}
+      <c:if test="${not empty errormsg}">
+        <div class="alert alert-danger" role="alert"><fmt:message key="${errormsg}" bundle="${lang}"/></div>
+      </c:if>
 
+      ${infomsg_html}
+      <c:if test="${not empty infomsg}">
+        <span class="badge badge-success"><fmt:message key="${infomsg}" bundle="${lang}"/></span>
+      </c:if>
 
       <%--<c:if test="${isAuthorized==true}">--%>
 
         <%-- ######## SHOW CLIENTS BY ROLE #########--%>
+
         <c:if test="${action==\"showClientsByRole\"}">
           <div class="panel-heading">
             <h3 class="panel-title badge indigo">&nbsp; <fmt:message key="NEW_CLIENTS_APPROVE_LIST" bundle="${lang}"/>&nbsp;</h3>
@@ -61,10 +68,10 @@
               <tbody>
               <c:forEach var="cl" items="${clientList}">
                 <tr class="text-center">
-                  <td>${cl.getId()}</td>
+                  <td><a href="<%=request.getContextPath()%>/bank/?command=show_clients&action=getOneClient&id=${cl.getId()}">${cl.getId()}</a></td>
                   <td>${cl.getName()}</td>
                   <td>${cl.getEmail()}</td>
-                  <td>${cl.getAccountId()}</td>
+                  <td>${cl.getAccount()}</td>
                 </tr>
               </c:forEach>
               </tbody>
@@ -74,6 +81,35 @@
             <div class="badge badge-warning">  <fmt:message key="NO_CLIENTS_PER_REQUEST" bundle="${lang}"/>.</div><br>
           </c:if>
         </c:if>
+      <%--</c:if>--%>
+
+
+       <%-- ######## showClientToApprove #########--%>
+
+        <c:if test="${action==\"showClientToApprove\"}">
+          <div class="panel-heading">
+            <h3 class="panel-title badge indigo">&nbsp; <fmt:message key="NEW_CLIENT_TO_APPROVE" bundle="${lang}"/>&nbsp;</h3>
+          </div>
+          <c:if test="${not empty client}">
+            <table class="table table-striped table-hover table-sm table-info ">
+              <tbody>
+                <tr><td><fmt:message key="ID" bundle="${lang}"/></td><td>${client.getId()}</td>
+                <tr><td><fmt:message key="NAME" bundle="${lang}"/></td><td>${client.getName()}</td>
+                <tr><td><fmt:message key="EMAIL" bundle="${lang}"/></td><td>${client.getEmail()}</td>
+                <tr><td><fmt:message key="FEE_CARD_NAME" bundle="${lang}"/></td><td>${client.getFeeName()}</td>
+              </tbody>
+            </table>
+          </c:if>
+          <a href="/bank/?command=admin&action=approveUser&userId=${client.getId()}">Approve.User</a> |
+          <a href="/bank/?command=admin&action=unblockUserAccount&userId=${client.getId()}">unblockUserAccount</a>
+
+
+
+
+        </c:if>
+
+
+
       <%--</c:if>--%>
 
 

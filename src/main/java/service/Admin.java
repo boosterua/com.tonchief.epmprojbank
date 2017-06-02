@@ -1,6 +1,7 @@
 package service;
 
 
+import model.dao.exceptions.ExceptionDAO;
 import model.dao.exceptions.MySqlPoolException;
 import model.dao.factory.DAOFactoryImpl;
 import model.entity.Account;
@@ -34,7 +35,7 @@ public class Admin {
         return DAO.getAccountsDAO().setBlock(account);
     }
 
-    public Card issueNewCard(int clientId) throws Exception {
+    public Card issueNewCard(int clientId)  {
         String cardNum;
         final String BANKUID = "4444" + "5555";
         /* Loop to check if newly generated card exists in database: while newCard is found - regenerate new number */
@@ -72,13 +73,36 @@ public class Admin {
         calendar.add(Calendar.DATE, -1);
         LocalDate lDate = calendar.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         card.setExpDate(lDate);        //.... java.sql.Date jsd = java.time.LocalDate().....;
-        DAO.getCardsDAO().insert(card);
+        try {
+            DAO.getCardsDAO().insert(card);
+        } catch (Exception e) {
+            logger.error(e);
+        }
         return card;
     }
 
-    public Card issueNewCard(Client client) throws Exception {
+
+    public Card issueNewCard(Client client)  {
         return issueNewCard(client.getId());
     }
+
+
+
+
+
+
+
+
+    public Client getClientById(int clientId) throws ExceptionDAO {
+        Client client = (Client) DAO.getUsersDAO().getById(clientId);
+        return client;
+    }
+
+
+
+
+
+
 
 
     public List<Client> getClientsByRole(Long role){
@@ -90,6 +114,12 @@ public class Admin {
 //        logger.info();
 //        return DAO.getUsersDAO().getUsersByRole(role);
     }
+
+    public Client getClientDetailedById(Integer clientId) throws ExceptionDAO {
+        Client client = (Client) DAO.getUsersDAO().getDetailedById(clientId);
+        logger.info("Got client:"+client);
+        return client;
+    }
 }
 
 
@@ -100,6 +130,6 @@ public class Admin {
      -> + issueNewCard();
      -> listClientsByCardType(VisaClassic); list all clients with Visa Classic Cards
      -> listClientsWithBlockedAccounts();
-     -> approveClient(); // incl.issue new account and card.
+     -> getClientById(); // incl.issue new account and card.
      -> listCardsOfType;
 */

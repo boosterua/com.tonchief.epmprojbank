@@ -22,6 +22,7 @@ public class CommandRegister implements Command {
         String name = req.getParameter("name");
         String login = req.getParameter("email");
         String password = req.getParameter("password");
+        String feeId = req.getParameter("fee");
         HttpSession session = req.getSession();
 
 
@@ -33,6 +34,7 @@ public class CommandRegister implements Command {
             /* role=0 means - newly registered, but the value gets auto
              assigned after admin approves application and issues a new card */
             User user = new User(name, login, password, 0L);
+            if(feeId!=null) user.setFeeId(Integer.parseInt(feeId));
 
             Integer uid = SERVICE.getUser().register(user);
             if(uid!=null && uid>0) {
@@ -50,8 +52,7 @@ public class CommandRegister implements Command {
             } else { // ERROR!!
 
                 logger.error("New user registration: failed to insert User into db. Ref.Err#1441.");
-                req.setAttribute("errormsg", "Error adding your registration to database. Please contact support " +
-                        "at 1-800-000-00-00 and provide this error code:<b>#1441</b> and the exact time of this incident " +
+                req.setAttribute("errormsg", "Error adding your registration to database. Please contact support " + "at 1-800-000-00-00 and provide this error code:<b>#1441</b> and the exact time of this incident " +
                         "(<b>"+ new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date())+"</b>).");
                 req.setAttribute("returnPage", RB_PAGEMAP.getString("jsp.user.registration"));
                 page = RB_PAGEMAP.getString("jsp.error") ;

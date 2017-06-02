@@ -38,6 +38,7 @@ todo: jstl tags: info, error
 <head>
   <%--<link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'>--%>
   <meta charset="utf-8">
+
   <%@ include file="includes/everypageheader.jspf" %>
 
 </head>
@@ -46,7 +47,7 @@ todo: jstl tags: info, error
 
 <div style="height: 100vh">
   <div class="flex-center flex-column">
-    <h1 class="animated fadeInUp mb-2 mdb-color darken-3 deep-orange-text z-depth-3" style="color:#0b51c5">
+    <h1 class="animated fadeInUp mb-2 mdb-color darken-3 deep-orange-text z-depth-3 display-2" style="color:#0b51c5;">
         &nbsp; <b class="text-white">the.</b>BANK &nbsp;
     </h1>
 

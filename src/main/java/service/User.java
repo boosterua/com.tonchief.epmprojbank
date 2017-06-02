@@ -22,6 +22,7 @@ public class User {
     private String email;
     private String password;
     private Long role;
+    private int feeId;
 
     private final Logger logger = Logger.getLogger(User.class);
 
@@ -87,16 +88,18 @@ dbConnection.commit(); //transaction block end
          return 1;
     }
 
-    public Integer register(User user) { // Client vs user
 
 //TODO: check if client is not in db yet
 //TODO:!user vs client; + regAcct-set to user, then insert new user                user.set
+    public Integer register(User user) { // Client vs user
 
         if (user.isValid())
             try {
                 /* Here's where magic happens: turn user into client ;) */
                 Integer clientId = DAO.getUsersDAO().insert(user);
 
+                //TODO: userReg: generate acct based on user's choice of card (set prefix);
+                // TODO: add prefix field to fees tbl
                 new Thread(new Runnable(){
                     public void run(){
                         try {
@@ -119,7 +122,6 @@ dbConnection.commit(); //transaction block end
     }
 
     public boolean isValid() {
-
         return ((name != null) && !name.equals("") &&
                 (email != null) && !email.equals("") &&
                 (password != null) && !password.equals(""));
@@ -158,4 +160,11 @@ dbConnection.commit(); //transaction block end
         return String.format("%S <%s> **** ROLE=%d", name, email, role );
     }
 
+    public int getFeeId() {
+        return feeId;
+    }
+
+    public void setFeeId(int feeId) {
+        this.feeId = feeId;
+    }
 }

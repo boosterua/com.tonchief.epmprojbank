@@ -21,11 +21,10 @@ public class Client implements Entity {
     private String name;
     private int accountId;
     private String email;
-
-    public String getPassword() {
-        return password;
-    }
-
+    private Integer feeId = 0;
+    private Fee fee;
+    private String feeName;
+    private String account;
     private String password;
 
     public Client(){}
@@ -41,7 +40,12 @@ public class Client implements Entity {
     }
 
 
-
+    public String getAccount() {
+        return account;
+    }
+    public String getPassword() {
+        return password;
+    }
     public String getName() {
         return name;
     }
@@ -62,15 +66,45 @@ public class Client implements Entity {
         return id;
     }
 
-    public void setId() {
-    }
-
     public void setId(int id) {
         this.id = id;
     }
 
     public String getEmail() {
         return email;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public void setFeeId(Integer feeId) {
+        this.feeId = feeId;
+    }
+
+    public Integer getFeeId() {
+        return feeId;
+    }
+
+
+    public Fee getFee() {
+        return fee;
+    }
+
+    public void setFee(Fee fee) {
+        this.fee = fee;
+    }
+
+    public void setFeeName(String feeName) {
+        this.feeName = feeName;
+    }
+
+    public String getFeeName() {
+        return feeName;
+    }
+
+    public String toString(){
+        return (String.format("%s : %s : %s : %s : %s", id, name, accountId, email, feeId, feeName));
     }
 
 }
