@@ -9,6 +9,8 @@
 <!-- Your custom styles (optional) -->
 <link href="<%=request.getContextPath()%>/resources/css/style.css" rel="stylesheet">
 
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-3.1.1.min.js"></script>
+
 
 <%--<fmt:setLocale value="${sessionScope.locale}"/>--%>
 <fmt:setLocale value="${sessionScope.locale}"/>

@@ -1,8 +1,6 @@
 import model.dao.connection.DataSource;
 import model.dao.jdbc.AccountsDAOimpl;
 import model.entity.Account;
-import model.entity.Card;
-import model.entity.Entity;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 
@@ -105,10 +103,10 @@ public class Main {
         account = (Account) acct.getById(10);
         System.out.println(account);
 
-        System.out.println("Acct 10 isBlocked = " + account.getBlockedStatus());
-        account.setBlock(!account.getBlockedStatus());
+        System.out.println("Acct 10 isBlocked = " + account.getBlocked());
+        account.setBlock(!account.getBlocked());
         acct.update(10, account);
-        System.out.println("AfterUpdate: Acct 10 isBlocked = " + ((Account) acct.getById(10)).getBlockedStatus());
+        System.out.println("AfterUpdate: Acct 10 isBlocked = " + ((Account) acct.getById(10)).getBlocked());
 
 
         System.out.println(acct.getById(10));

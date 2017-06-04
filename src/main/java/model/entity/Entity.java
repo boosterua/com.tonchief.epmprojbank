@@ -1,18 +1,16 @@
 package model.entity;
 
-public interface Entity {
+public abstract class Entity {
 
-    int     getId();
-    void    setId(int id);
+    public abstract int     getId();
+    public abstract void    setId(int id);
 
-    String  getName();
-    void    setName(String name);
-
-    String  toString();
+    public abstract String  getName();
+    public abstract void    setName(String name);
 
     /* toString for debug/logging purposes
     - takes vararg as arguments and combines them to plain HR string*/
-    default String toString(Object ... params){
+    public String toString(Object ... params){
         StringBuilder strOut = new StringBuilder();
         for(Object o : params)
             strOut.append(o.toString()+"; ");

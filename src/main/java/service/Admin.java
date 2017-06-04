@@ -81,6 +81,9 @@ public class Admin {
         return card;
     }
 
+    public Boolean setRole(Integer uid, Long role) throws ExceptionDAO {
+        return DAO.getUsersDAO().setUserRole(uid, role);
+    }
 
     public Card issueNewCard(Client client)  {
         return issueNewCard(client.getId());
@@ -89,20 +92,10 @@ public class Admin {
 
 
 
-
-
-
-
     public Client getClientById(int clientId) throws ExceptionDAO {
         Client client = (Client) DAO.getUsersDAO().getById(clientId);
         return client;
     }
-
-
-
-
-
-
 
 
     public List<Client> getClientsByRole(Long role){
@@ -114,6 +107,7 @@ public class Admin {
 //        logger.info();
 //        return DAO.getUsersDAO().getUsersByRole(role);
     }
+
 
     public Client getClientDetailedById(Integer clientId) throws ExceptionDAO {
         Client client = (Client) DAO.getUsersDAO().getDetailedById(clientId);

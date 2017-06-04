@@ -1,5 +1,6 @@
 package model.dao.interfaces;
 
+import model.dao.exceptions.ExceptionDAO;
 import model.entity.Client;
 import model.entity.Entity;
 
@@ -13,4 +14,6 @@ public interface UsersDAO extends EntityDAO {
     List<Client> getUsersByRole(Long role);
 
     Entity getDetailedById(Integer clientId);
+
+    Boolean setUserRole(Integer uid, Long role) throws ExceptionDAO;
 }

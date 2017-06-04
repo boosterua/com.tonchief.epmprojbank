@@ -16,17 +16,18 @@ package model.entity;
      -> blockAccount();
 */
 
-public class Client implements Entity {
+public class Client extends Entity {
     private int id;
     private String name;
     private int accountId;
+    private Account account  ;
     private String email;
-    private Integer feeId = 0;
     private Fee fee;
     private String feeName;
-    private String account  ;
+    private Integer feeId = 0;
     private String password;
     private Integer role;
+    private Boolean accountBlock;
 
     public Client(){}
 
@@ -46,7 +47,7 @@ public class Client implements Entity {
 
 
 
-    public String getAccount() {
+    public Account getAccount() {
         return account;
     }
     public String getPassword() {
@@ -77,7 +78,7 @@ public class Client implements Entity {
         return email;
     }
 
-    public void setAccount(String account) {
+    public void setAccount(Account account) {
         this.account = account;
     }
 
@@ -106,10 +107,6 @@ public class Client implements Entity {
         return feeName;
     }
 
-    public String toString(){
-        return (String.format("%s : %s : %s : %s : %s", id, name, accountId, email, feeId, feeName));
-    }
-
     public Integer getRole() {
         return role;
     }
@@ -117,4 +114,13 @@ public class Client implements Entity {
     public void setRole(Integer role) {
         this.role = role;
     }
+
+    public void setAccountBlock(Boolean accountBlock) {
+        this.accountBlock = accountBlock;
+    }
+
+    public String toString(){
+        return (String.format("id:%s : name:%s : acctId:%s : email:%s : feeId:%s : acct=", id, name, accountId, email, feeId, feeName, account));
+    }
+
 }

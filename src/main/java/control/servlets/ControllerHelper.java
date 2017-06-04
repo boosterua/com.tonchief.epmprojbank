@@ -21,23 +21,23 @@ public class ControllerHelper {
         commands.put("show_clients", new CommandShowClients());
         commands.put("logout", new CommandLogin());
         commands.put("switch_lang", new CommandEmpty());
-            }
+        commands.put("admin", new CommandAdmin());
+    }
+    //TODO: redesign factory
 
 
 
 
     public Command getCommand(HttpServletRequest req) {
         Command command = commands.get(req.getParameter("command"));
-        if (command == null) {
+        if (command == null)
             command = new CommandEmpty();
-        }
         return command;
     }
 
     public static ControllerHelper getInstance() {
-        if (instance == null) {
+        if (instance == null)
             instance = new ControllerHelper();
-        }
         return instance;
     }
 }

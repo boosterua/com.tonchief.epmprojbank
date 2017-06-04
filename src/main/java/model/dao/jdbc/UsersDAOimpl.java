@@ -1,9 +1,12 @@
 package model.dao.jdbc;
 
 import model.dao.connection.DataSource;
+import model.dao.exceptions.ExceptionDAO;
 import model.dao.interfaces.UsersDAO;
+import model.entity.Account;
 import model.entity.Client;
 import model.entity.Entity;
+import model.utils.PrintResultSet;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 import service.User;
@@ -15,23 +18,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by tonchief on 05/21/2017.
- */
+
 public class UsersDAOimpl implements UsersDAO {
 
     private static UsersDAOimpl instance = null;
-    private final Logger logger = Logger.getLogger(UsersDAOimpl.class);
+    private static final Logger logger = Logger.getLogger(UsersDAOimpl.class);
     private BasicDataSource pool = DataSource.getInstance().getBds();
-    private static final int UID = 1;
-    private static final int NAM = 2;
-    private static final int EML = 3;
-    private static final int PWD = 4;
-    private static final int ROL = 5;
+    private static final String UID = "id_client"; //1
+    private static final String NAM = "name"; //2
+    private static final String EML = "email"; //3;
+//    private static final String PWD = "password";//4;
+    private static final String ROL = "role"; //5;
     private static final int ACC = 6;
     private static final int FEE = 6;
-    private static final int FID = 6;
+    private static final String FID = "fee_id";//6
     //Checked for fields equality b/w dao and db(v2), 2017-05-27
+
+
 
 
     public static UsersDAOimpl getInstance() {
@@ -56,11 +59,11 @@ public class UsersDAOimpl implements UsersDAO {
         ) {
             User client = (User) user;
 
-            ps.setString    (NAM-1, client.getName());
-            ps.setString    (EML-1, client.getEmail());
-            ps.setString    (PWD-1, client.getPassword());
-            ps.setLong      (ROL-1, client.getRole());
-            ps.setInt       (FEE-1, client.getFeeId());
+            ps.setString    (1, client.getName());
+            ps.setString    (2, client.getEmail());
+            ps.setString    (3, client.getPassword());
+            ps.setLong      (4, client.getRole());
+            ps.setInt       (5, client.getFeeId());
 
             logger.info("PS: " + ps.toString());
             ps.executeUpdate();
@@ -92,10 +95,9 @@ public class UsersDAOimpl implements UsersDAO {
         try (Connection conn = pool.getConnection();
              PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.checkLoginPwd"),0);
         ){
-            logger.info("got conn.");
             ps.setString(1, email);
             ps.setString(2, password);
-            logger.info("Trying PS:" + ps);
+            logger.info("Trying P S:" + ps);
 
             try (ResultSet rs = ps.executeQuery()) {
                 rs.next();
@@ -103,10 +105,10 @@ public class UsersDAOimpl implements UsersDAO {
                 rs.close();
                 return userId;
             } catch (SQLException e) {
-                logger.error("SQLex." + e.toString());
+                logger.error("SQL ex." + e.toString());
             }
         } catch (SQLException e) {
-            logger.error("SQL exception.", e);
+            logger.error("SQL exception. ", e);
         } catch (Exception e) {
             logger.error("Fatal General Exception.", e);
         }
@@ -125,31 +127,26 @@ public class UsersDAOimpl implements UsersDAO {
 
             logger.info("Trying PS:" + ps);
 
-            try (ResultSet rs = ps.executeQuery()) {
-//                logger.info(PrintResultSet.getDump(rs));
-                int i=1;
+            try (ResultSet rs = ps.executeQuery()) {   logger.info(PrintResultSet.getDump(rs));
                 while(rs.next()) {
-/*                    logger.warn(i++);
-                    logger.info("\t1\t"+ rs.getString(UID));
-                    logger.info("\t2\t"+ rs.getInt(UID));
-                    logger.info("\t3\t"+ rs.getString(NAM));
-                    logger.info("\t4\t"+ rs.getString(EML));
-                    logger.info( rs.getLong(ROL));*/
-
-                    Client cl= new Client( rs.getInt(UID), rs.getString(NAM),
-                            rs.getString(EML), rs.getInt(ROL));
-                    cl.setAccount(""+rs.getLong(ACC));
+                    Client cl= new Client( rs.getInt(UID), rs.getString(NAM), rs.getString(EML), rs.getInt(ROL));
+                    Integer acctId = rs.getInt("accounts.id_account");
+                    Account account = (acctId!=null && acctId>0) ?
+                      new Account(acctId,rs.getString("accounts.number"),rs.getBoolean("accounts.is_blocked"), rs.getInt(UID)):
+                      new Account(0, "Unassigned", true); /* Account has not been assigned for some reason: set value to zero to avoid NP ex, check within jsp */
+                    cl.setAccount(account);
+                    logger.info("getUsersByRole usr="+cl);
                     resultList.add(cl);
                 }
                 rs.close();
                 return resultList;
             } catch (SQLException e) {
-                logger.error("SQLex." + e.toString());
+                logger.error("SQL ex." + e.toString());
             }
         } catch (SQLException e) {
-            logger.error("SQL exception.", e);
+            logger.error("SQL  exception.", e);
         } catch (Exception e) {
-            logger.error("Major General Exception.", e);
+            logger.error( e);
         }
         return null;
     }
@@ -159,14 +156,16 @@ public class UsersDAOimpl implements UsersDAO {
              PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.getDetailedById"), 1);
              //id_client,clients.name,email,password,role,fees.name
         ){
-            logger.info("Got connection.");
             ps.setInt(1, clientId);
-            logger.info("PS:" + ps);
+            logger.info("Got connection. Exec.PS:" + ps.toString());
             try (ResultSet rs = ps.executeQuery()) {
-//                logger.info(PrintResultSet.getDump(rs));
                 rs.next();
-                Client cl= new Client( rs.getInt(UID), rs.getString(NAM), rs.getString(EML), rs.getInt(ROL) );
-                cl.setFeeName(rs.getString(FID));
+                Client cl= new Client(rs.getInt(UID), rs.getString(NAM), rs.getString(EML), rs.getInt(ROL));
+                cl.setFeeName(rs.getString("fees.name"));
+                Account account = new Account(rs.getInt("accounts.id_account"),
+                        rs.getString("accounts.number"),rs.getBoolean("accounts.is_blocked"));
+                cl.setAccount(account);
+                logger.info(account);
                 rs.close();
                 return cl;
             } catch (SQLException e) {
@@ -180,8 +179,28 @@ public class UsersDAOimpl implements UsersDAO {
         return null;
     }
 
+    @Override
+    public Boolean setUserRole(Integer clientId, Long role) throws ExceptionDAO {
+        try (Connection conn = pool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.setUserRole"), 1);
+        ){
+            ps.setLong(1, role);
+            ps.setInt(2, clientId);
+            logger.info("Got connection. Exec.PS:" + ps.toString());
+            return (ps.executeUpdate() != 0);
+        } catch (SQLException e) {
+            throw new ExceptionDAO(e);
+        } catch (Exception e) {
+            logger.error("Major General Exception.", e);
+        }
+        return false;
+    }
+
 
     public boolean update(int id, Entity data) {
+        return false;
+    }
+    public boolean setRole(int id, Entity data) {
         return false;
     }
 

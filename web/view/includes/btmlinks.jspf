@@ -28,7 +28,7 @@
 <div class="text-right navbar-brand navbar-light teal lighten-4">
     <div>
 DEBUG:&nbsp;
-    <a href="<%=request.getContextPath()%>/bank/?command=show_clients&action=showClientsByRole&role=0">Admin.showClientsByRole(0)</a>
+    <a href="<%=request.getContextPath()%>/bank/?command=show_clients&action=show_clients_by_role&role=0">Admin.show_clients_by_role(0)</a>
     </div>
 </div>
 

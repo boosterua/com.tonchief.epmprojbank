@@ -3,7 +3,7 @@ package model.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class Transaction implements Entity {
+public class Transaction extends Entity {
 
     private long crAccount;
     private Account dtAccount;

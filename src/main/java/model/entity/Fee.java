@@ -3,7 +3,7 @@ package model.entity;
 /**
  * Created by tonchief on 05/26/2017.
  */
-public class Fee implements Entity {
+public class Fee extends Entity {
     public int id = 0;
     private String name;
     private double transferFee;

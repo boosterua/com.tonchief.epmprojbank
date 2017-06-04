@@ -42,16 +42,16 @@ public class Controller extends HttpServlet {
             page = command.execute(req, resp);
         } catch (ServletException se){
             logger.error(se);
-            req.setAttribute("msgErr", "SERVLET_EXCEPTION");
+            req.setAttribute("errormsg", "SERVLET_EXCEPTION");
         } catch (IOException ie){
             logger.error(ie);
-            req.setAttribute("msgErr", "IO_EXCEPTION");
+            req.setAttribute("errormsg", "IO_EXCEPTION");
         } catch (ExceptionDAO exceptionDAO) {
             logger.error(exceptionDAO);
         }
-        String s = "12";
-        
-        getServletContext().getRequestDispatcher(page).forward(req, resp);
+        if(page!= null && !page.equals(""))
+            getServletContext().getRequestDispatcher(page).forward(req, resp);
+        //forward to page=/ for null?
     }
 
 

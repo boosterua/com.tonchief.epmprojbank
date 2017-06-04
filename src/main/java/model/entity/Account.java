@@ -8,7 +8,7 @@ import model.dao.interfaces.AccountsDAO;
 import java.math.BigDecimal;
 
 
-public class Account implements Entity {
+public class Account extends Entity {
     private int id;
     private String number; /* number is also a name of account. Always a number [Ususally 10..16 digits]. String data type in entity, Long in dao. */
     private int clientId;
@@ -21,6 +21,21 @@ public class Account implements Entity {
         this.blocked=false;
         this.balance = BigDecimal.ZERO;
         this.number="";
+    }
+
+    /**
+     * @param aid
+     * @param num
+     * @param blk
+     */
+    public Account(Integer aid, String num, Boolean blk){
+        this.blocked=blk;
+        this.number=num;
+        this.id=aid;
+    }
+    public Account(Integer aid, String num, Boolean blk, int clid){
+        this(aid, num, blk);
+        this.clientId=clid;
     }
 
     public int getId() {
@@ -37,7 +52,7 @@ public class Account implements Entity {
         this.number = name;
     }
 
-    public boolean getBlockedStatus() {
+    public boolean getBlocked() {
         return blocked;
     }
     public void setBlock(boolean block) throws MySqlPoolException {

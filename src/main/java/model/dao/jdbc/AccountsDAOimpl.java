@@ -65,7 +65,7 @@ public class AccountsDAOimpl implements AccountsDAO {
             logger.info("Params from account passed:(" + account.toString() + ")");
 
             ps.setString(1, acct.getName());
-            ps.setBoolean(2, acct.getBlockedStatus());
+            ps.setBoolean(2, acct.getBlocked());
             ps.setInt(3, acct.getClientId());
 
             logger.info("PS: " + ps.toString());
@@ -157,7 +157,7 @@ public class AccountsDAOimpl implements AccountsDAO {
             logger.info("** PS: " + ps.toString());
 
             ps.setString(1, account.getName());
-            ps.setBoolean(2, account.getBlockedStatus());
+            ps.setBoolean(2, account.getBlocked());
             ps.setInt(3, account.getClientId());
             ps.setBigDecimal(4, account.getBalance());
             ps.setInt(5, id);
@@ -289,12 +289,12 @@ Creates a default PreparedStatement object that has the capability to retrieve a
     /* Only transfers entity state to db, while setBlock(byId:int) - explicitly sets block state to true */
     @Override
     public boolean setBlock(Account account) {
-        logger.info("setting isBlocked=(" + account.getBlockedStatus() + ") for " + account);
+        logger.info("setting isBlocked=(" + account.getBlocked() + ") for " + account);
         try (
                 Connection conn = pool.getConnection();
                 PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.setBlock"), 0);
         ){
-            ps.setBoolean(1, account.getBlockedStatus());
+            ps.setBoolean(1, account.getBlocked());
             ps.setInt(2, account.getId());
             return (ps.executeUpdate() != 0);
         } catch (SQLException e) {

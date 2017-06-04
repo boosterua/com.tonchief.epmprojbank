@@ -1,16 +1,11 @@
 package model.entity;
 
 
-import model.dao.interfaces.AccountsDAO;
-import model.dao.factory.DAOFactoryImpl;
-import model.dao.interfaces.CardsDAO;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Calendar;
 
 
-public class Card implements Entity {
+public class Card extends Entity {
     private int id;
     private String number;
 
@@ -28,6 +23,11 @@ public class Card implements Entity {
 
     public Card(Client client){ this.client = client; this.clientId = client.getId();}
     public Card(int clientId){  this.clientId = clientId;}
+
+    public Card(Integer cid, String num) {
+        this.id = cid;
+        this.number = num;
+    }
 
     public int getClientId() {
         return clientId;

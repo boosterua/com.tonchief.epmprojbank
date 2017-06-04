@@ -74,5 +74,8 @@ To be continued...
 
 
 Stack of tech
-Java-Core:Threads, JDBC (PS+Transactions), JSP, JSTL, FrontEnd:Bootstrap,JavaScript,CSS
+Java-Core:Threads, JDBC (PS+Transactions), JSP, JSTL, FrontEnd:Bootstrap,JavaScript,Jquery,CSS
 Multi-threading: new user> customer || new acct
+
+Pres.plan:
+UsersDAOimpl

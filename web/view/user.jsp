@@ -83,7 +83,7 @@
                     <tr class="text-center">
                       <td>${acct.getId()}</td>
                       <td>${acct.getName()}</td>
-                      <td><c:if test="${acct.getBlockedStatus()==true}">
+                      <td><c:if test="${acct.getBlocked()==true}">
                           <fmt:message key="BLOCKED" bundle="${lang}"/>
                           </c:if>
                       </td>

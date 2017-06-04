@@ -137,6 +137,13 @@
             </exclusions>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.jcabi/jcabi-log -->
+        <!--<dependency>
+            <groupId>com.jcabi</groupId>
+            <artifactId>jcabi-log</artifactId>
+            <version>0.17.2</version>
+        </dependency>
+-->
 
 
     </dependencies>

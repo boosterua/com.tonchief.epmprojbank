@@ -48,8 +48,6 @@ public class CommandEmpty implements Command {
         }
 
 
-
-
         return RB_PAGEMAP.getString("jsp.main");
     }
 }
