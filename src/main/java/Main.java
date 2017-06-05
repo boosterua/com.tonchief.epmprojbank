@@ -89,16 +89,16 @@ public class Main {
 //        rs.close();
 //        st.close();
 
-        Account newAccount = new Account();
-        newAccount.setName("2600");
-        newAccount.setClientId(5);
-        newAccount.setBlock(true);
-        System.out.println("insert new account(**)+" + newAccount.toString());
-        int newId = acct.insert(newAccount);
-
-        System.out.println("getById(" + newId + "):" + acct.getById(newId));
-        System.out.println("delete(" + newId + ")" + acct.delete(newId));
-        System.out.println("getById(" + newId + "):" + acct.getById(newId));
+//        Account newAccount = new Account();
+//        newAccount.setName("2600");
+//        newAccount.setClientId(5);
+//        newAccount.setBlock(true);
+//        System.out.println("insert new account(**)+" + newAccount.toString());
+//        int newId = acct.insert(newAccount);
+//
+//        System.out.println("getById(" + newId + "):" + acct.getById(newId));
+//        System.out.println("delete(" + newId + ")" + acct.delete(newId));
+//        System.out.println("getById(" + newId + "):" + acct.getById(newId));
 
         account = (Account) acct.getById(10);
         System.out.println(account);
@@ -109,9 +109,8 @@ public class Main {
         System.out.println("AfterUpdate: Acct 10 isBlocked = " + ((Account) acct.getById(10)).getBlocked());
 
 
-        System.out.println(acct.getById(10));
-        System.out.println(acct.getByIdTWR(10));
-        System.out.println(acct.getByIdTWR(10));
+        System.out.println("REGULAR:" +acct.getById(10));
+//        System.out.println("TWR:" + acct.getByIdTWR(10));
 
 
     }

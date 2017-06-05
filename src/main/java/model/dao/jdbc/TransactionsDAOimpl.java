@@ -73,7 +73,7 @@ public class TransactionsDAOimpl  implements TransactionsDAO {
         return false;
     }
 
-    public Entity getById(int id) {
+    public Entity getById(Integer id) {
         return null;
     }
 

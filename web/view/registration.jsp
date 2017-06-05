@@ -3,10 +3,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:c="http://java.sun.com/jsp/jstl/core">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://java.sun.com/jsp/jstl/core">
 <head>
-  <meta charset="utf-8">
-  <%@ include file="includes/everypageheader.jspf" %>
+    <meta charset="utf-8">
+    <%@ include file="includes/everypageheader.jspf" %>
 
 </head>
 <title>
@@ -18,135 +18,116 @@
 
 <div class="container w-50">
 
-  <%--<div class="md-form form-sm">--%>
+    <%--<div class="md-form form-sm">--%>
     <div class="card">
-      <div class="card-block">
-    <br><br>
+        <div class="card-block">
+            <br><br>
 
 
+            ${errormsg_html}
+            <c:if test="${not empty errormsg}">
+                <%--<span class="badge badge-danger">${errormsg}</span>--%>
+                <div class="alert alert-danger" role="alert"><fmt:message key="${errormsg}" bundle="${lang}"/></div>
+            </c:if>
 
-        ${errormsg_html}
-        <c:if test="${not empty errormsg}">
-          <%--<span class="badge badge-danger">${errormsg}</span>--%>
-          <div class="alert alert-danger" role="alert"><fmt:message key="${errormsg}" bundle="${lang}"/></div>
-        </c:if>
-
-        ${infomsg_html}
-        <c:if test="${not empty infomsg}">
-          <span class="badge badge-success"><fmt:message key="${infomsg}" bundle="${lang}"/></span>
-        </c:if>
-
+            ${infomsg_html}
+            <c:if test="${not empty infomsg}">
+                <span class="badge badge-success"><fmt:message key="${infomsg}" bundle="${lang}"/></span>
+            </c:if>
 
 
+            <div class="panel-heading">
+                <h3 class="panel-title  mdb-color lighten-5">&nbsp; <fmt:message key="Registration" bundle="${lang}"/>&nbsp;</h3>
+            </div>
+
+            ${errormsg_html}
+
+            <div class="panel-body">
+                <form action="?command=register" method="POST" class="form-signin">
+
+                    <%--    <input type="text" name="name" value="" id="name" class="form-control"
+                                     placeholder="Full name" required>
+                            <label for="name" class="">Your full name</label>
+
+                              <input type="text" name="email" value="" id="email" class="form-control"
+                                     placeholder="Email address" required><br>
+                            <label for="email" class="sr-only">Email address</label>
+
+                              <input type="password" name="password" id="password" class="form-control"
+                                     placeholder="Password" required><br>
+                            <label for="password" class="sr-only">Email address</label>--%>
 
 
-        <div class="panel-heading">
-      <h3 class="panel-title  mdb-color lighten-5">&nbsp; <fmt:message key="Registration" bundle="${lang}"/>&nbsp;</h3>
-    </div>
+                    <div class="md-form">
+                        <i class="fa fa-user prefix"></i>
+                        <input type="text" id="name" name="name" class="form-control" NOplaceholder="Name" required>
+                        <label for="name"><fmt:message key="FULL_NAME" bundle="${lang}"/></label>
+                    </div>
+                    <div class="md-form">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input type="email" id="email" name="email" class="form-control" NOplaceholder="Email address"
+                               required>
+                        <label for="email">e-mail</label>
+                    </div>
 
-    ${errormsg_html}
-
-    <div class="panel-body">
-      <form action="?command=register" method="POST" class="form-signin">
-
-          <%--    <input type="text" name="name" value="" id="name" class="form-control"
-                           placeholder="Full name" required>
-                  <label for="name" class="">Your full name</label>
-
-                    <input type="text" name="email" value="" id="email" class="form-control"
-                           placeholder="Email address" required><br>
-                  <label for="email" class="sr-only">Email address</label>
-
-                    <input type="password" name="password" id="password" class="form-control"
-                           placeholder="Password" required><br>
-                  <label for="password" class="sr-only">Email address</label>--%>
+                    <div class="md-form">
+                        <i class="fa fa-lock prefix"></i>
+                        <input type="password" id="password" name="password" class="form-control"
+                               NOplaceholder="Password" required>
+                        <label for="password"><fmt:message key="Your" bundle="${lang}"/><fmt:message key="Password"
+                                                                                                     bundle="${lang}"/></label>
+                    </div>
 
 
-        <div class="md-form">
-          <i class="fa fa-user prefix"></i>
-          <input type="text" id="name" name="name" class="form-control" NOplaceholder="Name"  required>
-          <label for="name"><fmt:message key="Full Name" bundle="${lang}"/></label>
+                    <c:if test="${not empty feeNames}">
+                        <div class="form-group">
+                            <i class="fa fa-list-ul prefix"></i>
+                            <label for="fee" class="control-label"><fmt:message key="SELECT_CARD_TYPE"
+                                                                                bundle="${lang}"/></label>
+                            <div class="col-auto">
+
+                                <select class="form-control" id="fee" name="fee">
+                                    <c:forEach var="feeKV" items="${feeNames}">
+                                        <option value="${feeKV.key}">${feeKV.value}</option>
+                                    </c:forEach>
+                                </select><br>
+                            </div>
+                        </div>
+                    </c:if>
+
+
+                    <input type="submit" value="<fmt:message key="PROCEED" bundle="${lang}"/>"
+                           class="btn btn-orange btn btn-sm btn-block orange white-text text-lg-center">
+                </form>
+
+                <%--
+
+                      <c:forEach var = "fee" items = "${feeList}">
+                        ${fee.id}
+                        *
+                        ${fee.getId()}
+                        **
+                        ${fee}.getId()
+                        ***${fee}<br>
+                                <c:out value = "${fee}" />
+                      </c:forEach>
+                      <hr>
+
+                      <small>${feeList}<hr>
+                          ${feeNames}
+
+                          <br>
+                        <c:out value="${feeList}" />
+
+                --%>
+
+
+            </div>
         </div>
-        <div class="md-form">
-          <i class="fa fa-envelope prefix"></i>
-          <input type="email" id="email" name="email" class="form-control" NOplaceholder="Email address" required>
-          <label for="email">e-mail</label>
-        </div>
-
-        <div class="md-form">
-          <i class="fa fa-lock prefix"></i>
-          <input type="password" id="password" name="password" class="form-control" NOplaceholder="Password" required>
-          <label for="password"><fmt:message key="Your" bundle="${lang}"/><fmt:message key="Password" bundle="${lang}"/></label>
-        </div>
-
-
-        <c:if test="${not empty feeNames}">
-          <div class="form-group">
-              <i class="fa fa-list-ul prefix"></i>
-            <label for="fee"  class="control-label"><fmt:message key="SELECT_CARD_TYPE" bundle="${lang}"/></label>
-              <div class="col-auto">
-
-            <select class="form-control" id="fee" name="fee">
-              <c:forEach var="feeKV" items="${feeNames}">
-                <option value="${feeKV.key}">${feeKV.value}</option>
-              </c:forEach>
-            </select><br>
-              </div>
-          </div>
-        </c:if>
-
-
-
-
-        <input type="submit" value="<fmt:message key="PROCEED" bundle="${lang}"/>" class="btn btn-orange btn btn-sm btn-block orange white-text text-lg-center">
-      </form>
-
-<%--
-
-      <c:forEach var = "fee" items = "${feeList}">
-        ${fee.id}
-        *
-        ${fee.getId()}
-        **
-        ${fee}.getId()
-        ***${fee}<br>
-                <c:out value = "${fee}" />
-      </c:forEach>
-      <hr>
-
-      <small>${feeList}<hr>
-          ${feeNames}
-
-          <br>
-        <c:out value="${feeList}" />
-
---%>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     </div>
-    </div>
-
-  </div>
 
 </div>
-
 
 
 <%--

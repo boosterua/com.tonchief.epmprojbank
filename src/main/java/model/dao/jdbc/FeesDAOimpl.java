@@ -77,7 +77,7 @@ public class FeesDAOimpl implements FeesDAO {
         return false;
     }
 
-    public Entity getById(int id) {
+    public Entity getById(Integer id) {
         return null;
     }
 

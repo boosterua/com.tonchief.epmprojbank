@@ -69,7 +69,6 @@ public class Client extends Entity {
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -85,16 +84,13 @@ public class Client extends Entity {
     public void setFeeId(Integer feeId) {
         this.feeId = feeId;
     }
-
     public Integer getFeeId() {
         return feeId;
     }
 
-
     public Fee getFee() {
         return fee;
     }
-
     public void setFee(Fee fee) {
         this.fee = fee;
     }
@@ -102,7 +98,6 @@ public class Client extends Entity {
     public void setFeeName(String feeName) {
         this.feeName = feeName;
     }
-
     public String getFeeName() {
         return feeName;
     }
@@ -110,7 +105,6 @@ public class Client extends Entity {
     public Integer getRole() {
         return role;
     }
-
     public void setRole(Integer role) {
         this.role = role;
     }

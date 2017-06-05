@@ -91,16 +91,15 @@ dbConnection.commit(); //transaction block end
 
 
 //TODO: check if client is not in db yet
-//TODO:!user vs client; + regAcct-set to user, then insert new user                user.set
+//TODO:!user vs client; + regAcct-set to user, then insert new user           user.set
     public Integer register(User user) { // Client vs user
 
-        if (user.isValid())
+        if (user.fieldsAreValid())
             try {
                 /* Here's where magic happens: turn user into client ;) */
                 Integer clientId = DAO.getUsersDAO().insert(user);
-                if(clientId==-23) {//Constraint Violation = user email already in DB
+                if(clientId==-23) //Constraint Violation = user email already in DB
                     return -23;
-                }
 
                 //TODO: userReg: generate acct based on user's choice of card (set prefix);
                 // TODO: add prefix field to fees tbl
@@ -125,7 +124,7 @@ dbConnection.commit(); //transaction block end
         return -1;
     }
 
-    public boolean isValid() {
+    public boolean fieldsAreValid() {
         return ((name != null) && !name.equals("") &&
                 (email != null) && !email.equals("") &&
                 (password != null) && !password.equals(""));
@@ -136,7 +135,8 @@ dbConnection.commit(); //transaction block end
     }
 
     public boolean blockAccount(int acctId){
-        return DAO.getAccountsDAO().setBlock(acctId);
+        //Check auth
+        return DAO.getAccountsDAO().setBlock(acctId,true);
     }
 
     public boolean blockAccount(Account account) throws MySqlPoolException {

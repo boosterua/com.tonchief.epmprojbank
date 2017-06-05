@@ -140,12 +140,12 @@
 
             <div class="panel-body">
               <form class="form-signin" action="?command=authenticate" method="POST">
-                <h2 class="form-signin-heading "><fmt:message key="Please Log In" bundle="${lang}"/></h2>
+                <h2 class="form-signin-heading "><fmt:message key="PLEASE_LOG_IN" bundle="${lang}"/></h2>
                 <label for="email" class="sr-only">Email</label>
                 <input name="email" value="${email}" type="email" id="email" class="form-control" placeholder="Email address" required autofocus>
                 <label for="password" class="sr-only"><fmt:message key="Password" bundle="${lang}"/></label>
                 <input name="password" type="password" id="password" class="form-control" placeholder='<fmt:message key="Password" bundle="${lang}"/>' required>
-                <button class="btn mdb-color darken-3 white-text btn-sm" type="submit"><fmt:message key="Sign In" bundle="${lang}"/></button>
+                <button class="btn mdb-color darken-3 white-text btn-sm" type="submit"><fmt:message key="SIGN_IN" bundle="${lang}"/></button>
               </form>
             </div>
           </div>
@@ -160,7 +160,7 @@
         <div class="card-block">
           <br><br>
           <div class="panel-heading">
-            <h3 class="panel-title badge indigo">&nbsp; <fmt:message key="Fee Schedule" bundle="${lang}"/> &nbsp;</h3>
+            <h3 class="panel-title badge indigo">&nbsp; <fmt:message key="Fee_Schedule" bundle="${lang}"/> &nbsp;</h3>
           </div>
 
           <div class="panel-body">

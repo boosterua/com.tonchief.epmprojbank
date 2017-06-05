@@ -2,6 +2,7 @@ package control.servlets;
 
 import control.command.Command;
 import model.dao.exceptions.ExceptionDAO;
+import model.dao.exceptions.MySqlPoolException;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -48,6 +49,8 @@ public class Controller extends HttpServlet {
             req.setAttribute("errormsg", "IO_EXCEPTION");
         } catch (ExceptionDAO exceptionDAO) {
             logger.error(exceptionDAO);
+        } catch (MySqlPoolException e) {
+            logger.error(e);
         }
         if(page!= null && !page.equals(""))
             getServletContext().getRequestDispatcher(page).forward(req, resp);

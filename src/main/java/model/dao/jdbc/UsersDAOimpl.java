@@ -153,15 +153,16 @@ public class UsersDAOimpl implements UsersDAO {
 
     public Client getDetailedById(Integer clientId) {
         try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.getDetailedById"), 1);
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.getDetailedDataById"), 1);
              //id_client,clients.name,email,password,role,fees.name
         ){
             ps.setInt(1, clientId);
             logger.info("Got connection. Exec.PS:" + ps.toString());
             try (ResultSet rs = ps.executeQuery()) {
-                rs.next();
+                if(!rs.next()) return null;
                 Client cl= new Client(rs.getInt(UID), rs.getString(NAM), rs.getString(EML), rs.getInt(ROL));
                 cl.setFeeName(rs.getString("fees.name"));
+                cl.setFeeId(rs.getInt("fees.id_fee"));
                 Account account = new Account(rs.getInt("accounts.id_account"),
                         rs.getString("accounts.number"),rs.getBoolean("accounts.is_blocked"));
                 cl.setAccount(account);
@@ -209,7 +210,7 @@ public class UsersDAOimpl implements UsersDAO {
     }
 
     /* For security reasons: Password is not passed / nor stored here! */
-    public Entity getById(int cid) {
+    public Entity getById(Integer cid) {
         try (Connection conn = pool.getConnection();
              PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.getById"), 1);
         ){

@@ -3,105 +3,136 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <header>
-<!--Navbar-->
-<nav class="navbar navbar-toggleable-md navbar-dark bg-primary mdb-color white-text fixed-top menubar">
-    <div class="container ">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-<%--        <div class="" style="position: absolute;">
-        <a class="navbar-brand" href="<%=request.getContextPath()%>/bank/">
-            <h2 class="animated fadeInLeftBig mb-2 mdb-color darken-3 deep-orange-text z-depth-2" style="color:#0b51c5;padding-bottom:0;margin-bottom:0;">
-                &nbsp; <b class="text-white">the.</b>BANK &nbsp;
-            </h2>
-        </a>
+    <!--Navbar-->
+    <nav class="navbar navbar-toggleable-md navbar-dark bg-primary mdb-color white-text fixed-top menubar">
+        <div class="container ">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                    data-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        </div>--%>
-        <div style="height:2em;padding:0;margin:0;">
-            <a class="navbar-brand" href="<%=request.getContextPath()%>/bank/">
-                <h2 class="animated fadeInLeftBig mb-2 mdb-color darken-3 deep-orange-text z-depth-2" style="color:#0b51c5;padding:0;margin:0;line-height:.9em;height:1em;overflow:hidden;">
-                    <%--border:1px solid white;border-width:1px 0px 0px 1px;--%>
-                    &nbsp; <b class="text-white">the.</b><i class="fa fa-btc" aria-hidden="true"></i>ANK &nbsp;
-                </h2>
-            </a>
-        </div>
+            <div class="col-1">
+                <div style="height:2em;padding:0;margin:0;">
+                    <a class="navbar-brand" href="<%=request.getContextPath()%>/bank/">
+                        <h2 class="animated fadeInLeftBig mb-2 mdb-color darken-3 deep-orange-text z-depth-2"
+                            style="color:#0b51c5;padding:0;margin:0;line-height:.9em;height:1em;overflow:hidden;">
+                            &nbsp; <b class="text-white">the.</b><i class="fa fa-btc" aria-hidden="true"></i>ANK &nbsp;
+                        </h2>
+                    </a>
+                </div>
+            </div>
 
 
-        <div class="col-3" ></div>
+            <div class="col-2"></div>
 
 
+            <div class="collapse navbar-collapse col-7" id="navbarNav1">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <c:choose>
+                        <c:when test="${isAdmin==true}">
+                            <a class="nav-link" href="<%=request.getContextPath()%>/bank/?command=admin">
+                        </c:when>
+                        <c:otherwise>
+                            <a class="nav-link"
+                               href="<%=request.getContextPath()%>/bank/?command=show_authuser_hp">
 
-        <div class="collapse navbar-collapse col-6" id="navbarNav1">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/bank/">
+                        </c:otherwise>
+                        </c:choose>
                         <fmt:message key="toHome" bundle="${lang}"/>
                         <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link"
-                       href="<%=request.getContextPath()%>/bank/?command=showfees"><fmt:message key="Fee Schedule" bundle="${lang}"/></a>
-                </li>
-
-                <c:if test="${isAuthorized==true}">
-                    <li class="nav-item">
-                        <a class="nav-link" href="?command=show_authuser_hp"><fmt:message key="TO_USER_PAGE" bundle="${lang}"/></a>
+                        </a>
                     </li>
-                </c:if>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="<%=request.getContextPath()%>/bank/?command=showfees"><fmt:message key="Fee_Schedule"
+                                                                                                    bundle="${lang}"/></a>
+                    </li>
+
+                    <c:if test="${isAuthorized==true}">
+                        <c:choose>
+                            <c:when test="${isAdmin==true}">
 
 
+                                <a href="<%=request.getContextPath()%>/bank/?command=admin&action=show_clients_by_role&role=0">Approve</a><br>
+                                <a href="<%=request.getContextPath()%>/bank/?command=admin&action=show_clients_with_blocked_accounts">Unblock</a><br>
+                                <a href="<%=request.getContextPath()%>/bank/?command=admin&action=show_all_clients">Show
+                                    all</a><br>
+                            </c:when>
 
-            </ul>
-<%--            <ul>
-                <div class="w-50" style="margin-left: 10px;"></div>
-            </ul>--%>
-            <ul class="navbar-nav mr-auto pull-right text-right">
-                <li class="nav-item pull-right text-right">
-                    <c:choose>
-                    <c:when test="${isAuthorized==true}">
-                    <a href="<%=request.getContextPath()%>/bank/?command=logout" class="nav-link"><fmt:message key="Logout" bundle="${lang}"/></a>
-                    </c:when>
-                    <c:otherwise>
-                    <a href="<%=request.getContextPath()%>/bank/?command=login" class="nav-link"><fmt:message key="LOGIN" bundle="${lang}"/></a>
-                    </c:otherwise>
-                    </c:choose>
-                </li>
+                            <c:otherwise> <%--user--%>
 
-            </ul>
 
-           <%-- <form class="form-inline waves-effect waves-light">
-                <input class="form-control" type="text" placeholder="Search">
-            </form>--%>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="?command=show_authuser_hp"><fmt:message key="TO_USER_PAGE"
+                                                                                                      bundle="${lang}"/></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="?command=show_authuser_transactions"><fmt:message
+                                            key="TRANSACTIONS" bundle="${lang}"/></a>
+                                </li>
+                            </c:otherwise>
+
+                        </c:choose>
+                    </c:if>
+
+
+                </ul>
+                <%--            <ul>
+                                <div class="w-50" style="margin-left: 10px;"></div>
+                            </ul>--%>
+                <ul class="navbar-nav mr-auto pull-right text-right">
+                    <li class="nav-item pull-right text-right">
+                        <c:choose>
+                            <c:when test="${isAuthorized==true}">
+                                <a href="<%=request.getContextPath()%>/bank/?command=logout"
+                                   class="nav-link"><fmt:message key="Logout" bundle="${lang}"/></a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="<%=request.getContextPath()%>/bank/?command=login"
+                                   class="nav-link"><fmt:message key="LOGIN" bundle="${lang}"/></a>
+                            </c:otherwise>
+                        </c:choose>
+                    </li>
+
+                </ul>
+
+                <%-- <form class="form-inline waves-effect waves-light">
+                     <input class="form-control" type="text" placeholder="Search">
+                 </form>--%>
+            </div>
+            <div class="col-2"></div>
         </div>
-    </div>
-</nav>
+    </nav>
 </header>
 <div>
 
-    <div><div class="h-25" style="height:5em">&nbsp;</div></div>
+    <div>
+        <div class="h-25" style="height:5em">&nbsp;</div>
+    </div>
 
-<%--<c:out value = "<hr><br>" />
-<c:out value="${param.myVar}"/>--%>
+    <%--<c:out value = "<hr><br>" />
+    <c:out value="${param.myVar}"/>--%>
 
 
-<%--
+    <%--
 
-<br>
-<div class="container ">
-<div style="width:100px;height:100px;" class="blue-grey lighten-5">blue-grey lighten-5</div>
-</div>
-<br><br>
-<div class="container teal lighten-5">
+    <br>
+    <div class="container ">
+    <div style="width:100px;height:100px;" class="blue-grey lighten-5">blue-grey lighten-5</div>
+    </div>
+    <br><br>
+    <div class="container teal lighten-5">
 
-<div style="width:100px;height:100px;" class="teal lighten-5">teal lighten-5</div>
-</div>
-<br>
-<div class="container ">
-<div style="width:100px;height:100px;" class="cyan lighten-5">cyan lighten-5</div>
-</div>
-<br><br>
-<div class="container ">
-<div style="width:100px;height:100px;" class=" light-blue lighten-5"> light-blue lighten-5</div>
-</div>
---%>
+    <div style="width:100px;height:100px;" class="teal lighten-5">teal lighten-5</div>
+    </div>
+    <br>
+    <div class="container ">
+    <div style="width:100px;height:100px;" class="cyan lighten-5">cyan lighten-5</div>
+    </div>
+    <br><br>
+    <div class="container ">
+    <div style="width:100px;height:100px;" class=" light-blue lighten-5"> light-blue lighten-5</div>
+    </div>
+    --%>

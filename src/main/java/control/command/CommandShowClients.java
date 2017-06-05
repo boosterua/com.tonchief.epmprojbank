@@ -19,6 +19,7 @@ public class CommandShowClients implements Command {
 
         switch (act){
             case ("show_clients_by_role"):
+
                 Long role = Long.parseLong(req.getParameter("role"));
                 List<Client> clients = SERVICE.getAdmin().getClientsByRole(role);
 //                Logger logger = Logger.getLogger(CommandShowClients.class);
@@ -27,7 +28,7 @@ public class CommandShowClients implements Command {
                 req.setAttribute("action", "show_clients_by_role");
                 break;
             case ("get_one_client"):
-                Integer clientId = Integer.parseInt(req.getParameter("id"));
+                Integer clientId = Integer.parseInt(req.getParameter("user_id"));
                 Client client = null;
                 try {
 //                    client = SERVICE.getAdmin().getClientById(clientId);

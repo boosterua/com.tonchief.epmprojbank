@@ -19,6 +19,7 @@ public class ControllerHelper {
         commands.put("showfees", new CommandShowFees());
         commands.put("submit_registration", new CommandRegister());
         commands.put("show_clients", new CommandShowClients());
+//        commands.put("show_clients", new CommandAdmin());
         commands.put("logout", new CommandLogin());
         commands.put("switch_lang", new CommandEmpty());
         commands.put("admin", new CommandAdmin());

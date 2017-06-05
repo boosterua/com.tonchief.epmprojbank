@@ -14,12 +14,16 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 
 public class Admin {
 
     private DAOFactoryImpl DAO = DAOFactoryImpl.getInstance();
     private final Logger logger = Logger.getLogger(Admin.class);
+    static final ResourceBundle RB_BANK = ResourceBundle.getBundle("bank");
+
+    private static final String BANKUID = "4444" + RB_BANK.getString("BANK_CARD_ID");
 
 
     public static String getMessage() {
@@ -30,14 +34,21 @@ public class Admin {
         return DAO.getAccountsDAO().setBlock(account);
     }
 
-    public boolean removeAccountBlock(Account account) throws MySqlPoolException {
-        account.setBlock(false);
-        return DAO.getAccountsDAO().setBlock(account);
+    public boolean removeAccountBlock(Integer accountId) throws MySqlPoolException {
+//        account.setBlock(false);
+        return DAO.getAccountsDAO().setBlock(accountId, false);
     }
 
-    public Card issueNewCard(int clientId)  {
+    public Card issueNewCard(int accountId, Integer feeId)  {
         String cardNum;
-        final String BANKUID = "4444" + "5555";
+        if( DAO.getCardsDAO().getNumCardsByAccountId(accountId) >= Integer.parseInt(RB_BANK.getString("MAX_NUM_CARDS_PER_CLIENT")) ){
+            return null;
+        }
+
+
+
+
+
         /* Loop to check if newly generated card exists in database: while newCard is found - regenerate new number */
         do {
             /* Generate card number (Always 16 digits).
@@ -58,13 +69,12 @@ public class Admin {
                 } else luhn += dig;
             }
             cardNum += luhn % 10;
-        } while(DAO.getCardsDAO().getByCardNumber(1) > 0);
+        } while(DAO.getCardsDAO().getByCardNumber(Long.parseLong(cardNum)) > 0);
 
-        Card card = new Card(clientId);
+        Card card = new Card();
         card.setName(cardNum);
-        card.setClientId(clientId);
-        card.setAccountId(2);
-        card.setFeeId(2);
+        card.setAccountId(accountId);
+        card.setFeeId(feeId);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new java.util.Date());
@@ -74,7 +84,8 @@ public class Admin {
         LocalDate lDate = calendar.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         card.setExpDate(lDate);        //.... java.sql.Date jsd = java.time.LocalDate().....;
         try {
-            DAO.getCardsDAO().insert(card);
+            Integer cardId = DAO.getCardsDAO().insert(card);
+            card.setId(cardId);
         } catch (Exception e) {
             logger.error(e);
         }
@@ -86,7 +97,7 @@ public class Admin {
     }
 
     public Card issueNewCard(Client client)  {
-        return issueNewCard(client.getId());
+        return issueNewCard(client.getId(), client.getFeeId());
     }
 
 
@@ -112,6 +123,12 @@ public class Admin {
     public Client getClientDetailedById(Integer clientId) throws ExceptionDAO {
         Client client = (Client) DAO.getUsersDAO().getDetailedById(clientId);
         logger.info("Got client:"+client);
+        if(client==null)
+            return null;
+        List<Card> cards = DAO.getCardsDAO().getByAccountId(client.getAccount().getId());
+        client.getAccount().setCards(cards);
+//        logger.info(client.getAccount().getName());
+//        logger.info(client.getAccount().getCards().get(0));
         return client;
     }
 }

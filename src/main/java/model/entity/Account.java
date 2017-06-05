@@ -6,6 +6,7 @@ import model.dao.factory.DAOFactoryImpl;
 import model.dao.interfaces.AccountsDAO;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 public class Account extends Entity {
@@ -14,6 +15,7 @@ public class Account extends Entity {
     private int clientId;
     private boolean blocked;
     private BigDecimal balance;
+    private List<Card> cards;
 
     private AccountsDAO accountsDAO = DAOFactoryImpl.getInstance().getAccountsDAO();
 
@@ -83,4 +85,11 @@ public class Account extends Entity {
         return toString(id, number,"BLK:"+blocked,"CLid:"+clientId);
     }
 
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
+    }
 }

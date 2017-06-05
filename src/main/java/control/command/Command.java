@@ -1,6 +1,7 @@
 package control.command;
 
 import model.dao.exceptions.ExceptionDAO;
+import model.dao.exceptions.MySqlPoolException;
 import service.SvcFactoryImpl;
 
 import javax.servlet.ServletException;
@@ -14,5 +15,9 @@ public interface Command {
     SvcFactoryImpl SERVICE = SvcFactoryImpl.getInstance();
     ResourceBundle RB_PAGEMAP = ResourceBundle.getBundle("webconfig.pagemapping");
 //    ResourceBundle RB_LOCALE = ResourceBundle.getBundle("locale");
-    String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ExceptionDAO;
+    String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ExceptionDAO, MySqlPoolException;
+    default void disablePageCache(HttpServletResponse resp){
+        resp.setHeader("Cache-Control", "private, no-store, no-cache, must-revalidate");
+        resp.setHeader("Pragma", "no-cache");
+    }
 }

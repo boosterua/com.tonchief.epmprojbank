@@ -2,8 +2,6 @@ package model.dao.jdbc;
 
 import model.dao.connection.DataSource;
 import model.dao.exceptions.ExceptionDAO;
-import model.entity.Account;
-import model.entity.Entity;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 
@@ -14,10 +12,10 @@ import java.sql.SQLException;
 
 public class UtilDAO {
 
-    private static final Logger logger = Logger.getLogger(AccountsDAOimpl.class);
+    private static final Logger logger = Logger.getLogger(UtilDAO.class);
     private static BasicDataSource pool = DataSource.getInstance().getBds();
 
-    static ResultSet getRsById(long id, String preparedStatementWithIdFirst) throws ExceptionDAO {
+    static ResultSet getRsById(Long id, String preparedStatementWithIdFirst) throws ExceptionDAO {
         logger.info("fetching ... Entity for id:" + id);
         try (
             Connection conn = pool.getConnection();
@@ -26,10 +24,10 @@ public class UtilDAO {
             logger.info("Got connection from pool.");
             ps.setLong(1, id);
             logger.info("Trying PS:" + ps);
-
+            ResultSet rs = null;
             try {
-                ResultSet rs = ps.executeQuery();
-                //model.utils.PrintResultSet.printDump(rs);
+                rs = ps.executeQuery();
+//                model.utils.PrintResultSet.printDump(rs);
                 return rs;
             } catch (SQLException e) {
                 logger.error("SQLex." + e.toString());
@@ -39,10 +37,9 @@ public class UtilDAO {
         } catch (Exception e) {
             logger.error("Fatal General Exception.", e);
         }
+        logger.error("NULLLLLLLL.");
+
         return null;
     }
-
-
-
 
 }

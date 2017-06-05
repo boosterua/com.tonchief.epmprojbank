@@ -29,6 +29,12 @@ public class Card extends Entity {
         this.number = num;
     }
 
+    public Card(Integer cardId, String num, LocalDate xDate) {
+        this.id = cardId;
+        this.number = num;
+        this.expDate = xDate;
+    }
+
     public int getClientId() {
         return clientId;
     }
@@ -53,35 +59,28 @@ public class Card extends Entity {
         this.number = name;
     }
 
-    public String toString() {
-        return "" + this.id + ". nr=" + this.number + "; BLK=" + this.blocked + "; clientId=" + this.clientId;
-    }
-
 
     public void setExpDate(LocalDate expDate) {
         this.expDate = expDate;
     }
-
-
     public LocalDate getExpDate() {
         return expDate;
     }
 
-
     public void setFeeId(int feeId) {
         this.feeId = feeId;
     }
-    public int getFeeId() {
+    public int  getFeeId() {
         return feeId;
     }
-
-
-    public int getAccountId() {
-        return accountId;
-    }
-
     public void setAccountId(int acctId) {
         this.accountId = acctId;
     }
+    public int  getAccountId() {
+        return accountId;
+    }
 
+    public String toString() {
+        return "Card id:" + this.id + ". nr=" + this.number + "; exp:"+ this.expDate + "; BLK=" + this.blocked + "; clientId=" + this.clientId;
+    }
 }
