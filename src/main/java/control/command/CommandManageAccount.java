@@ -77,21 +77,6 @@ public class CommandManageAccount implements Command {
     }
 
 
-
-    private boolean ifAjaxPrintOK(HttpServletRequest req, HttpServletResponse resp, String message){
-        if(req.getParameter("content_type")!=null) {//ajax
-            resp.setContentType("text/plain");
-            //            resp.setCharacterEncoding("UTF-8"); // Moved to filter
-            try {
-                resp.getWriter().write(message);
-            } catch (IOException e) {
-                logger.warn(e);
-            }
-            page="";
-            return true;
-        }
-        return false;
-    }
     private void wrongParam(HttpServletRequest req){
         req.setAttribute("errormsg", "WRONG_PARAM_REQUEST");
     }

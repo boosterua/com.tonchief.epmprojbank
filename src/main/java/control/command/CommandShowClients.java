@@ -38,13 +38,9 @@ public class CommandShowClients implements Command {
                 break;
             case ("get_one_client"):
                 Client client = null;
-                try {
-                    client = SERVICE.getAdmin().getClientDetailedById(clientId);
-                    req.setAttribute("client", client);
-                    req.setAttribute("action", "show_сlient_to_approve");
-                } catch (ExceptionDAO exceptionDAO) {
-                    throw exceptionDAO;
-                }
+                client = SERVICE.getAdmin().getClientDetailedById(clientId);
+                req.setAttribute("client", client);
+                req.setAttribute("action", "show_сlient_to_approve");
                 break;
 
             case ("set_user_role"): //OK
@@ -85,20 +81,6 @@ public class CommandShowClients implements Command {
         }
     }
 
-    private boolean ifAjaxPrintOK(HttpServletRequest req, HttpServletResponse resp, String message){
-        if(req.getParameter("content_type")!=null) {//ajax
-            resp.setContentType("text/plain");
-            //            resp.setCharacterEncoding("UTF-8"); // Moved to filter
-            try {
-                resp.getWriter().write(message);
-            } catch (IOException e) {
-                logger.warn(e);
-            }
-            page="";
-            return true;
-        }
-        return false;
-    }
 
 
 }

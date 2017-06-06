@@ -64,9 +64,10 @@ Service.Client:
  - make payment: choose account*, choose action [block,replenish,makepayment]. *select accounts
 
  TODO: в алг бизнес-логики использовать шаблоны GoF (Factory Method, Command, Singleton, Builder, Strategy) и MVC.
-5. При разработке JSP использовать собственные теги. 
-6. При разработке бизнес логики использовать сессии и фильтры.
-Тесты!
+TODO: 5. При разработке JSP использовать собственные теги. 
+TODO: 6. При разработке бизнес логики использовать сессии и фильтры.
+TODO: Тесты!
+TODO: PWD Hash 
 
 
 

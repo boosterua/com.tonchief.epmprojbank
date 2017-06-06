@@ -131,7 +131,7 @@ public class Admin {
     }
 
 
-    public Client getClientDetailedById(Integer clientId) throws ExceptionDAO {
+    public Client getClientDetailedById(Integer clientId)  {
         Client client = (Client) DAO.getUsersDAO().getDetailedById(clientId);
         logger.info("Got client:"+client);
         if(client==null)
