@@ -47,7 +47,6 @@
 <body>
 <%@include file="includes/toplogo.jspf" %>
 
-
 <div class="container">
   <div class="row">
     <div class="col-md-2"></div>
@@ -65,17 +64,21 @@
         <span class="badge badge-success"><fmt:message key="${infomsg}" bundle="${lang}"/></span>
       </c:if>
 
-      <%--<c:if test="${isAuthorized==true}">--%>
+
+      <c:if test="${sessionScope.isAdmin==true}">
+        <%--<c:if test="${isAuthorized==true}">--%>
 
       <c:if test="${action==\"index\"}">
-        <a href="<%=request.getContextPath()%>/bank/?command=admin&action=show_clients_by_role&role=0">Show newly registered clients waiting for approval</a><br>
-        <a href="<%=request.getContextPath()%>/bank/?command=admin&action=show_clients_with_blocked_accounts">Show clients with blocked accounts</a><br>
+        <a href="<%=request.getContextPath()%>/bank/?command=admin&action=show_clients_by_role&role=0">Show
+          newly registered clients waiting for approval</a><br>
+        <a href="<%=request.getContextPath()%>/bank/?command=admin&action=show_clients_with_blocked_accounts">Show
+          clients with blocked accounts</a><br>
         <a href="<%=request.getContextPath()%>/bank/?command=admin&action=show_all_clients">Show all clients</a><br>
 
       </c:if>
 
 
-      <%-- ######## SHOW CLIENTS BY ROLE #########--%>
+        <%-- ######## SHOW CLIENTS BY ROLE #########--%>
 
       <c:if test="${action==\"show_clients_by_role\"}">
         <div class="panel-heading">
@@ -103,15 +106,19 @@
                   <nobr>${cl.getName()}</nobr>
                 </td>
                 <td>${cl.getEmail()}</td>
-                <td>${cl.getAccount().getName()}
+                <td class="text-left"><nobr>${cl.getAccount().getName()}
                   <c:if test="${cl.getAccount().getId()==0}">*</c:if>
-                  <c:if test="${cl.getAccount().getBlocked()==true}"> <span
-                    class="btn btn-deep-orange btn-sm"
-                    style="line-height:2px;padding:7px 4px;margin:0;"><fmt:message key="BLOCKED"
-                                                     bundle="${lang}"/></span>
+                  <c:if test="${cl.getAccount().getBlocked()==true}">&nbsp;<span class="btn btn-deep-orange btn-sm"
+                      style="line-height:2px;padding:7px 4px;margin:0;"><fmt:message key="BLOCKED" bundle="${lang}"/></span></nobr>
+                  </c:if>
+                  <c:if test="${cl.getAccount().getBlocked()==false}">
+                    <span class="btn btn-dark-green btn-sm" style="line-height:2px;padding:7px 4px;margin:0;">
+                      <fmt:message key="ACTIVE" bundle="${lang}"/>
+                    </span></nobr>
+                  </c:if>
                 </td>
-                <td>${client.getFeeName()}</span>
-                  </c:if></td>
+                <td>${cl.getFeeName()}</span>
+                  </td>
               </tr>
             </c:forEach>
             </tbody>
@@ -122,10 +129,10 @@
           <br>
         </c:if>
       </c:if>
-      <%--</c:if>--%>
+        <%--</c:if>--%>
 
 
-      <%-- ######## show Single Client To Approve #########--%>
+        <%-- ######## show Single Client To Approve #########--%>
 
       <c:if test="${action==\"show_сlient_to_approve\"}">
 
@@ -141,7 +148,6 @@
           &nbsp;</h3>
       </div>
       <c:if test="${not empty client}">
-
       <div class="row">
         <div class="col-md-8">
           <table class="table table-striped table-hover table-sm table-info"
@@ -204,87 +210,96 @@
         </script>
 
 
-
-        <%--Account--%>
+          <%--Account--%>
 
 
         <div class="col-md-4">
           <table class="table table-striped table-hover table-sm table-info">
             <thead>
-            <tr><th><fmt:message key="ACCT_NUMBER" bundle="${lang}"/></th></tr>
+            <tr>
+              <th><fmt:message key="ACCT_NUMBER" bundle="${lang}"/></th>
+            </tr>
             </thead>
             <tbody>
-              <tr><td title="id:${client.getAccount().getId()}">${client.getAccount().getName()}
-              <c:choose>
-              <c:when test='${client.getAccount().getBlocked()}'>
+            <tr>
+              <td title="id:${client.getAccount().getId()}">${client.getAccount().getName()}
+                <c:choose>
+                <c:when test='${client.getAccount().getBlocked()}'>
                 <span id="account_status_badge">
-                <span class="btn btn-deep-orange btn-sm" style="line-height:2px;padding:7px 4px;margin:0;">
-                  <fmt:message key="BLOCKED" bundle="${lang}"/></span>
+            <span class="btn btn-deep-orange btn-sm" style="line-height:2px;padding:7px 4px;margin:0;">
+            <fmt:message key="BLOCKED" bundle="${lang}"/></span>
 
-                <div class="btn-group" data-toggle="buttons">
-                  <label class="btn btn-success btn-sm active" id="btn_unblock">
-                    <input type="checkbox"  checked autocomplete="off"> <fmt:message
-                      key="UNBLOCK" bundle="${lang}"/>
-                  </label>
-                </div>
-                <span id="unblock_req_res"></span>
+            <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-success btn-sm active" id="btn_unblock">
+              <input type="checkbox" checked autocomplete="off"> <fmt:message
+                key="UNBLOCK" bundle="${lang}"/>
+            </label>
+            </div>
+            <span id="unblock_req_res"></span>
 
-                <script>  // btn_unblock
-                $(document).on("click", "#btn_unblock", function () {
-                  $.get("<%=request.getContextPath()%>/bank/?command=admin&action=unblock_account"
-                    + "&content_type=ajax&account_id=${client.getAccount().getId()}",
-                    function (resp) {
-                      if (resp == 'OK') {
-                        $('#account_status_badge').html(
-                          '<span class="btn btn-dark-green btn-sm" style="line-height:2px;' +
-                          'padding:7px 4px;margin:0;"><fmt:message key="ACTIVE" bundle="${lang}"/></span>');
-                      } else {
-                        $('#unblock_req_res').html("Error");
-                      }
-                    });
+            <script>  // btn_unblock
+            $(document).on("click", "#btn_unblock", function () {
+              $.get("<%=request.getContextPath()%>/bank/?command=admin&action=unblock_account"
+                + "&content_type=ajax&account_id=${client.getAccount().getId()}",
+                function (resp) {
+                  if (resp == 'OK') {
+                    $('#account_status_badge').html(
+                      '<span class="btn btn-dark-green btn-sm" style="line-height:2px;' +
+                      'padding:7px 4px;margin:0;"><fmt:message key="ACTIVE" bundle="${lang}"/></span>');
+                  } else {
+                    $('#unblock_req_res').html("Error");
+                  }
                 });
-                </script>
+            });
+            </script>
 
-              </c:when><%--/blocked account--%>
-              <c:otherwise>
-                <span class="btn btn-dark-green btn-sm" style="line-height:2px;padding:7px 4px;margin:0;">
-                  <fmt:message key="ACTIVE" bundle="${lang}"/></span>
-              </c:otherwise>
-              </c:choose>
-              </td></tr>
+          </c:when><%--/blocked account--%>
+          <c:otherwise>
+            <span class="btn btn-dark-green btn-sm" style="line-height:2px;padding:7px 4px;margin:0;">
+            <fmt:message key="ACTIVE" bundle="${lang}"/></span>
+          </c:otherwise>
+          </c:choose>
+              </td>
+            </tr>
 
-              <tr test="${not empty client.getAccount().getCards()}">
-                <tr><th><fmt:message key="CONNECTED_CARDS" bundle="${lang}"/></th></tr>
-                <c:forEach items="${client.getAccount().getCards()}" var="card">
-                  <tr><td><small  title="id:${card.getId()}">&#x1f4b3;&nbsp;<c:out value="${card.getName()}"/> [<c:out value="${card.getExpDate()}"/>]</small></td></tr>
-                </c:forEach>
-                <tr><td><small><a href="<%=request.getContextPath()%>/bank/?command=admin&action=issue_new_card&account_id=${client.getAccount().getId()}&fee_id=${client.getFeeId()}&client_id=${client.getId()}"><fmt:message key="ISSUE_NEW_CARD" bundle="${lang}"/></a></small>
-                </tr>
+            <tr test="${not empty client.getAccount().getCards()}">
+            <tr>
+              <th><fmt:message key="CONNECTED_CARDS" bundle="${lang}"/></th>
+            </tr>
+            <c:forEach items="${client.getAccount().getCards()}" var="card">
+              <tr>
+                <td>
+                  <small title="id:${card.getId()}">&#x1f4b3;&nbsp;<c:out value="${card.getName()}"/>
+                    [<c:out value="${card.getExpDate()}"/>]
+                  </small>
+                </td>
+              </tr>
+            </c:forEach>
+            <tr>
+              <td>
+                <small><a
+                    href="<%=request.getContextPath()%>/bank/?command=admin&action=issue_new_card&account_id=${client.getAccount().getId()}&fee_id=${client.getFeeId()}&client_id=${client.getId()}"><fmt:message
+                    key="ISSUE_NEW_CARD" bundle="${lang}"/></a></small>
+            </tr>
 
 
             </tbody>
           </table>
 
 
-              <c:if test='${client.getAccount().getBlocked()}'>
+          <c:if test='${client.getAccount().getBlocked()}'>
 
         </div>
         </c:if>
 
-            <small>
-              <%--${client.getAccount()}</td>--%>
-            </small>
+        <small>
+            <%--${client.getAccount()}</td>--%>
+        </small>
       </div>
-
     </div>
-    </c:if>
-
-
-
-    </c:if>
-
-
-    <%--</c:if>--%>
+      </c:if><%--not empty client--%>
+    </c:if><%--show_сlient_to_approve--%>
+    </c:if><%--sessionScope.isAdmin==true--%>
 
 
   </div>

@@ -114,7 +114,8 @@ public class Client extends Entity {
     }
 
     public String toString(){
-        return (String.format("id:%s : name:%s : acctId:%s : email:%s : feeId:%s : acct=", id, name, accountId, email, feeId, feeName, account));
+        return (String.format("id:%s : name:%s : acctId:%s : email:%s : feeId:%s %s : acct=%s : role:%s",
+                id, name, accountId, email, feeId, feeName, account, role));
     }
 
 }

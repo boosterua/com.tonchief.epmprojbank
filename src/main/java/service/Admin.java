@@ -21,9 +21,9 @@ public class Admin {
 
     private DAOFactoryImpl DAO = DAOFactoryImpl.getInstance();
     private final Logger logger = Logger.getLogger(Admin.class);
-    static final ResourceBundle RB_BANK = ResourceBundle.getBundle("bank");
+    static final ResourceBundle RB_BANK = ResourceBundle.getBundle("banksettings");
 
-    private static final String BANKUID = "4444" + RB_BANK.getString("BANK_CARD_ID");
+    private static final String BANKUID = RB_BANK.getString("VISA_SYS_PREFIX") + RB_BANK.getString("BANK_CARD_ID");
 
 
     public static String getMessage() {
@@ -112,11 +112,22 @@ public class Admin {
     public List<Client> getClientsByRole(Long role){
         if(role==null) role=0L;
 
-        List<Client> list = DAO.getUsersDAO().getUsersByRole(role);
+//        List<Client> list = DAO.getUsersDAO().getUsersByRole(role);
+        List<Client> list = DAO.getUsersDAO().getUsersByRoleOrBlockedSt(role, null);
 //        logger.info("From Amdin.getClientsByRole:" + list.size());
         return list;
 //        logger.info();
 //        return DAO.getUsersDAO().getUsersByRole(role);
+    }
+
+    public List<Client> getClientsWithBlockedAccts(){
+        List<Client> list = DAO.getUsersDAO().getUsersByRoleOrBlockedSt(0L, true);
+        return list;
+    }
+
+    public List<Client> getClientsAll(){
+        List<Client> list = DAO.getUsersDAO().getUsersByRoleOrBlockedSt(-100L, null);
+        return list;
     }
 
 

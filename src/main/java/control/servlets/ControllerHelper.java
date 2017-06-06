@@ -12,17 +12,17 @@ public class ControllerHelper {
     HashMap<String, Command> commands = new HashMap<String, Command>();
 
     private ControllerHelper() {
-        commands.put("login", new CommandLogin());
+        commands.put("admin", new CommandAdmin());
         commands.put("authenticate", new CommandLogin());
-        commands.put("show_authuser_hp", new CommandLogin());
+        commands.put("login", new CommandLogin());
+        commands.put("logout", new CommandLogin());
         commands.put("register", new CommandRegister());
+        commands.put("show_authuser_hp", new CommandLogin());
+        commands.put("show_clients", new CommandShowClients());
         commands.put("showfees", new CommandShowFees());
         commands.put("submit_registration", new CommandRegister());
-        commands.put("show_clients", new CommandShowClients());
-//        commands.put("show_clients", new CommandAdmin());
-        commands.put("logout", new CommandLogin());
         commands.put("switch_lang", new CommandEmpty());
-        commands.put("admin", new CommandAdmin());
+//        commands.put("show_clients", new CommandAdmin());
     }
     //TODO: redesign factory
 

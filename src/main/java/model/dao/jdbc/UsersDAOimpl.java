@@ -22,26 +22,22 @@ import java.util.List;
 public class UsersDAOimpl implements UsersDAO {
 
     private static UsersDAOimpl instance = null;
-    private static final Logger logger = Logger.getLogger(UsersDAOimpl.class);
+    private static final Logger LOGGER = Logger.getLogger(UsersDAOimpl.class);
     private BasicDataSource pool = DataSource.getInstance().getBds();
     private static final String UID = "id_client"; //1
     private static final String NAM = "name"; //2
     private static final String EML = "email"; //3;
-//    private static final String PWD = "password";//4;
+    //    private static final String PWD = "password";//4;
     private static final String ROL = "role"; //5;
     private static final int ACC = 6;
     private static final int FEE = 6;
     private static final String FID = "fee_id";//6
     //Checked for fields equality b/w dao and db(v2), 2017-05-27
 
-
-
-
     public static UsersDAOimpl getInstance() {
         if(instance==null) instance = new UsersDAOimpl();
         return instance;
     }
-
 
 
     /**
@@ -52,7 +48,7 @@ public class UsersDAOimpl implements UsersDAO {
         //TO+DO: change new user registration to include new account creation at the time of submitting application
         //TODO - Redesign DB, set email - as id (unique) -> catch exception &
 
-        logger.info("Insert into [clients] - [user] passed by account:" + user);
+        LOGGER.info("Insert into [clients] - [user] passed by account:" + user);
 
         try (Connection conn = pool.getConnection();
              PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.insert"), 1);
@@ -65,12 +61,12 @@ public class UsersDAOimpl implements UsersDAO {
             ps.setLong      (4, client.getRole());
             ps.setInt       (5, client.getFeeId());
 
-            logger.info("PS: " + ps.toString());
+            LOGGER.info("PS: " + ps.toString());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
-                rs.next();  // logger.info(PrintResultSet.getDump(rs));
+                rs.next();  // LOGGER.info(PrintResultSet.getDump(rs));
                 Integer newUserId = rs.getInt(1);
-                logger.info("New client Registration: ID="+newUserId);
+                LOGGER.info("New client Registration: ID="+newUserId);
                 return newUserId; //rs.getLong(1)
             } finally {
                 ps.close();
@@ -79,7 +75,7 @@ public class UsersDAOimpl implements UsersDAO {
             if(isConstraintViolation(sqlEx)){
                 return -23; //made up code to indicate existing login (email)
             }
-            logger.error("SQL exception", sqlEx);
+            LOGGER.error("SQL exception", sqlEx);
         }
 
         return 0;
@@ -90,14 +86,14 @@ public class UsersDAOimpl implements UsersDAO {
     }
 
     public Integer authenticateUser(String email, String password) {
-        logger.info("fetching User with given credentials: " + email + ":*****");
+        LOGGER.info("fetching User with given credentials: " + email + ":*****");
         if(email==null || email.isEmpty() || password==null || password.isEmpty()) return null;
         try (Connection conn = pool.getConnection();
              PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.checkLoginPwd"),0);
         ){
             ps.setString(1, email);
             ps.setString(2, password);
-            logger.info("Trying P S:" + ps);
+            LOGGER.info("Trying P S:" + ps);
 
             try (ResultSet rs = ps.executeQuery()) {
                 rs.next();
@@ -105,48 +101,56 @@ public class UsersDAOimpl implements UsersDAO {
                 rs.close();
                 return userId;
             } catch (SQLException e) {
-                logger.error("SQL ex." + e.toString());
+                LOGGER.error("SQL ex." + e.toString());
             }
         } catch (SQLException e) {
-            logger.error("SQL exception. ", e);
+            LOGGER.error("SQL exception. ", e);
         } catch (Exception e) {
-            logger.error("Fatal General Exception.", e);
+            LOGGER.error("Fatal General Exception.", e);
         }
         return null;
     }
 
-    public List<Client> getUsersByRole(Long role){
+    /**
+     *
+     * @param role // if r<-1 - show all
+     * @param blocked // if null - not used
+     * @return List<Client>
+     */
+    public List<Client> getUsersByRoleOrBlockedSt(Long role, Boolean blocked){
 
         List<Client> resultList = new ArrayList<>();
-        logger.info("fetching Client Entities for RoleId:" + role);
+        LOGGER.info("fetching Client Entities for Role or blocked:");
+        String query="clients.getByRole";
+        if(role<-1) query="clients.getAll";
+        if(blocked!=null) query="clients.getByBlockedAcct";
+
         try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.getByRole"), 0);
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString(query), 0);
         ){
-            logger.info("Got connection.");
-            ps.setLong(1, role);
+            if(role>=0) ps.setLong(1, role);
+            if(blocked!=null) ps.setBoolean(1, blocked);
+            LOGGER.info("Trying PS:" + ps+"\n"+ps.getMetaData());
 
-            logger.info("Trying PS:" + ps);
-
-            try (ResultSet rs = ps.executeQuery()) {   logger.info(PrintResultSet.getDump(rs));
+            try (ResultSet rs = ps.executeQuery()) {
                 while(rs.next()) {
                     Client cl= new Client( rs.getInt(UID), rs.getString(NAM), rs.getString(EML), rs.getInt(ROL));
                     Integer acctId = rs.getInt("accounts.id_account");
                     Account account = (acctId!=null && acctId>0) ?
                       new Account(acctId,rs.getString("accounts.number"),rs.getBoolean("accounts.is_blocked"), rs.getInt(UID)):
-                      new Account(0, "Unassigned", true); /* Account has not been assigned for some reason: set value to zero to avoid NP ex, check within jsp */
+                      new Account(0, "Unassigned", true);
+                    /* Account has not been assigned for some reason : set value to zero to avoid NP ex, check within jsp */
                     cl.setAccount(account);
-                    logger.info("getUsersByRole usr="+cl);
+                    LOGGER.info("getUsersByRole usr="+cl);
                     resultList.add(cl);
                 }
                 rs.close();
                 return resultList;
-            } catch (SQLException e) {
-                logger.error("SQL ex." + e.toString());
             }
         } catch (SQLException e) {
-            logger.error("SQL  exception.", e);
+            LOGGER.error("SQL  exception.", e);
         } catch (Exception e) {
-            logger.error( e);
+            LOGGER.error( e);
         }
         return null;
     }
@@ -157,7 +161,7 @@ public class UsersDAOimpl implements UsersDAO {
              //id_client,clients.name,email,password,role,fees.name
         ){
             ps.setInt(1, clientId);
-            logger.info("Got connection. Exec.PS:" + ps.toString());
+            LOGGER.info("Got connection. Exec.PS:" + ps.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 if(!rs.next()) return null;
                 Client cl= new Client(rs.getInt(UID), rs.getString(NAM), rs.getString(EML), rs.getInt(ROL));
@@ -166,16 +170,16 @@ public class UsersDAOimpl implements UsersDAO {
                 Account account = new Account(rs.getInt("accounts.id_account"),
                         rs.getString("accounts.number"),rs.getBoolean("accounts.is_blocked"));
                 cl.setAccount(account);
-                logger.info(account);
+                LOGGER.info(account);
                 rs.close();
                 return cl;
             } catch (SQLException e) {
-                logger.error("SQLex." + e.toString());
+                LOGGER.error("SQLex." + e.toString());
             }
         } catch (SQLException e) {
-            logger.error("SQL exception.", e);
+            LOGGER.error("SQL exception.", e);
         } catch (Exception e) {
-            logger.error("Major General Exception.", e);
+            LOGGER.error("Major General Exception.", e);
         }
         return null;
     }
@@ -187,12 +191,12 @@ public class UsersDAOimpl implements UsersDAO {
         ){
             ps.setLong(1, role);
             ps.setInt(2, clientId);
-            logger.info("Got connection. Exec.PS:" + ps.toString());
+            LOGGER.info("Got connection. Exec.PS:" + ps.toString());
             return (ps.executeUpdate() != 0);
         } catch (SQLException e) {
             throw new ExceptionDAO(e);
         } catch (Exception e) {
-            logger.error("Major General Exception.", e);
+            LOGGER.error("Major General Exception.", e);
         }
         return false;
     }
@@ -214,9 +218,9 @@ public class UsersDAOimpl implements UsersDAO {
         try (Connection conn = pool.getConnection();
              PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.getById"), 1);
         ){
-            logger.info("Got connection.");
+            LOGGER.info("Got connection.");
             ps.setInt(1, cid);
-            logger.info("Trying PS:" + ps);
+            LOGGER.info("Trying PS:" + ps);
             try (ResultSet rs = ps.executeQuery()) {
                 rs.next();
                 Client cl= new Client( rs.getInt(UID), rs.getString(NAM), rs.getString(EML), rs.getInt(ROL) );
@@ -224,17 +228,50 @@ public class UsersDAOimpl implements UsersDAO {
                 rs.close();
                 return cl;
             } catch (SQLException e) {
-                logger.error("SQLex." + e.toString());
+                LOGGER.error("SQLex." + e.toString());
             }
         } catch (SQLException e) {
-            logger.error("SQL exception.", e);
+            LOGGER.error("SQL exception.", e);
         } catch (Exception e) {
-            logger.error("Major General Exception.", e);
+            LOGGER.error("Major General Exception.", e);
         }
         return null;
     }
 
+@Deprecated
+    public List<Client> getUsersByRole(Long role){
 
-
+        List<Client> resultList = new ArrayList<>();
+        LOGGER.info("fetching Client Entities for RoleId:" + role);
+        try (Connection conn = pool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.getByRole"), 0);
+        ){
+            LOGGER.info("Got connection.");
+            ps.setLong(1, role);
+            LOGGER.info("Trying PS:" + ps);
+            try (ResultSet rs = ps.executeQuery()) {   LOGGER.info(PrintResultSet.getDump(rs));
+                while(rs.next()) {
+                    Client cl= new Client( rs.getInt(UID), rs.getString(NAM), rs.getString(EML), rs.getInt(ROL));
+                    Integer acctId = rs.getInt("accounts.id_account");
+                    Account account = (acctId!=null && acctId>0) ?
+                      new Account(acctId,rs.getString("accounts.number"),rs.getBoolean("accounts.is_blocked"), rs.getInt(UID)):
+                      new Account(0, "Unassign"+"ed", true);
+                    // Account has not been assigned for some reason : set value to zero to avoid NP ex, check within jsp
+                    cl.setAccount(account);
+                    LOGGER.info("getUsersByRole usr="+cl);
+                    resultList.add(cl);
+                }
+                rs.close();
+                return resultList;
+            } catch (SQLException e) {
+                LOGGER.error("SQL ex." + e.toString());
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQL  exception.", e);
+        } catch (Exception e) {
+            LOGGER.error( e);
+        }
+        return null;
+    }
 
 }

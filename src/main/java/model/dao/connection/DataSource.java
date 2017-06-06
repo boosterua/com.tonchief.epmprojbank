@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
  */
 public class DataSource {
 
-    private static final int CONN_POOL_SIZE = 10;
+    private static final int CONN_POOL_SIZE = 100;
     public static final DataSource Inst = getInstance();
 
     private BasicDataSource bds = new BasicDataSource();

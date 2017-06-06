@@ -22,6 +22,17 @@
         <url-pattern>/?command</url-pattern>
     </servlet-mapping>
 
+
+
+    <filter>
+        <filter-name>FilterSetEncoding</filter-name>
+        <filter-class>control.FilterSetEncoding</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FilterSetEncoding</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <!--
         <servlet>
             <servlet-name>static</servlet-name>
@@ -33,7 +44,15 @@
         </servlet-mapping>
     -->
 
-
+    <!-- TODO: add error pages . jsp
+    <error-page>
+        <error-code>404</error-code>
+        <location>/jsp/error/error404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/jsp/error/error500.jsp</location>
+    </error-page>-->
 
     <welcome-file-list>
         <welcome-file>/view/index.jsp</welcome-file>

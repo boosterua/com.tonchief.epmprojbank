@@ -59,7 +59,7 @@ public class Account extends Entity {
     }
     public void setBlock(boolean block) throws MySqlPoolException {
         this.blocked = block;
-        accountsDAO.setBlock(this);
+        //accountsDAO.setBlock(this);
     }
 
     public int getClientId() {

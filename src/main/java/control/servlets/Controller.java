@@ -36,7 +36,7 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+//        req.setCharacterEncoding("UTF-8");
         String page = null;
         try {
             Command command = controllerHelper.getCommand(req);

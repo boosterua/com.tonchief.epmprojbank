@@ -42,7 +42,7 @@
 
 
       <c:if test="${sessionScope.isAuthorized==true}">
-        <h3>Hello and welcome back, ${sessionScope.client.getName()}!</h3>
+        <h3><fmt:message key="HELLO_AND_WELCOME_BACK" bundle="${lang}"/>, ${sessionScope.client.getName()}!</h3>
       </c:if>
 
 
