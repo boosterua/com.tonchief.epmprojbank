@@ -101,20 +101,7 @@ dbConnection.commit(); //transaction block end
                 if(clientId==-23) //Constraint Violation = user email already in DB
                     return -23;
 
-                //TODO: userReg: generate acct based on user's choice of card (set prefix);
-                // TODO: add prefix field to fees tbl
-                new Thread(new Runnable(){
-                    public void run(){
-                        try {
-                            Integer newUsrAcctId =
-                                DAO.getAccountsDAO().generate(clientId, "2625%");
-                            logger.info("Separate Thread: Generated new account id:"+newUsrAcctId);
-                        } catch (ExceptionDAO exceptionDAO) {
-                            logger.error(exceptionDAO);
-                        }
-                    }
-                }).start();
-
+                generateNewAccount(clientId, false);
                 return clientId;
 
             } catch (Exception e) {
@@ -122,6 +109,22 @@ dbConnection.commit(); //transaction block end
             } finally {
             }
         return -1;
+    }
+
+    public void generateNewAccount(Integer clientId, Boolean blocked) {
+        // TODO: userReg: generate acct based on user's choice of card (set prefix);
+        // TODO: add prefix field to fees tbl
+        new Thread(new Runnable(){
+            public void run(){
+                try {
+                    Integer newUsrAcctId =
+                            DAO.getAccountsDAO().generate(clientId, "2625%", blocked);
+                    logger.info("Separate Thread: Generated new account id:"+newUsrAcctId);
+                } catch (ExceptionDAO exceptionDAO) {
+                    logger.error(exceptionDAO);
+                }
+            }
+        }).start();
     }
 
     public boolean fieldsAreValid() {
@@ -135,7 +138,6 @@ dbConnection.commit(); //transaction block end
     }
 
     public boolean blockAccount(int acctId){
-        //Check auth
         return DAO.getAccountsDAO().setBlock(acctId,true);
     }
 

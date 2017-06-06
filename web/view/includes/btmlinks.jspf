@@ -59,6 +59,8 @@
                     |
                     action = ${action}
                     |
+                    command = ${command}
+                    |
                     <a href="#"><i class="fa fa-list-alt" aria-hidden="true" title="Logout"></i> |
                     <i class="fa fa-credit-card" aria-hidden="true" title="Logout"></i>
                     </a>

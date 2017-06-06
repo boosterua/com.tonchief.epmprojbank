@@ -85,18 +85,22 @@
                 <div class="w-50" style="margin-left: 10px;"></div>
               </ul>--%>
         <ul class="navbar-nav mr-auto pull-right text-right">
-          <li class="nav-item pull-right text-right">
             <c:choose>
               <c:when test="${isAuthorized==true}">
-                <a href="<%=request.getContextPath()%>/bank/?command=logout"
-                   class="nav-link"><fmt:message key="Logout" bundle="${lang}"/></a>
+                <li class="nav-item pull-right text-right">
+                <a href="<%=request.getContextPath()%>/bank/?command=logout" class="nav-link"><fmt:message key="Logout" bundle="${lang}"/></a>
+                </li>
               </c:when>
               <c:otherwise>
-                <a href="<%=request.getContextPath()%>/bank/?command=login"
-                   class="nav-link"><fmt:message key="LOGIN" bundle="${lang}"/></a>
+              <li class="nav-item pull-right text-right">
+                <a href="<%=request.getContextPath()%>/bank/?command=login" class="nav-link"><fmt:message key="LOGIN" bundle="${lang}"/></a>
+              </li>
+              <li class="nav-item pull-right text-right">
+                <a href="<%=request.getContextPath()%>/bank/?command=register" class="nav-link"><fmt:message key="Registration" bundle="${lang}"/></a>
+              </li>
               </c:otherwise>
             </c:choose>
-          </li>
+
 
         </ul>
 

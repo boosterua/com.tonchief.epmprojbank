@@ -120,7 +120,7 @@ public class AccountsDAOimpl implements AccountsDAO {
     }*/
 
     @Override
-    public Integer generate(int clientId, String acctPrefix) throws ExceptionDAO {
+    public Integer generate(int clientId, String acctPrefix, Boolean setBlocked) throws ExceptionDAO {
         logger.info("generate new acct for cl_id=" + clientId + " & acctPrefix="+ acctPrefix);
 
         try (Connection conn = pool.getConnection();
@@ -132,6 +132,8 @@ public class AccountsDAOimpl implements AccountsDAO {
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 rs.next();
+                Integer acctId = rs.getInt(1);
+                if(setBlocked!=null) setBlock(acctId, setBlocked);
                 return rs.getInt(1);
             } finally {
                 if(ps!=null) ps.close();

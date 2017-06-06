@@ -26,7 +26,7 @@
     <div class="col-md-2"></div>
 
     <div class="col-md-8">
-
+      <h3 class="col-md-12 text-right" id="hello"></h3>
 
       ${errormsg_html}
       <c:if test="${not empty errormsg}">
@@ -42,12 +42,10 @@
 
 
       <c:if test="${sessionScope.isAuthorized==true}">
-        <h3><fmt:message key="HELLO_AND_WELCOME_BACK" bundle="${lang}"/>, ${sessionScope.client.getName()}!</h3>
-      </c:if>
-
-
-
-
+        <script>
+        $("#hello").html(
+        '<fmt:message key="HELLO_AND_WELCOME_BACK" bundle="${lang}"/>, ${sessionScope.client.getName()}!');
+        </script>
 
 
         <%-- ########  AUTHORIZED USER INDEX  ######## --%>
@@ -58,13 +56,11 @@
               <div class="panel-heading">
                 <h2 class="panel-title badge indigo">&nbsp; <fmt:message key="YOUR_ACCOUNTS" bundle="${lang}"/> &nbsp;</h2>
               </div>
+
+
+
+              <div class="panel-body">
               <c:if test="${not empty accounts}">
-
-
-
-
-
-
                 <table class="table table-striped table-hover table-sm table-info">
                   <thead class="teal darken-3 text-white">
                   <tr class="text-center">
@@ -84,48 +80,47 @@
                       <td>${acct.getId()}</td>
                       <td>${acct.getName()}</td>
                       <td><c:if test="${acct.getBlocked()==true}">
-                          <fmt:message key="BLOCKED" bundle="${lang}"/>
+                          <%--<fmt:message key="BLOCKED" bundle="${lang}"/>--%>
+                        <span class="btn btn-deep-orange btn-sm" style="line-height:2px;">
+            <fmt:message key="BLOCKED" bundle="${lang}"/></span>
+                          </c:if>
+                        <c:if test="${acct.getBlocked()==false}">
+<span class="btn btn-dark-green btn-sm" style="line-height:2px;"><fmt:message key="ACTIVE" bundle="${lang}"/></span>
                           </c:if>
                       </td>
                       <td>${acct.getBalance()}</td>
                       <td>
-                        <a href="?command=account&action=make_payment">pmnt</a> |
-                        <a href="?command=account&action=replenish">rpsh</a> |
-                        <a href="?command=account&action=block">blck</a>
+                        <del>
+                          <a href="?command=account&action=make_payment&account_id=${acct.getId()}"><fmt:message key="LNK_PMNT" bundle="${lang}"/></a>
+                        </del>
+                        |
+                        <del>
+                          <a href="?command=account&action=replenish&account_id=${acct.getId()}"><fmt:message key="LNK_REPL" bundle="${lang}"/></a>
+                        </del>
+                        |
+                        <a href="?command=account&action=block&account_id=${acct.getId()}"><fmt:message key="LNK_BLOCK" bundle="${lang}"/></a>
                       </td>
                     </tr>
                   </c:forEach>
                   </tbody>
                 </table>
+              </c:if> <%--not empty accts--%>
 
+                <a href="?command=account&action=order_new_account">
+                <button type="button" class="btn btn-warning" aria-label="Left Align">
+                  <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+                  <i class="fa-li fa fa-check-square"></i><fmt:message key="LNK_ORDER_NEW_ACCOUNT" bundle="${lang}"/>
+                </button>
+                </a>
+              <b class="deep-orange-text"></b>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-              </c:if>
-
-              <div class="panel-body">
 
 
               </div>
             </div>
           </div>
-        </c:if>
-        <%--/Authorized Usr index--%>
+        </c:if><%--empty action--%>
+      </c:if><%--/Authorized Usr index--%>
 
 
 

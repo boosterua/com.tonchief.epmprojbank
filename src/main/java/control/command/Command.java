@@ -17,7 +17,8 @@ public interface Command {
 //    ResourceBundle RB_LOCALE = ResourceBundle.getBundle("locale");
     String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ExceptionDAO, MySqlPoolException;
     default void disablePageCache(HttpServletResponse resp){
-        resp.setHeader("Cache-Control", "private, no-store, no-cache, must-revalidate");
-        resp.setHeader("Pragma", "no-cache");
+        /*resp.setHeader("Cache-Control", "private, no-store, no-cache, must-revalidate");
+        resp.setHeader("Pragma", "no-cache");*/
+        //Moved to filter
     }
 }

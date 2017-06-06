@@ -12,6 +12,7 @@ public interface AccountsDAO extends EntityDAO {
     boolean setBlock(Account account) throws MySqlPoolException;
     boolean setBlock(int accId, boolean blk);
     Long getMaxNumByAccountNum(String like) throws ExceptionDAO;
-    Integer generate(int clientId, String acctPrefix) throws ExceptionDAO ;
+    Integer generate(int clientId, String acctPrefix, Boolean setBlocked) throws ExceptionDAO;
+
     List<Account> findAllByClientId(Integer uid) throws ExceptionDAO;
 }

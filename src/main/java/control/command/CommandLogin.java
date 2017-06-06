@@ -50,7 +50,9 @@ public class CommandLogin implements Command {
                 req.setAttribute("accounts", accounts);
                 session.setAttribute("isAuthorized", true);
                 session.setAttribute("client", client);
-                if( client.getRole().equals(RB_BANK.getString("ADMIN_ROLE")) ) {
+
+                if( RB_BANK.getString("ADMIN_ROLE").equals(client.getRole().toString()) ) {
+                    LOGGER.info("User with admin privileges has just logged in.");
                     session.setAttribute("isAdmin", true);
                     resp.sendRedirect("/bank/?command=admin");
                     page="";
@@ -59,7 +61,10 @@ public class CommandLogin implements Command {
 //                    page = RB_PAGEMAP.getString("jsp.admin");
 
                 } else {
-                    page = RB_PAGEMAP.getString("jsp.user.authorized");
+//                    page = RB_PAGEMAP.getString("jsp.user.authorized");
+                    resp.sendRedirect("/bank/?command=show_authuser_hp");
+                    page="";
+
                 }
 
 //                String referer = req.getHeader("Referer");
