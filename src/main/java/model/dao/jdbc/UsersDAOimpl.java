@@ -30,8 +30,7 @@ public class UsersDAOimpl implements UsersDAO {
     //    private static final String PWD = "password";//4;
     private static final String ROL = "role"; //5;
     private static final int ACC = 6;
-    private static final int FEE = 6;
-    private static final String FID = "fee_id";//6
+    private static final String FEE = "fee_id";//6
     //Checked for fields equality b/w dao and db(v2), 2017-05-27
 
     public static UsersDAOimpl getInstance() {
@@ -81,7 +80,7 @@ public class UsersDAOimpl implements UsersDAO {
         return 0;
     }
 
-    public static boolean isConstraintViolation(SQLException e) {
+    private static boolean isConstraintViolation(SQLException e) {
         return e.getSQLState().startsWith("23");
     }
 
@@ -156,6 +155,7 @@ public class UsersDAOimpl implements UsersDAO {
     }
 
     public Client getDetailedById(Integer clientId) {
+
         try (Connection conn = pool.getConnection();
              PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.getDetailedDataById"), 1);
              //id_client,clients.name,email,password,role,fees.name
@@ -175,6 +175,42 @@ public class UsersDAOimpl implements UsersDAO {
                 return cl;
             } catch (SQLException e) {
                 LOGGER.error("SQLex." + e.toString());
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQL exception.", e);
+        } catch (Exception e) {
+            LOGGER.error("Major General Exception.", e);
+        }
+        return null;
+    }
+
+    public Client getClientWithAccounts (Integer clientId) {
+        try (Connection conn = pool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("clients.getDetailedDataById"), 1);
+        ){
+            ps.setInt(1, clientId);
+            LOGGER.info("Got connection. Exec.PS:" + ps.toString());
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean firstRecord = true;
+                Client cl = null;
+                while(rs.next()) {
+                    if(firstRecord) {
+                        cl = new Client(rs.getInt(UID), rs.getString(NAM), rs.getString(EML), rs.getInt(ROL));
+                        cl.setFeeName(rs.getString("fees.name"));
+                        cl.setFeeId(rs.getInt("fees.id_fee"));
+                        firstRecord=false;
+                    }
+                    LOGGER.debug(rs.getInt("accounts.id_account") + ":"+
+                            rs.getString("accounts.number") + ":"+ rs.getBoolean("accounts.is_blocked"));
+                    Account account = new Account(rs.getInt("accounts.id_account"),
+                            rs.getString("accounts.number"), rs.getBoolean("accounts.is_blocked"));
+                    LOGGER.debug("account:"+account);
+                    cl.addAccount(account);
+                    LOGGER.debug("Still here");
+                }
+                LOGGER.info(cl);
+                rs.close();
+                return cl;
             }
         } catch (SQLException e) {
             LOGGER.error("SQL exception.", e);

@@ -45,10 +45,6 @@ public class Admin {
             return null;
         }
 
-
-
-
-
         /* Loop to check if newly generated card exists in database: while newCard is found - regenerate new number */
         do {
             /* Generate card number (Always 16 digits).
@@ -100,24 +96,16 @@ public class Admin {
         return issueNewCard(client.getId(), client.getFeeId());
     }
 
-
-
-
     public Client getClientById(int clientId) throws ExceptionDAO {
         Client client = (Client) DAO.getUsersDAO().getById(clientId);
         return client;
     }
 
-
     public List<Client> getClientsByRole(Long role){
         if(role==null) role=0L;
-
-//        List<Client> list = DAO.getUsersDAO().getUsersByRole(role);
         List<Client> list = DAO.getUsersDAO().getUsersByRoleOrBlockedSt(role, null);
-//        logger.info("From Amdin.getClientsByRole:" + list.size());
+        logger.debug("From Amdin.getClientsByRole:" + list.size());
         return list;
-//        logger.info();
-//        return DAO.getUsersDAO().getUsersByRole(role);
     }
 
     public List<Client> getClientsWithBlockedAccts(){
@@ -130,8 +118,8 @@ public class Admin {
         return list;
     }
 
-
-    public Client getClientDetailedById(Integer clientId)  {
+@Deprecated
+    public Client getClientDetailedById_OLD(Integer clientId)  {
         Client client = (Client) DAO.getUsersDAO().getDetailedById(clientId);
         logger.info("Got client:"+client);
         if(client==null)
@@ -142,9 +130,34 @@ public class Admin {
 //        logger.info(client.getAccount().getCards().get(0));
         return client;
     }
+
+
+
+
+    public Client getClientDetailedById(Integer clientId)  {
+        Client client = DAO.getUsersDAO().getClientWithAccounts(clientId);
+        //logger.info("Got client:"+client);
+        if(client==null)
+            return null;
+        for (Account account : client.getAccountList()) {
+            logger.debug("" + account);
+            List<Card> cards = DAO.getCardsDAO().getByAccountId(account.getId());
+            if(cards==null) continue;
+            logger.debug(cards);
+            account.setCards(cards);
+        }
+//        logger.info(client.getAccount().getName());
+//        logger.info(client.getAccount().getCards().get(0));
+        for (Account account : client.getAccountList()) {
+            logger.debug("**  "+account);
+            for (Card card: account.getCards())
+                logger.debug(account + " : " + card);
+        }
+        return client;
+    }
 }
 
-
+// TODO : session - getsession (true/false)
 /*
      Administrator
      -> blockAccount();

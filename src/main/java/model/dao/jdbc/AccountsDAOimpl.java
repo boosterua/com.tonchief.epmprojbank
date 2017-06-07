@@ -1,10 +1,9 @@
 package model.dao.jdbc;
 
-import com.mysql.jdbc.exceptions.MySQLTimeoutException;
-import model.dao.interfaces.AccountsDAO;
 import model.dao.connection.DataSource;
 import model.dao.exceptions.ExceptionDAO;
 import model.dao.exceptions.MySqlPoolException;
+import model.dao.interfaces.AccountsDAO;
 import model.entity.Account;
 import model.entity.Entity;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -24,28 +23,27 @@ import java.util.List;
    No operations allowed after connection closed. */
 
 
-
 public class AccountsDAOimpl implements AccountsDAO {
 
     private static AccountsDAOimpl instance = null;
-//  private final ResourceBundle BUNDLE = ResourceBundle.getBundle("database.psqueries");
-// Moved to I:EntityDAO
+    //  private final ResourceBundle BUNDLE = ResourceBundle.getBundle("database.psqueries");
+    // Moved to I:EntityDAO
     private final Logger logger = Logger.getLogger(AccountsDAOimpl.class);
     private BasicDataSource pool = DataSource.getInstance().getBds();
-    private static final int ID = 1;
-    private static final int NUM = 2;
-    private static final int BLK = 3;
-    private static final int BAL = 4;
-    private static final int CLI = 5;
+    private static final String ID  = "id_account";
+    private static final String NUM = "number";
+    private static final String BLK = "is_blocked";
+    private static final String BAL = "balance";
+    private static final String CLI = "client_id";
     //Checked for fields equality b/w dao and db(v2), 2017-05-27
 
 
-    private AccountsDAOimpl() { }
+    private AccountsDAOimpl() {
+    }
 
     public static synchronized AccountsDAOimpl getInstance() {
-        synchronized (AccountsDAOimpl.class){
-            if (instance == null)
-                instance = new AccountsDAOimpl();
+        synchronized (AccountsDAOimpl.class) {
+            if (instance == null) instance = new AccountsDAOimpl();
         }
         return instance;
     }
@@ -58,9 +56,7 @@ public class AccountsDAOimpl implements AccountsDAO {
 
         /* try with resources works perfectly with apache pool v2.
         Closing connection and prepSt automatically */
-        try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.insert"), 1);
-        ) {
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.insert"), 1);) {
             logger.info("Got conn for insert. ");
             logger.info("Params from account passed:(" + account.toString() + ")");
 
@@ -73,10 +69,9 @@ public class AccountsDAOimpl implements AccountsDAO {
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 rs.next();
-                return rs.getInt(1+0);
+                return rs.getInt(1 + 0);
             } finally {
-                if(ps!=null)
-                    ps.close();
+                if (ps != null) ps.close();
             }
         } catch (SQLException e) {
             logger.error("SQL.exception", e);
@@ -84,48 +79,11 @@ public class AccountsDAOimpl implements AccountsDAO {
         return 0;
     }
 
-/*
-    @Override
-    public Integer generate(int clientId, String acctPrefix) throws ExceptionDAO {
-        logger.info("generate new acct for cl_id=" + clientId + " & acctPrefix="+ acctPrefix);
-
-        try (Connection conn = pool.getConnection();
-        ) {
-            conn.setAutoCommit(false);
-//            PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.generate"), 1);
-            PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.generate1"), 1);
-            ps.setInt(1, clientId);
-            logger.info("PS: " + ps.toString());
-            ps.executeUpdate();
-
-            PreparedStatement ps2 = conn.prepareStatement(BUNDLE.getString("accounts.generate2"), 1);
-            ps2.setString(1, acctPrefix);
-            logger.info("PS: " + ps2.toString());
-            ps.executeUpdate();
-
-//            ps.setString(2, acctPrefix);
-//            logger.info("PS: " + ps.toString());
-//            ps.executeUpdate();
-            conn.commit();
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                rs.next();
-                return rs.getInt(1);
-            } finally {
-                if(ps!=null) ps.close();
-            }
-        } catch (SQLException e) {
-            logger.error("SQL exception", e);
-        }
-        return 0;
-    }*/
-
     @Override
     public Integer generate(int clientId, String acctPrefix, Boolean setBlocked) throws ExceptionDAO {
-        logger.info("generate new acct for cl_id=" + clientId + " & acctPrefix="+ acctPrefix);
+        logger.info("generate new acct for cl_id=" + clientId + " & acctPrefix=" + acctPrefix);
 
-        try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.generate"), 1);
-        ) {
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.generate"), 1);) {
             ps.setInt(1, clientId);
             ps.setString(2, acctPrefix);
             logger.info("PS: " + ps.toString());
@@ -133,10 +91,10 @@ public class AccountsDAOimpl implements AccountsDAO {
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 rs.next();
                 Integer acctId = rs.getInt(1);
-                if(setBlocked!=null) setBlock(acctId, setBlocked);
+                if (setBlocked != null) setBlock(acctId, setBlocked);
                 return rs.getInt(1);
             } finally {
-                if(ps!=null) ps.close();
+                if (ps != null) ps.close();
             }
         } catch (SQLException e) {
             logger.error("SQL exception", e);
@@ -148,9 +106,7 @@ public class AccountsDAOimpl implements AccountsDAO {
     public boolean update(int id, Entity acct) throws ExceptionDAO {
 
         logger.info("Update [accounts] for acct.id: " + id);
-        try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.update"), 0);
-        ) {
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.update"), 0);) {
             logger.info("Got connection for update. ");
 
             Account account = (Account) acct;
@@ -179,9 +135,7 @@ public class AccountsDAOimpl implements AccountsDAO {
     @Override
     public boolean delete(long id) throws ExceptionDAO {
         logger.info("Account  sql delete for id=" + id);
-        try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.deleteById"), 0);
-        ){
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.deleteById"), 0);) {
             logger.info("got conn.");
             ps.setLong(1, id);
             logger.info("Trying PS:" + ps);
@@ -200,17 +154,15 @@ public class AccountsDAOimpl implements AccountsDAO {
     @Override
     public Entity getById(Integer id) throws ExceptionDAO {
         logger.info("fetching Entity.Account for id:" + id);
-        try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.getById"), 1);
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.getById"), 1);
              /*	prepareStatement(String sql, int autoGeneratedKeys)
-Creates a default PreparedStatement object that has the capability to retrieve auto-generated keys.*/
-        ){
+Creates a default PreparedStatement object that has the capability to retrieve auto-generated keys.*/) {
             logger.info("got conn.");
             ps.setInt(1, id);
             logger.info("Trying PS:" + ps);
 
             try (ResultSet rs = ps.executeQuery()) {
-                    //  model.utils.PrintResultSet.printDump(rs);
+                //  model.utils.PrintResultSet.printDump(rs);
                 rs.next();
                 Account acct = new Account();
                 acct.setId(rs.getInt(ID));
@@ -235,15 +187,13 @@ Creates a default PreparedStatement object that has the capability to retrieve a
     public List<Account> findAllByClientId(Integer client) throws ExceptionDAO {
         List<Account> resultList = new ArrayList<>();
         logger.info("fetching Account Entities for Userid:" + client);
-        try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.getByClient"), 0);
-        ){
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.getByClient"), 0);) {
             logger.info("Got connection.");
             ps.setInt(1, client);
             logger.info("Trying PS:" + ps);
 
             try (ResultSet rs = ps.executeQuery()) {
-                while(rs.next()) {
+                while (rs.next()) {
                     Account acct = new Account();
                     acct.setId(rs.getInt(ID));
                     acct.setName(Long.toString(rs.getLong(NUM)));
@@ -266,36 +216,30 @@ Creates a default PreparedStatement object that has the capability to retrieve a
     }
 
 
-
     @Override
     public boolean isBlocked(Account account) throws MySqlPoolException, SQLException {
+        Boolean res = false;
         logger.info("fetching isBlocked for " + account + " id:" + account.getId());
         try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.isBlocked"), 0);
-        ){
-            if (conn == null) throw new MySqlPoolException("No connection", new MySQLTimeoutException());
+            PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.isBlocked"), 0);) {
+            //if (conn == null) throw new MySqlPoolException("No connection", new MySQLTimeoutException());
             logger.info("got conn, acct id:" + account.getId());
-            ps.setInt(ID, account.getId());
-            try (ResultSet rs = ps.executeQuery()) {
-                rs.next();
-                boolean res = rs.getBoolean(1);
-                if(ps!=null) ps.close();
-                return res;
-            }
+            ps.setInt(1, account.getId());
+            ResultSet rs = ps.executeQuery();
+            if(rs.next())
+                res = rs.getBoolean(1);
+            ps.close();
         } catch (Exception e) {
-            new MySqlPoolException("Db Pool aquire failed for isBlocked.", e);
+            throw new MySqlPoolException("Db Pool aquire failed for isBlocked.", e);
         }
-        return false;
+        return res;
     }
 
     /* Only transfers entity state to db, while setBlock(byId:int) - explicitly sets block state to true */
     @Override
     public boolean setBlock(Account account) {
         logger.info("setting isBlocked=(" + account.getBlocked() + ") for " + account);
-        try (
-                Connection conn = pool.getConnection();
-                PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.setBlock"), 0);
-        ){
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.setBlock"), 0);) {
             ps.setBoolean(1, account.getBlocked());
             ps.setInt(2, account.getId());
             return (ps.executeUpdate() != 0);
@@ -303,14 +247,12 @@ Creates a default PreparedStatement object that has the capability to retrieve a
             logger.error("", e);
         }
         return false;
+//        return setBlock(account.getId(), account.getBlocked());
     }
 
     public boolean setBlock(int accId, boolean block) {
-        logger.info("setting isBlocked="+block+" for accountId=" + accId);
-        try (
-            Connection conn = pool.getConnection();
-            PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.setBlock"), 0);
-        ){
+        logger.info("setting isBlocked=" + block + " for accountId=" + accId);
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.setBlock"), 0);) {
             ps.setBoolean(1, block);
             ps.setInt(2, accId);
             return (ps.executeUpdate() != 0);
@@ -321,15 +263,11 @@ Creates a default PreparedStatement object that has the capability to retrieve a
     }
 
 
-
     @Override
     @Deprecated
-    /* Replaced with different implementation: see generate method above */
-    public Long getMaxNumByAccountNum(String like) throws ExceptionDAO {
+    /* Replaced with different implementation: see generate method above */ public Long getMaxNumByAccountNum(String like) throws ExceptionDAO {
         logger.info("fetching Account Entity for id:" + like);
-        try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.getMaxByNumLike"), 1);
-        ){
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.getMaxByNumLike"), 1);) {
             ps.setString(1, like);
             logger.info("Trying PS:" + ps);
 
@@ -348,8 +286,11 @@ Creates a default PreparedStatement object that has the capability to retrieve a
     }
 
 
+/*
 @Deprecated
-    /* Newer implementation, using Util DAO*/
+    */
+/* Newer implementation, using Util DAO*//*
+
     public Entity getByIdTWR(Integer id) throws ExceptionDAO, SQLException {
 
         logger.info("fetching Account Entity for id:" + id);
@@ -372,6 +313,7 @@ Creates a default PreparedStatement object that has the capability to retrieve a
             }
        return null;
     }
+*/
 }
 
 
@@ -422,4 +364,39 @@ Creates a default PreparedStatement object that has the capability to retrieve a
 
 
 // TODO:ALL DAO - when closing PS - check for null - EVERYWHERE when it's not checked
+
+/* //Transaction
+    @Override
+    public Integer generate(int clientId, String acctPrefix) throws ExceptionDAO {
+        logger.info("generate new acct for cl_id=" + clientId + " & acctPrefix="+ acctPrefix);
+
+        try (Connection conn = pool.getConnection();
+        ) {
+            conn.setAutoCommit(false);
+//            PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.generate"), 1);
+            PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.generate1"), 1);
+            ps.setInt(1, clientId);
+            logger.info("PS: " + ps.toString());
+            ps.executeUpdate();
+
+            PreparedStatement ps2 = conn.prepareStatement(BUNDLE.getString("accounts.generate2"), 1);
+            ps2.setString(1, acctPrefix);
+            logger.info("PS: " + ps2.toString());
+            ps.executeUpdate();
+
+//            ps.setString(2, acctPrefix);
+//            logger.info("PS: " + ps.toString());
+//            ps.executeUpdate();
+            conn.commit();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                rs.next();
+                return rs.getInt(1);
+            } finally {
+                if(ps!=null) ps.close();
+            }
+        } catch (SQLException e) {
+            logger.error("SQL exception", e);
+        }
+        return 0;
+    }*/
 

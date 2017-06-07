@@ -49,9 +49,9 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-2"></div>
+    <div class="col-md-1"></div>
 
-    <div class="col-md-8">
+    <div class="col-md-10 container-fluid" >      <%--style="border:2px solid red;"--%>
       <h1> admin page</h1>
 
       ${errormsg_html}
@@ -82,11 +82,10 @@
 
       <c:if test="${action==\"show_clients_by_role\"}">
         <div class="panel-heading">
-          <h3 class="panel-title badge indigo">&nbsp; <fmt:message key="NEW_CLIENTS_APPROVE_LIST"
-                                       bundle="${lang}"/>&nbsp;</h3>
+          <h3 class="panel-title badge indigo">&nbsp; <fmt:message key="NEW_CLIENTS_APPROVE_LIST" bundle="${lang}"/>&nbsp;</h3>
         </div>
         <c:if test="${clientList.size() > 0}">
-          <table class="table table-striped table-hover table-sm   table-info ">
+          <table class="table table-striped table-hover table-sm table-info z-depth-3 " >
             <thead class="teal darken-3 text-white">
             <tr class="text-center">
               <th><fmt:message key="ID" bundle="${lang}"/></th>
@@ -117,7 +116,7 @@
                     </span></nobr>
                   </c:if>
                 </td>
-                <td>${cl.getFeeName()}</span>
+                <td>${cl.getFeeName()}
                   </td>
               </tr>
             </c:forEach>
@@ -132,7 +131,7 @@
         <%--</c:if>--%>
 
 
-        <%-- ######## show Single Client To Approve #########--%>
+      <%-- ######## show Single Client To Approve #########--%>
 
       <c:if test="${action==\"show_сlient_to_approve\"}">
 
@@ -147,30 +146,33 @@
           </c:choose>
           &nbsp;</h3>
       </div>
+
+
+
       <c:if test="${not empty client}">
-      <div class="row">
-        <div class="col-md-8">
-          <table class="table table-striped table-hover table-sm table-info"
-               style="background:#dddedf;<c:if test='${client.getRole()!=0}'>
+      <div class="row-fluid">
+        <div class="col-md-4 pull-left" style="width:auto;">
+          <table class="table table-striped table-hover table-sm table-info z-depth-3 text-sm"
+               style="font-size:smaller;background:#dddedf;<c:if test='${client.getRole()!=0}'>
                    background:#00DDAA !important</c:if>" id="client_details">
             <tbody>
             <tr>
-              <td><fmt:message key="ID" bundle="${lang}"/></td>
+              <th><fmt:message key="ID" bundle="${lang}"/></th>
               <td>${client.getId()}</td>
             <tr>
-              <td><fmt:message key="NAME" bundle="${lang}"/></td>
+              <th><fmt:message key="NAME" bundle="${lang}"/></th>
               <td>${client.getName()}</td>
             <tr>
-              <td><fmt:message key="EMAIL" bundle="${lang}"/></td>
+              <th><fmt:message key="EMAIL" bundle="${lang}"/></th>
               <td>${client.getEmail()}</td>
             <tr>
-              <td><fmt:message key="FEE_CARD_NAME" bundle="${lang}"/></td>
+              <th><fmt:message key="FEE_CARD_NAME" bundle="${lang}"/></th>
               <td>${client.getFeeName()}</td>
             <tr>
-              <td><fmt:message key="ROLE_CODE" bundle="${lang}"/></td>
+              <th><fmt:message key="ROLE_CODE" bundle="${lang}"/></th>
               <td>${client.getRole()}</td>
             <tr id="tr_btn_appr">
-              <td><fmt:message key="APPROVE" bundle="${lang}"/></td>
+              <th><fmt:message key="APPROVE" bundle="${lang}"/></th>
               <td style="line-height:8px;">
 
                 <label id="btn_approve_client" class="switch" style="padding:0;margin:0;">
@@ -210,11 +212,16 @@
         </script>
 
 
-          <%--Account--%>
 
 
-        <div class="col-md-4">
-          <table class="table table-striped table-hover table-sm table-info">
+          <%--Accounts--%>
+
+        <div class="col-md-8 pull-right" >
+        <span class="row-fluid">
+        <c:forEach var="account" items="${client.getAccountList()}">
+          <div class="col-md-5 pull-left">
+          <table class="table table-sm z-depth-2 Ttable-striped table-bordered table-hover table-info"
+                 style="font-size: smaller">
             <thead>
             <tr>
               <th><fmt:message key="ACCT_NUMBER" bundle="${lang}"/></th>
@@ -222,9 +229,9 @@
             </thead>
             <tbody>
             <tr>
-              <td title="id:${client.getAccount().getId()}">${client.getAccount().getName()}
+              <td title="id:${account.getId()}">${account.getName()}
                 <c:choose>
-                <c:when test='${client.getAccount().getBlocked()}'>
+                <c:when test='${account.getBlocked()}'>
                 <span id="account_status_badge">
             <span class="btn btn-deep-orange btn-sm" style="line-height:2px;padding:7px 4px;margin:0;">
             <fmt:message key="BLOCKED" bundle="${lang}"/></span>
@@ -240,7 +247,7 @@
             <script>  // btn_unblock
             $(document).on("click", "#btn_unblock", function () {
               $.get("<%=request.getContextPath()%>/bank/?command=admin&action=unblock_account"
-                + "&content_type=ajax&account_id=${client.getAccount().getId()}",
+                + "&content_type=ajax&account_id=${account.getId()}",
                 function (resp) {
                   if (resp == 'OK') {
                     $('#account_status_badge').html(
@@ -262,11 +269,11 @@
               </td>
             </tr>
 
-            <tr test="${not empty client.getAccount().getCards()}">
+            <tr test="${not empty account.getCards()}">
             <tr>
               <th><fmt:message key="CONNECTED_CARDS" bundle="${lang}"/></th>
             </tr>
-            <c:forEach items="${client.getAccount().getCards()}" var="card">
+            <c:forEach items="${account.getCards()}" var="card">
               <tr>
                 <td>
                   <small title="id:${card.getId()}">&#x1f4b3;&nbsp;<c:out value="${card.getName()}"/>
@@ -278,19 +285,17 @@
             <tr>
               <td>
                 <small><a
-                    href="<%=request.getContextPath()%>/bank/?command=admin&action=issue_new_card&account_id=${client.getAccount().getId()}&fee_id=${client.getFeeId()}&client_id=${client.getId()}"><fmt:message
+                    href="<%=request.getContextPath()%>/bank/?command=admin&action=issue_new_card&account_id=${account.getId()}&fee_id=${client.getFeeId()}&client_id=${client.getId()}"><fmt:message
                     key="ISSUE_NEW_CARD" bundle="${lang}"/></a></small>
             </tr>
 
 
-            </tbody>
-          </table>
-
-
-          <c:if test='${client.getAccount().getBlocked()}'>
-
+              </tbody>
+            </table>
+          </div>
+        </c:forEach>
+        </span>
         </div>
-        </c:if>
 
         <small>
             <%--${client.getAccount()}</td>--%>
@@ -304,7 +309,7 @@
 
   </div>
 
-  <div class="col-md-2"></div>
+  <div class="col-md-1"></div>
 </div>
 <%--/div.row--%>
 </div> <!-- /container -->

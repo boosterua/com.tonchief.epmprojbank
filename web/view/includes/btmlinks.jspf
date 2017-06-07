@@ -61,8 +61,11 @@
                     |
                     command = ${command}
                     |
-                    <a href="#"><i class="fa fa-list-alt" aria-hidden="true" title="Logout"></i> |
-                    <i class="fa fa-credit-card" aria-hidden="true" title="Logout"></i>
+                    <a href="#"><i class="fa fa-list-alt" aria-hidden="true" title="Logout"></i>
+                    </a>
+                    |
+                        <a href="http://localhost:28088/bank/?command=authenticate&email=2@2.2&password=2">
+                            <i class="fa fa-credit-card" aria-hidden="true" title="Auto-Login"></i>
                     </a>
 
 

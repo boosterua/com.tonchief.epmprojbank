@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.List;
 
 public class CommandAdmin implements Command {
@@ -89,11 +88,13 @@ LOGGER.debug("b4 switch");
         }
 
         LOGGER.debug("Page:"+page + " RQ " + req.getQueryString());
+/*
         Enumeration attrs =  req.getAttributeNames();
         while(attrs.hasMoreElements()) {
             String attr = (String) attrs.nextElement();
             LOGGER.debug("\t"+attr + "=" + req.getParameter(attr));
         }
+*/
         return page;
     }
 

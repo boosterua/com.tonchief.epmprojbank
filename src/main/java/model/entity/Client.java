@@ -16,6 +16,9 @@ package model.entity;
      -> blockAccount();
 */
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Client extends Entity {
     private int id;
     private String name;
@@ -28,6 +31,7 @@ public class Client extends Entity {
     private String password;
     private Integer role;
     private Boolean accountBlock;
+    private List<Account> accountList = new ArrayList<>();
 
     public Client(){}
 
@@ -117,5 +121,14 @@ public class Client extends Entity {
         return (String.format("id:%s : name:%s : acctId:%s : email:%s : feeId:%s %s : acct=%s : role:%s",
                 id, name, accountId, email, feeId, feeName, account, role));
     }
+
+    public List<Account> getAccountList() {
+        return accountList;
+    }
+
+    public void addAccount(Account account) {
+        accountList.add(account);
+    }
+
 
 }

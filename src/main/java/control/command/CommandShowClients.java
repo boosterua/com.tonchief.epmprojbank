@@ -37,6 +37,7 @@ public class CommandShowClients implements Command {
                 req.setAttribute("action", "show_clients_by_role");
                 break;
             case ("get_one_client"):
+                //TODO - remove the whole class in favor of CommandAdmin
                 Client client = null;
                 client = SERVICE.getAdmin().getClientDetailedById(clientId);
                 req.setAttribute("client", client);
