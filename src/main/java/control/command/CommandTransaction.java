@@ -22,8 +22,12 @@ public class CommandTransaction implements Command {
         HttpSession session = req.getSession();
         String page = RB_PAGEMAP.getString("jsp.user");
 
-        Boolean isAuth = (Boolean) session.getAttribute("isAuthorized");
+/*        Boolean isAuth = (Boolean) session.getAttribute("isAuthorized");
         if (isAuth == null || !isAuth) {
+            req.setAttribute("errormsg", "UNAUTHORIZED");
+            return page;
+        } */
+        if (sessIsAuthUser(req)) {
             req.setAttribute("errormsg", "UNAUTHORIZED");
             return page;
         }
