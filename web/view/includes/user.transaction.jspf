@@ -1,0 +1,40 @@
+<div class="card">
+    <div class="card-block">
+        <div class="panel-heading">
+            <h2 class="panel-title badge indigo">&nbsp; <fmt:message key="TRANSFERS"/> &nbsp;</h2>
+        </div>
+        <div class="panel-body">
+            <h4><fmt:message key="YOUR_PAYMENT_SENT"/></h4>
+            <br><br>
+                <div class="row">
+                    <div class="md-form col-sm-3">
+                        <input value="${param.account_id}" type="number" pattern="\d{1,14}" id="dt_account" class="" disabled="disabled">
+                        <label for="cr_account"><fmt:message key="SENDER_ACCOUNT_ID"/></label>
+                    </div>
+
+                    <div class="md-form col-sm-6">
+                        <i class="fa fa-user prefix"></i>
+                        <input type="text" pattern="\d{1,14}" id="cr_account" name="cr_account" class="" required>
+                        <label for="cr_account"><fmt:message key="RECIPIENT_ACCOUNT"/></label>
+                    </div>
+
+                    <div class="md-form col-sm-3">
+                        <input type="text" pattern="\d+([\.,]\d\d?)?" id="trf_amount" name="trf_amount" class="" required>
+                        <label for="trf_amount"><fmt:message key="AMOUNT"/> [0.00]</label>
+                    </div>
+
+                </div>
+
+                <div class="row"  style="width: 100%;">
+                    <div class="md-form col-sm-10" style="" >
+                        <input type="text" pattern="\^.{,160}\$" id="description" name="trf_description_text" class="" required>
+                        <label for="description"><fmt:message key="DESCRIPTION"/></label>
+                    </div>
+                    <div class="md-form col-sm-2" >
+                        <button class="btn green darken-4 1darken-3 white-text btn-sm" type="submit"><fmt:message key="PROCEED"/></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

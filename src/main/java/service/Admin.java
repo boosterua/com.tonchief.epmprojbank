@@ -103,18 +103,18 @@ public class Admin {
 
     public List<Client> getClientsByRole(Long role){
         if(role==null) role=0L;
-        List<Client> list = DAO.getUsersDAO().getUsersByRoleOrBlockedSt(role, null);
-        logger.debug("From Amdin.getClientsByRole:" + list.size());
+        List<Client> list = DAO.getUsersDAO().getClientsByRoleOrBlockedSt(role, null);
+        logger.debug("From Amdin.getClientsByRole:" + (list==null?"null": list.size()) );
         return list;
     }
 
     public List<Client> getClientsWithBlockedAccts(){
-        List<Client> list = DAO.getUsersDAO().getUsersByRoleOrBlockedSt(0L, true);
+        List<Client> list = DAO.getUsersDAO().getClientsByRoleOrBlockedSt(0L, true);
         return list;
     }
 
     public List<Client> getClientsAll(){
-        List<Client> list = DAO.getUsersDAO().getUsersByRoleOrBlockedSt(-100L, null);
+        List<Client> list = DAO.getUsersDAO().getClientsByRoleOrBlockedSt(-100L, null);
         return list;
     }
 

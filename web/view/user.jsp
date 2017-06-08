@@ -33,174 +33,73 @@
         <%--<span class="badge badge-danger">${errormsg}</span>--%>
         <div class="alert alert-danger" role="alert"><fmt:message key="${errormsg}" bundle="${lang}"/></div>
       </c:if>
+      <c:if test="${not empty sessionScope.errormsg}">
+        <%--<div class="alert alert-danger" role="alert"><fmt:message key="${sessionScope.errormsg}" bundle="${lang}"/></div>--%>
+        <c:set var="errormsg" value="" scope="session"/>
+      </c:if>
+
 
       ${infomsg_html}
-        <c:if test="${not empty infomsg}">
-          <span class="badge badge-success"><fmt:message key="${infomsg}" bundle="${lang}"/></span>
-        </c:if>
-
+      <c:if test="${not empty infomsg}">
+        <span class="badge badge-success black-text"><fmt:message key="${infomsg}" bundle="${lang}"/></span>
+      </c:if>
+      <c:if test="${not empty sessionScope.infomsg}">
+      <%--<span class="badge badge-success"><fmt:message key="${sessionScope.infomsg}" bundle="${lang}"/></span>--%>
+        <c:set var="infomsg" value="" scope="session"/>
+      </c:if>
 
 
       <c:if test="${sessionScope.isAuthorized==true}">
         <script>
-        $("#hello").html(
-        '<fmt:message key="HELLO_AND_WELCOME_BACK" bundle="${lang}"/>, ${sessionScope.client.getName()}!');
+        $("#hello").html('<fmt:message key="HELLO_AND_WELCOME_BACK" bundle="${lang}"/>, ${sessionScope.client.getName()}!');
         </script>
 
 
         <%-- ########  AUTHORIZED USER INDEX  ######## --%>
-
         <c:if test="${(empty action) }">
-          <div class="card">
-            <div class="card-block">
-              <div class="panel-heading">
-                <h2 class="panel-title badge indigo">&nbsp; <fmt:message key="YOUR_ACCOUNTS" bundle="${lang}"/> &nbsp;</h2>
-              </div>
-
-
-
-              <div class="panel-body">
-              <c:if test="${not empty accounts}">
-                <table class="table table-striped table-hover table-sm table-info">
-                  <thead class="teal darken-3 text-white">
-                  <tr class="text-center">
-                    <th><fmt:message key="ID" bundle="${lang}"/></th>
-                    <th><fmt:message key="ACCT_NUMBER" bundle="${lang}"/></th>
-                    <th><fmt:message key="STATE" bundle="${lang}"/></th>
-                    <th><fmt:message key="BALANCE" bundle="${lang}"/></th>
-                    <th><fmt:message key="ACTIONS" bundle="${lang}"/></th>
-                  </tr>
-                  </thead>
-
-                  <tbody>
-                  <c:forEach var="acct" items="${accounts}">
-                    <%--<c:out value="${acct}"/><br>--%>
-
-                    <tr class="text-center">
-                      <td>${acct.getId()}</td>
-                      <td>${acct.getName()}</td>
-                      <td><c:if test="${acct.getBlocked()==true}">
-                          <%--<fmt:message key="BLOCKED" bundle="${lang}"/>--%>
-                        <span class="btn btn-deep-orange btn-sm" style="line-height:2px;">
-            <fmt:message key="BLOCKED" bundle="${lang}"/></span>
-                          </c:if>
-                        <c:if test="${acct.getBlocked()==false}">
-<span class="btn btn-dark-green btn-sm" style="line-height:2px;"><fmt:message key="ACTIVE" bundle="${lang}"/></span>
-                          </c:if>
-                      </td>
-                      <td>${acct.getBalance()}</td>
-                      <td>
-                        <del>
-                          <a href="?command=account&action=make_payment&account_id=${acct.getId()}"><fmt:message key="LNK_PMNT" bundle="${lang}"/></a>
-                        </del>
-                        |
-                        <del>
-                          <a href="?command=account&action=replenish&account_id=${acct.getId()}"><fmt:message key="LNK_REPL" bundle="${lang}"/></a>
-                        </del>
-                        |
-                        <a href="?command=account&action=block&account_id=${acct.getId()}"><fmt:message key="LNK_BLOCK" bundle="${lang}"/></a>
-                      </td>
-                    </tr>
-                  </c:forEach>
-                  </tbody>
-                </table>
-              </c:if> <%--not empty accts--%>
-
-                <a href="?command=account&action=order_new_account">
-                <button type="button" class="btn btn-warning" aria-label="Left Align">
-                  <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
-                  <i class="fa-li fa fa-check-square"></i><fmt:message key="LNK_ORDER_NEW_ACCOUNT" bundle="${lang}"/>
-                </button>
-                </a>
-              <b class="deep-orange-text"></b>
-
-
-
-              </div>
-            </div>
-          </div>
+          <%@ include file="includes/user.index.jspf" %>
         </c:if><%--empty action--%>
+
+
+        <%-- ########  ACTION form_transfer ######## --%>
+        <c:if test="${action=='form_transfer'}">
+          <%@ include file="includes/user.form_transfer.jspf" %>
+        </c:if><%--/form_transfe--%>
+
+        <%-- ########  ACTION transaction ######## --%>
+        <c:if test="${action=='transaction'}">
+          <%@ include file="includes/user.transaction.jspf" %>
+        </c:if><%--/form_transfe--%>
+
+
+
       </c:if><%--/Authorized Usr index--%>
+
 
 
 
 
       <%-- ########  LOGIN  ######## --%>
       <c:if test="${(action=='login')}">
-        <div class="card">
-          <div class="card-block">
-            <div class="panel-heading">
-              <h2 class="panel-title badge indigo">&nbsp; <fmt:message key="Authorization Page" bundle="${lang}"/> &nbsp;</h2>
-            </div>
+        <%@ include file="includes/user.form_login.jspf" %>
+      </c:if><%--/Login--%>
 
-            <div class="panel-body">
-              <form class="form-signin" action="?command=authenticate" method="POST">
-                <h2 class="form-signin-heading "><fmt:message key="PLEASE_LOG_IN" bundle="${lang}"/></h2>
-                <label for="email" class="sr-only">Email</label>
-                <input name="email" value="${email}" type="email" id="email" class="form-control" placeholder="Email address" required autofocus>
-                <label for="password" class="sr-only"><fmt:message key="Password" bundle="${lang}"/></label>
-                <input name="password" type="password" id="password" class="form-control" placeholder='<fmt:message key="Password" bundle="${lang}"/>' required>
-                <button class="btn mdb-color darken-3 white-text btn-sm" type="submit"><fmt:message key="SIGN_IN" bundle="${lang}"/></button>
-              </form>
-            </div>
-          </div>
-        </div>
+
+      <%-- ########  FEES Tbl  ######## --%>
+      <c:if test="${action=='fees_table'}">
+        <%@ include file="includes/open.fees.jspf" %>
       </c:if>
-      <%--/Login--%>
-
-
-        <%-- ########  FEES Tbl  ######## --%>
-
-        <c:if test="${action=='fees_table'}">
-        <div class="card-block">
-          <br><br>
-          <div class="panel-heading">
-            <h3 class="panel-title badge indigo">&nbsp; <fmt:message key="Fee_Schedule" bundle="${lang}"/> &nbsp;</h3>
-          </div>
-
-          <div class="panel-body">
-            <c:if test="${not empty feeList}">
-              <c:if test="not empty ${tableName}">
-                <h4 class="badge indigo"><fmt:message key="${tableName}" bundle="${lang}"/></h4>
-              </c:if>
-
-              <table class="table table-striped table-hover table-sm   table-info ">
-                <thead class="teal darken-3 text-white">
-                <tr class="text-center"><c:forEach var="th" items="${tableHeadersArr}">
-                  <th><fmt:message key="${th}" bundle="${lang}"/></th>
-                </c:forEach>
-                </tr>
-                </thead>
-
-                <tbody>
-                <c:forEach var="fee" items="${feeList}">
-                  <tr class="text-center">
-                    <td>${fee.getId()}</td>
-                    <td class="text-left">${fee.getName()}</td>
-                    <td>${fee.getTransferFee()}</td>
-                    <td><fmt:formatNumber value="${fee.getNewCardFee()}" type="currency" currencySymbol="_"/></td>
-                    <td><fmt:formatNumber type="percent" maxIntegerDigits="2" value="${fee.getApr()}" /></td>
-                  </tr>
-                </c:forEach>
-                </tbody>
-              </table>
-            </c:if>
-          </div>
-        </div>
-      </c:if>
-
-
-
-
-
-
-
-
-
-
 
 
     </div>
+
+
+
+
+
+
+
+
 
     <div class="col-md-2"></div>
   </div>  <%--/div.row--%>
@@ -210,6 +109,8 @@
 <%@include file="includes/everypagefooter.jspf" %>
 
 
+</body>
+</html>
 
 <%--<h3 class="message"><%=service.User.getMessage()%></h3>--%>
 

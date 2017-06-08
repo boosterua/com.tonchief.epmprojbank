@@ -15,36 +15,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FeesDAOimpl implements FeesDAO {
-//TODO full instantiation
+    //TODO full instantiation
     private static FeesDAOimpl instance = null; // Lazy instantiation
     private final Logger logger = Logger.getLogger(FeesDAOimpl.class);
     private BasicDataSource pool = DataSource.getInstance().getBds();
 
-    private static final int ID = 1;
-    private static final int NAM = 2; // Name
-    private static final int TRF = 3; // Trans_Fee
-    private static final int NCF = 4; // NewCard_Fee
-    private static final int APR = 5; // APR
+    private static final String ID  = "id_fee";
+    private static final String NAM = "name"; // 2
+    private static final String TRF = "trans_fee"; // 3
+    private static final String NCF = "newcard_fee"; // 4
+    private static final String APR = "apr"; // 5
     //Checked for fields equality b/w dao and db(v2), 2017-05-27
 
     public static FeesDAO getInstance() {
-        if (instance==null)
-            instance = new FeesDAOimpl();
+        if (instance == null) instance = new FeesDAOimpl();
         return instance;
     }
 
-    public List <Fee> getFees() {
+    public List<Fee> getFees() {
         List<Fee> feeList = new ArrayList<>();
-        try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("fees.getAll"), 1);
-        ) {
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString
+                ("fees.getAll"), 1);) {
             logger.info("Got connection. Trying PS:" + ps.toString());
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    Fee fee = new Fee();
-                    fee.setId(rs.getInt(ID));
-                    fee.setName(rs.getString(NAM));
+                    Fee fee = new Fee(rs.getInt(ID), rs.getString(NAM));
                     fee.setTransferFee(rs.getDouble(TRF));
                     fee.setNewCardFee(rs.getDouble(NCF));
                     fee.setAPR(rs.getDouble(APR));
@@ -60,9 +56,6 @@ public class FeesDAOimpl implements FeesDAO {
         }
         return null;
     }
-
-
-
 
 
     public Integer insert(Object tdata) {

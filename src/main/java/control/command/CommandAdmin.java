@@ -38,7 +38,6 @@ public class CommandAdmin implements Command {
         }
 
 
-LOGGER.debug("b4 switch");
         switch (act){
             case ("set_user_role"): // WORKS
                 String roleStr = req.getParameter("role");
@@ -86,15 +85,6 @@ LOGGER.debug("b4 switch");
                 LOGGER.debug("Wrong Param:");
                 wrongParam(req);
         }
-
-        LOGGER.debug("Page:"+page + " RQ " + req.getQueryString());
-/*
-        Enumeration attrs =  req.getAttributeNames();
-        while(attrs.hasMoreElements()) {
-            String attr = (String) attrs.nextElement();
-            LOGGER.debug("\t"+attr + "=" + req.getParameter(attr));
-        }
-*/
         return page;
     }
 
@@ -167,9 +157,10 @@ LOGGER.debug("b4 switch");
     private boolean ifAjaxPrintOK(HttpServletRequest req, HttpServletResponse resp, String message) throws IOException, ServletException {
         if(req.getParameter("content_type")==null) //not ajax
         return false;
-        printData(resp, "text/plain", message);
-            //            req.setAttribute("OUT", message);
-            //            page = RB_PAGEMAP.getString("jsp.ajax.out");
+            printData(resp, "text/plain", message);
+
+                        req.setAttribute("OUT", message);
+                        page = RB_PAGEMAP.getString("jsp.ajax.out");
         return true;
     }
 }

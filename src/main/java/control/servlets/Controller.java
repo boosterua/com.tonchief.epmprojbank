@@ -49,14 +49,23 @@ public class Controller extends HttpServlet {
             LOGGER.error(exceptionDAO);
         }
 
-        LOGGER.debug("Page:["+page+"]");
+        LOGGER.debug("Page:"+page + " inc.ReqQS: " + req.getQueryString());
+        /*
+        Enumeration attrs =  req.getAttributeNames();
+        while(attrs.hasMoreElements()) {
+            String attr = (String) attrs.nextElement();
+            LOGGER.debug("\t"+attr + "=" + req.getParameter(attr));
+        }   */
+
+
         if(page!= null && !page.equals(""))
             try{
-            getServletContext().getRequestDispatcher(page).forward(req, resp);
+                getServletContext().getRequestDispatcher(page).forward(req, resp);
             } catch (Error e){
                 LOGGER.error("getServletContext().getRequestDispatcher(page).forward(req,resp):",e);
             }
-        //forward to page=/ for null?
+        /* do nothing, this is the case when no page is expected,
+        direct call to writer is used, written/flushed/closed.. see printData method */
     }
 
 

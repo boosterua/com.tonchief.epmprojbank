@@ -4,6 +4,7 @@ import model.entity.Account;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +19,19 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-
+        String amt = "123.15";
+        Integer dp = amt.indexOf(".") & amt.indexOf(",");
+        System.out.println(amt.indexOf("."));
+        System.out.println(amt.indexOf(","));
+        System.out.println(dp);
+        System.out.println(amt.substring(0, dp));
+        System.out.println(amt.substring(dp+1));
+        System.out.println(Long.parseLong(amt.substring(0, dp)) +" @ "+ Integer.parseInt(amt.substring(dp+1)));
+        BigDecimal trfAmount= BigDecimal.valueOf(Long.parseLong(amt.substring(0, dp)), Integer.parseInt(amt.substring(dp+1)));
+        System.out.println(trfAmount.floatValue());
+        System.out.println(trfAmount);
+        System.out.println(new BigDecimal(amt));
+        System.out.println(new BigDecimal(amt.toCharArray()));
 
         final Logger LOG = Logger.getLogger(AccountsDAOimpl.class);
         try {

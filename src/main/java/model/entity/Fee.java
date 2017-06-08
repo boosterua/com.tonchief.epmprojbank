@@ -1,8 +1,5 @@
 package model.entity;
 
-/**
- * Created by tonchief on 05/26/2017.
- */
 public class Fee extends Entity {
     public int id = 0;
     private String name;
@@ -11,6 +8,12 @@ public class Fee extends Entity {
     private double apr;
 
 
+
+    public Fee(int fid, String fnamme) {
+        this.id = fid;
+        this.name = fnamme;
+    }
+
     @Override
     public void setId(int id) {
         this.id = id;
@@ -18,7 +21,7 @@ public class Fee extends Entity {
 
     @Override
     public void setName(String name) {
-        this.name=name;
+        this.name = name;
     }
 
     public void setTransferFee(double transferFee) {
@@ -56,8 +59,7 @@ public class Fee extends Entity {
     }
 
     @Override
-    public String toString(){
-        return String.format("%d. %s : trf=%.2f; ncf=%.2f; apr=%.2f <br>",
-                id, name, transferFee, newCardFee, apr);
+    public String toString() {
+        return String.format("%d. %s : trf=%.2f; ncf=%.2f; apr=%.2f <br>", id, name, transferFee, newCardFee, apr);
     }
 }

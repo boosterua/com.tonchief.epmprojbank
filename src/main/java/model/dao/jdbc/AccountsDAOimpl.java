@@ -14,7 +14,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /* Replaced Apache commons pool to v2.
    For v1 - PS and RS has to be closed manually, while borrowed connection has to stay open when returned back to pool. Crashes otherwise.
@@ -183,7 +185,7 @@ Creates a default PreparedStatement object that has the capability to retrieve a
         return null;
     }
 
-
+@Deprecated
     public List<Account> findAllByClientId(Integer client) throws ExceptionDAO {
         List<Account> resultList = new ArrayList<>();
         logger.info("fetching Account Entities for Userid:" + client);
@@ -204,6 +206,38 @@ Creates a default PreparedStatement object that has the capability to retrieve a
                 }
                 rs.close();
                 return resultList;
+            } catch (SQLException e) {
+                logger.error("SQLex." + e.toString());
+            }
+        } catch (SQLException e) {
+            logger.error("SQL exception.", e);
+        } catch (Exception e) {
+            logger.error("Fatal General Exception.", e);
+        }
+        return null;
+    }
+
+    @Override
+    public Map<Integer,Account> findAccountsByClientId(Integer client) {
+        Map<Integer, Account> resultMap = new HashMap<>();
+        logger.info("fetching Account Entities for Userid:" + client);
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.getByClient"), 0);) {
+            ps.setInt(1, client);
+            logger.info("Trying PS:" + ps);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Account acct = new Account();
+                    Integer accountId = rs.getInt(ID);
+                    acct.setId(accountId);
+                    acct.setName(Long.toString(rs.getLong(NUM)));
+                    acct.setBlock(rs.getBoolean(BLK));
+                    acct.setClientId(rs.getInt(CLI));
+                    acct.setBalance(rs.getBigDecimal(BAL));
+                    resultMap.put(accountId, acct);
+                }
+                rs.close();
+                return resultMap;
             } catch (SQLException e) {
                 logger.error("SQLex." + e.toString());
             }
@@ -241,6 +275,7 @@ Creates a default PreparedStatement object that has the capability to retrieve a
         logger.info("setting isBlocked=(" + account.getBlocked() + ") for " + account);
         try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.setBlock"), 0);) {
             ps.setBoolean(1, account.getBlocked());
+            ps.setBoolean(3, !account.getBlocked());
             ps.setInt(2, account.getId());
             return (ps.executeUpdate() != 0);
         } catch (SQLException e) {
@@ -254,7 +289,9 @@ Creates a default PreparedStatement object that has the capability to retrieve a
         logger.info("setting isBlocked=" + block + " for accountId=" + accId);
         try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("accounts.setBlock"), 0);) {
             ps.setBoolean(1, block);
+            ps.setBoolean(3, !block);
             ps.setInt(2, accId);
+            logger.info("PS:"+ps);
             return (ps.executeUpdate() != 0);
         } catch (SQLException e) {
             logger.error("", e);

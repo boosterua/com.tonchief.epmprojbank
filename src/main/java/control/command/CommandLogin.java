@@ -1,7 +1,6 @@
 package control.command;
 
 import model.dao.exceptions.ExceptionDAO;
-import model.entity.Account;
 import model.entity.Client;
 import org.apache.log4j.Logger;
 
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 import java.util.ResourceBundle;
 //TODO: split long method to custom methods
 
@@ -28,6 +26,9 @@ public class CommandLogin implements Command {
 
         Logger logger = Logger.getLogger(CommandLogin.class);
         logger.info(login + ":" + password + ":" + SERVICE.getLogin().checkCredentials(login, password));
+        if(session.getAttribute("locale")==null)
+            saveCookieToSession(req, "locale");
+
 
         if (req.getParameter("command").equals("logout")) {
             session.invalidate();
@@ -35,36 +36,43 @@ public class CommandLogin implements Command {
             req.setAttribute("action", "login");
         } else if(req.getParameter("command").equals("show_authuser_hp")){ //[Home] in top links
             Boolean isAuth=(Boolean)session.getAttribute("isAuthorized");
+            // TODO - does this request accounts for logged in admin too??? If so - fix it immediately
             if(isAuth!=null && isAuth){
-                req.setAttribute("accounts", SERVICE.getUser().getUserAccounts( ((Client)session.getAttribute("client")).getId() ));
+                Integer uid = ((Client)session.getAttribute("client")).getId();
+                session.setAttribute("accountsMap", SERVICE.getUser().getUserAccountsAsMap(uid));
                 page = RB_PAGEMAP.getString("jsp.user.main");
             } else {
                 req.setAttribute("errormsg", "UNAUTHORIZED");
             }
-        } else {
+
+        } else { // Check credentials
             Integer uid = SERVICE.getLogin().getUserIdOnAuth(login, password);
-            if (uid!=null && uid>0) {
+            if (uid!=null && uid>0) { // Authorized
                 Client client =  SERVICE.getLogin().getClientById(uid);
                 LOGGER.info(client);
-                List<Account> accounts = SERVICE.getUser().getUserAccounts(uid);
-                req.setAttribute("accounts", accounts);
+
+                /* TODO: Should be removed when everything is tested and fixed */
+                if(Boolean.TRUE.equals(Boolean.valueOf(RB_BANK.getString("APPLICATION_IS_IN_DEBUG_MODE"))));
+                    session.setAttribute("SYSTEM_IN_DEBUG_STATE", true);
+
                 session.setAttribute("isAuthorized", true);
                 session.setAttribute("client", client);
 
-                if( RB_BANK.getString("ADMIN_ROLE").equals(client.getRole().toString()) ) {
+                page="";
+                if(RB_BANK.getString("ADMIN_ROLE").equals(client.getRole().toString()) ) {
                     LOGGER.info("User with admin privileges has just logged in.");
                     session.setAttribute("isAdmin", true);
                     resp.sendRedirect("/bank/?command=admin");
-                    page="";
 //                    req.setAttribute("command", "admin");
 //                    req.setAttribute("action", "index");
 //                    page = RB_PAGEMAP.getString("jsp.admin");
-
                 } else {
 //                    page = RB_PAGEMAP.getString("jsp.user.authorized");
+//                    List<Account> accounts = SERVICE.getUser().getUserAccounts(uid);
+//                    req.setAttribute("accounts", accounts);
+                    /*Map<Integer, Account> accountsMap = SERVICE.getUser().getUserAccountsAsMap(uid);
+                    session.setAttribute("accountsMap", accountsMap);*/
                     resp.sendRedirect("/bank/?command=show_authuser_hp");
-                    page="";
-
                 }
 
 //                String referer = req.getHeader("Referer");
@@ -76,13 +84,13 @@ public class CommandLogin implements Command {
 
 
 
-            } else {
-                if (!req.getMethod().equals("GET")) {
+            } else { // Authorization Failed
+                if (!req.getMethod().equals("GET")) { // This is most definitely a hack attempt, or bot crawling
                     req.setAttribute("errormsg", "WRONG_LOGIN_PASS");
                     req.setAttribute("errorcode", 9401);
                 }
                 req.setAttribute("action", "login");
-//                page = RB_PAGEMAP.getString("jsp.user.login");
+                    // page = RB_PAGEMAP.getString("jsp.user.login");
             }
         }
         return page;

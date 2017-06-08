@@ -1,0 +1,54 @@
+<div class="h-25">&nbsp;
+    <div style="height: 4em;">&nbsp;</div>
+</div>
+
+<div class="text-sm-right red-text dark-gradient" style="font-size: smaller">* Turn this off in RB <i>banksettings.properties</i>&nbsp;</div>
+
+<div class="text-right navbar-brand navbar-light teal lighten-4 btn-sm">
+    <div style="font-size:.7em;">
+        <a href="#"><i class="fa fa-list-alt" aria-hidden="true" title="#"></i></a>
+        DEBUG INFO:&nbsp;
+
+        &nbsp;
+        action = ${action}:${sessionScope.action}
+        |
+        command = ${command}:${sessionScope.command}
+        |
+        locale = ${locale}:${sessionScope.locale}
+        |
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Auto-Login:&nbsp;
+        <a href="http://localhost:28088/bank/?command=authenticate&email=2@2.2&password=2" style="color:darkred !important;">
+            <i class="fa fa-credit-card" aria-hidden="true" title="ADMIN.Auto-Login"></i>
+        </a>
+        |
+        <a href="http://localhost:28088/bank/?command=authenticate&email=1@1.1&password=1" >
+            <i class="fa fa-check-circle" aria-hidden="true" title="User.Auto.Login"></i>
+        </a>
+
+
+    </div>
+</div>
+<br>
+
+
+<pre>
+<small>
+  locale=${locale};  pageContext.request.locale = ${pageContext.request.locale} ;  sessionScope.locale = ${sessionScope.locale}
+
+  <b>Session:</b>    <c:forEach var="el" items="${sessionScope.entrySet()}">
+        ${el.key} : ${el.value}</c:forEach>
+    <hr>
+    <b>Param:</b>    <c:forEach var="el" items="${param.entrySet()}">
+        ${el.key} : ${el.value}</c:forEach>
+    <hr>
+    <b>Cookie:</b>    <c:forEach var="el" items="${cookie.entrySet()}">
+        ${el.key} : ${el.value.getValue()}</c:forEach>
+    <hr>
+    <b>Page:</b>    <c:forEach var="el" items="${pageScope.entrySet()}">
+    ${el.key} : ${el.value}</c:forEach>
+
+</small>
+
+</pre>

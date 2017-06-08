@@ -1,16 +1,12 @@
 package service;
 
-import model.entity.Fee;
-
-import java.util.HashMap;
-import java.util.List;
-
 public class SvcFactoryImpl extends ServiceFactory {
     private User user = null;
     private Admin admin = null;
     private Login login;
     private static SvcFactoryImpl instance = null;
     private Fees fee;
+    private Transaction transaction;
 
 
     private SvcFactoryImpl(){    }
@@ -47,7 +43,11 @@ public class SvcFactoryImpl extends ServiceFactory {
         return fee;
     }
 
-//    public HashMap<Integer, String> getFeesSchedule() {
-//        return null;
-//    }
+    @Override
+    public Transaction getTransactions() {
+        if(transaction==null)
+            transaction = new Transaction();
+        return transaction;
+    }
+
 }

@@ -23,6 +23,7 @@ public class ControllerHelper {
         commands.put("showfees", new CommandShowFees());
         commands.put("submit_registration", new CommandRegister());
         commands.put("switch_lang", new CommandEmpty());
+        commands.put("transaction", new CommandTransaction());
 //        commands.put("show_clients", new CommandAdmin());
     }
     //TODO: redesign factory

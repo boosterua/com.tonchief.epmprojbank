@@ -1,7 +1,6 @@
 </main>
 <footer>
     <div class="footer navbar-fixed-bottom">
-<
         <div class="container">
             <div class="h-25">&nbsp;
                 <div style="height: 4em;">&nbsp;</div>
@@ -25,56 +24,16 @@
 
                 <div class="col-md-3 text-right">
                     &nbsp;&nbsp;&nbsp;<i class="fa fa-language" aria-hidden="true"></i>
-                    <a href="<%=request.getContextPath()%>/bank/?command=switch_lang&lang=ua">UKR</a>
-                    <a href="<%=request.getContextPath()%>/bank/?command=switch_lang&lang=en">ENG</a>
+                    <a href="<%=request.getContextPath()%>/bank/?command=switch_lang&locale=ua"><fmt:message key="UKR"/></a>
+                    <a href="<%=request.getContextPath()%>/bank/?command=switch_lang&locale=en">ENG</a>
                 </div>
             </div>
 
+            <c:if test="${sessionScope.SYSTEM_DEBUG_STATE==true}">
+                <%@ include file="debuginfo.jspf" %>
 
-
-
-            <div class="h-25">&nbsp;
-                <div style="height: 4em;">&nbsp;</div>
-            </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <div class="text-right navbar-brand navbar-light teal lighten-4 btn-sm">
-                <div style="font-size:.7em;">
-                    DEBUG:&nbsp;
-                    <a href="<%=request.getContextPath()%>/bank/?command=show_clients&action=show_clients_by_role&role=0">Admin.show_clients_by_role(0)</a>
-                    |
-                    action = ${action}
-                    |
-                    command = ${command}
-                    |
-                    <a href="#"><i class="fa fa-list-alt" aria-hidden="true" title="Logout"></i>
-                    </a>
-                    |
-                        <a href="http://localhost:28088/bank/?command=authenticate&email=2@2.2&password=2">
-                            <i class="fa fa-credit-card" aria-hidden="true" title="Auto-Login"></i>
-                    </a>
-
-
-                </div>
-            </div>
-
-
-
-
+            </c:if>
+            <%@ include file="debuginfo.jspf" %>
         </div>
     </div>
 

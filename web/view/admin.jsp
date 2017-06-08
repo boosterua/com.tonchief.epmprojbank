@@ -49,10 +49,11 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-1"></div>
+    <div class="col-md-1 verticaltext">
+      <h1 class="verticaltext_content display-4" style="text-shadow: 3px 3px 6px #CCC; color:#FFF9F9;">admin&nbsp;module</h1>
+    </div>
 
     <div class="col-md-10 container-fluid" >      <%--style="border:2px solid red;"--%>
-      <h1> admin page</h1>
 
       ${errormsg_html}
       <c:if test="${not empty errormsg}">
@@ -85,13 +86,14 @@
           <h3 class="panel-title badge indigo">&nbsp; <fmt:message key="NEW_CLIENTS_APPROVE_LIST" bundle="${lang}"/>&nbsp;</h3>
         </div>
         <c:if test="${clientList.size() > 0}">
-          <table class="table table-striped table-hover table-sm table-info z-depth-3 " >
+          <table class="table table-striped table-hover table-sm table-info z-depth-3" style="font-size: smaller" >
             <thead class="teal darken-3 text-white">
             <tr class="text-center">
               <th><fmt:message key="ID" bundle="${lang}"/></th>
               <th><fmt:message key="NAME" bundle="${lang}"/></th>
               <th><fmt:message key="EMAIL" bundle="${lang}"/></th>
               <th><fmt:message key="ACCOUNT_ID" bundle="${lang}"/></th>
+              <th><fmt:message key="FEE_CARD_NAME" bundle="${lang}"/></th>
             </tr>
             </thead>
 
@@ -116,9 +118,9 @@
                     </span></nobr>
                   </c:if>
                 </td>
-                <td>${cl.getFeeName()}
-                  </td>
+                <td>${cl.getFeeName()}</td>
               </tr>
+              <%--<tr><td colspan="4">${cl}</td></tr>--%>
             </c:forEach>
             </tbody>
           </table>
@@ -138,8 +140,7 @@
       <div class="panel-heading">
         <h3 class="panel-title badge indigo">&nbsp;
           <c:choose>
-            <c:when test="${client.getRole()==0}"> <fmt:message key="NEW_CLIENT_TO_APPROVE"
-                                      bundle="${lang}"/></c:when>
+            <c:when test="${client.getRole()==0}"> <fmt:message key="NEW_CLIENT_TO_APPROVE" bundle="${lang}"/></c:when>
             <c:otherwise>
               <fmt:message key="CLIENT_DETAILS" bundle="${lang}"/>
             </c:otherwise>
@@ -151,7 +152,7 @@
 
       <c:if test="${not empty client}">
       <div class="row-fluid">
-        <div class="col-md-4 pull-left" style="width:auto;">
+        <div class="col-md-4 pull-left" style="width2:auto;">
           <table class="table table-striped table-hover table-sm table-info z-depth-3 text-sm"
                style="font-size:smaller;background:#dddedf;<c:if test='${client.getRole()!=0}'>
                    background:#00DDAA !important</c:if>" id="client_details">
@@ -232,12 +233,12 @@
               <td title="id:${account.getId()}">${account.getName()}
                 <c:choose>
                 <c:when test='${account.getBlocked()}'>
-                <span id="account_status_badge">
+                <span id="account_status_badge_${account.getId()}">
             <span class="btn btn-deep-orange btn-sm" style="line-height:2px;padding:7px 4px;margin:0;">
             <fmt:message key="BLOCKED" bundle="${lang}"/></span>
 
             <div class="btn-group" data-toggle="buttons">
-            <label class="btn btn-success btn-sm active" id="btn_unblock">
+            <label class="btn btn-success btn-sm active" id="btn_unblock_${account.getId()}">
               <input type="checkbox" checked autocomplete="off"> <fmt:message
                 key="UNBLOCK" bundle="${lang}"/>
             </label>
@@ -245,12 +246,12 @@
             <span id="unblock_req_res"></span>
 
             <script>  // btn_unblock
-            $(document).on("click", "#btn_unblock", function () {
+            $(document).on("click", "#btn_unblock_${account.getId()}", function () {
               $.get("<%=request.getContextPath()%>/bank/?command=admin&action=unblock_account"
                 + "&content_type=ajax&account_id=${account.getId()}",
                 function (resp) {
                   if (resp == 'OK') {
-                    $('#account_status_badge').html(
+                    $('#account_status_badge_${account.getId()}').html(
                       '<span class="btn btn-dark-green btn-sm" style="line-height:2px;' +
                       'padding:7px 4px;margin:0;"><fmt:message key="ACTIVE" bundle="${lang}"/></span>');
                   } else {
@@ -271,7 +272,7 @@
 
             <tr test="${not empty account.getCards()}">
             <tr>
-              <th><fmt:message key="CONNECTED_CARDS" bundle="${lang}"/></th>
+              <th><fmt:message key="CONNECTED_CARDS" /></th>
             </tr>
             <c:forEach items="${account.getCards()}" var="card">
               <tr>

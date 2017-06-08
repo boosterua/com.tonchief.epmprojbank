@@ -116,7 +116,7 @@ public class UsersDAOimpl implements UsersDAO {
      * @param blocked // if null - not used
      * @return List<Client>
      */
-    public List<Client> getUsersByRoleOrBlockedSt(Long role, Boolean blocked){
+    public List<Client> getClientsByRoleOrBlockedSt(Long role, Boolean blocked){
 
         List<Client> resultList = new ArrayList<>();
         LOGGER.info("fetching Client Entities for Role or blocked:");
@@ -129,7 +129,7 @@ public class UsersDAOimpl implements UsersDAO {
         ){
             if(role>=0) ps.setLong(1, role);
             if(blocked!=null) ps.setBoolean(1, blocked);
-            LOGGER.info("Trying PS:" + ps+"\n"+ps.getMetaData());
+            LOGGER.info("Getting PS:" + ps); //+"\n"+ps.getMetaData()
 
             try (ResultSet rs = ps.executeQuery()) {
                 while(rs.next()) {
@@ -140,7 +140,10 @@ public class UsersDAOimpl implements UsersDAO {
                       new Account(0, "Unassigned", true);
                     /* Account has not been assigned for some reason : set value to zero to avoid NP ex, check within jsp */
                     cl.setAccount(account);
-                    LOGGER.info("getUsersByRole usr="+cl);
+                    // Fee fee = new Fee(rs.getInt("fees.id_fee"), rs.getString("fees.name"));
+                    cl.setFeeName(rs.getString("fees.name"));
+
+                    LOGGER.info("getUsersBy... usr="+cl);
                     resultList.add(cl);
                 }
                 rs.close();

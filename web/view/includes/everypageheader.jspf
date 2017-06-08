@@ -12,13 +12,57 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-3.1.1.min.js"></script>
 
 
+<%--
+<c:set var="language" value=
+        "${not empty param.language ?
+        param.language
+        : not empty language ?
+            language
+            : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" />
+--%>
+
 <%--<fmt:setLocale value="${sessionScope.locale}"/>--%>
-<fmt:setLocale value="${sessionScope.locale}"/>
-<%--<fmt:setBundle basename="locale.locale" var="loc"/>--%>
+<%--
+<c:choose>
+<c:when test="not empty ${sessionScope.locale}">
+    <c:set var="locale" value="${sessionScope.locale}"/>
+</c:when>
+</c:choose>
+<fmt:setLocale value="${locale}"/>
+
+--%>
+
+
+
+<c:set var="locale" value="${not empty sessionScope.locale ? sessionScope.locale : locale}"/>
+<fmt:setLocale value="${locale}"/>
+
 <fmt:setBundle basename="locale.locale" var="lang"/>
+<fmt:setBundle basename="locale.locale" />
+
+<c:set var="url" value="${pageContext.request.contextPath}/bank/" />
+
 
 <style type="text/css">
     body { background: #eaedf1  !important; }
     .table th {        text-align: center;    }
 
+
+    .verticaltext {
+        position: relative;
+    }
+
+    .verticaltext_content {
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+        left: -17rem;
+        top: 14rem;
+        position: absolute;
+        text-transform: uppercase;
+        font-family: "Courier New";
+    }
 </style>
