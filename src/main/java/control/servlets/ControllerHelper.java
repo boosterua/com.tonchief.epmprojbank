@@ -9,7 +9,8 @@ import java.util.HashMap;
 public class ControllerHelper {
 
     private static ControllerHelper instance = null;
-    HashMap<String, Command> commands = new HashMap<String, Command>();
+    HashMap<String, Command> commands = new HashMap<>();
+
 
     private ControllerHelper() {
         commands.put("admin", new CommandAdmin());
@@ -19,14 +20,14 @@ public class ControllerHelper {
         commands.put("logout", new CommandLogin());
         commands.put("register", new CommandRegister());
         commands.put("show_authuser_hp", new CommandLogin());
-        commands.put("show_clients", new CommandShowClients());
+        //commands.put("show_clients", new CommandShowClients());
         commands.put("showfees", new CommandShowFees());
         commands.put("submit_registration", new CommandRegister());
         commands.put("switch_lang", new CommandEmpty());
         commands.put("transaction", new CommandTransaction());
 //        commands.put("show_clients", new CommandAdmin());
     }
-    //TODO: redesign factory
+    //TODO: redesign factory. kill dupes
 
 
 

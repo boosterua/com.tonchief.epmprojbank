@@ -41,9 +41,6 @@ public class CommandManageAccount implements Command {
             case ("order_new_account"):
                 SERVICE.getUser().generateNewAccount(client.getId(), true);
                 session.setAttribute("infomsg", "ORDER_SUBMITTED_WAIT_4_APPROVAL");
-//                req.setAttribute("infomsg", "ORDER_SUBMITTED_WAIT_4_APPROVAL");
-//                req.setAttribute("command","show_authuser_hp");
-//                req.setAttribute("accounts", SERVICE.getUser().getUserAccounts( clientId ));
                 resp.sendRedirect("/bank/?command=show_authuser_hp");
                 page = "";
                 break;
@@ -54,7 +51,6 @@ public class CommandManageAccount implements Command {
                         req.setAttribute("infomsg", "RESULT_OK");
                     else req.setAttribute("errormsg", "RESULT_ERROR");
                     session.setAttribute("accountsMap", SERVICE.getUser().getUserAccountsAsMap(clientId));
-                    // req.setAttribute("accounts", SERVICE.getUser().getUserAccounts(clientId));
                 }
                 break;
 
@@ -63,6 +59,13 @@ public class CommandManageAccount implements Command {
                 if(accountBelongsToUser(req, accountId)){
                     req.setAttribute("action", "form_transfer");
                     req.setAttribute("type", act);
+                    logger.info("make_paym/repl... action=" + act);
+                    if(act.equals("replenish")) {
+                        req.setAttribute("cr_account", getAccountFromSessById(req, accountId).getName());
+                        req.setAttribute("account_id", "000000"+RB_BANK.getString("CASH_ACCOUNT_ID"));
+                        req.setAttribute("description", "Cash ATM top-up / Поповнення готівкою через термінал");
+                        logger.info("replenish: setting extra attrs. " + req.getAttribute("cr_account") + " <CRAcct | AcctId> "+req.getAttribute("account_id") );
+                    }
                 }
                 break;
 
@@ -74,25 +77,27 @@ public class CommandManageAccount implements Command {
     }
 
     static boolean accountBelongsToUser(HttpServletRequest req, Integer accountId){
-        Map<Integer,Account> accountsMap =
-                (Map<Integer, Account>) req.getSession().getAttribute("accountsMap");
-        if(accountsMap.get(accountId)==null) {
-            req.setAttribute("errormsg", "WRONG_PARAM_REQUEST");
+        Account account = getAccountFromSessById(req, accountId);
+        if(account==null) {
+            wrongParam(req);
             return false;
-        } else if(accountsMap.get(accountId).getBlocked()){
+        } else if(account.getBlocked()){
             req.setAttribute("errormsg", "OPER_ON_BLOCKED_ACCOUNT_FORBIDDEN");
             return false;
         }
         return true;
     }
 
-//    private checkAcctBelongsToUser(HttpSession session)
-
-
-    private void wrongParam(HttpServletRequest req) {
-        req.setAttribute("errormsg", "WRONG_PARAM_REQUEST");
+    static Account getAccountFromSessById(HttpServletRequest req, int accountId){
+        Map<Integer,Account> accountsMap =
+                (Map<Integer, Account>) req.getSession().getAttribute("accountsMap");
+        return accountsMap.get(accountId);
     }
 
+
+    private static void wrongParam(HttpServletRequest req) {
+        req.setAttribute("errormsg", "WRONG_PARAM_REQUEST");
+    }
 
 }
 

@@ -62,14 +62,19 @@
 
 
         <%-- ########  ACTION form_transfer ######## --%>
-        <c:if test="${action=='form_transfer'}">
+        <c:if test="${action=='form_transfer' || action=='form_replenish'}">
           <%@ include file="includes/user.form_transfer.jspf" %>
-        </c:if><%--/form_transfe--%>
+        </c:if><%--/form_transfer--%>
+
+        <%-- ########  ACTION form_transfer ######## --%>
+        <%--<c:if test="${action=='form_replenish'}">--%>
+          <%--<%@ include file="includes/user.form_replenish.jspf" %>--%>
+        <%--</c:if>&lt;%&ndash;/form_replenish&ndash;%&gt;--%>
 
         <%-- ########  ACTION transaction ######## --%>
         <c:if test="${action=='transaction'}">
           <%@ include file="includes/user.transaction.jspf" %>
-        </c:if><%--/form_transfe--%>
+        </c:if>
 
 
 

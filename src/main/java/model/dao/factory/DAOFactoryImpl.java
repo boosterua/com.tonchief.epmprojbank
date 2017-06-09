@@ -47,8 +47,6 @@ public class DAOFactoryImpl extends DAOFactory {
     }
 
     public UsersDAO getUsersDAO() {
-        if(usersDAO==null)
-            usersDAO = new UsersDAOimpl();
         return UsersDAOimpl.getInstance();
     }
 
@@ -57,7 +55,7 @@ public class DAOFactoryImpl extends DAOFactory {
     }
 
     public TransactionsDAO getTransactionsDAO() {
-        return transactionsDAO;
+        return TransactionsDAOimpl.getInstance();
     }
 
 

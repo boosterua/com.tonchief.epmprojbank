@@ -104,6 +104,8 @@ public class UsersDAOimpl implements UsersDAO {
             }
         } catch (SQLException e) {
             LOGGER.error("SQL exception. ", e);
+            return -500;
+            //TODO : 500. Connection to db is unavailable
         } catch (Exception e) {
             LOGGER.error("Fatal General Exception.", e);
         }

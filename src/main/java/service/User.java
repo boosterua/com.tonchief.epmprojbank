@@ -8,14 +8,10 @@ import model.entity.Transaction;
 import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-import static java.time.LocalDate.now;
-
-//    -> makePayment(details: from, to, amount, descr);
-//    -> replenishAccount(acctId, amount, source[anotherAccount|cash]);
-//    -> blockAccount(acctId);
 
 public class User {
 
@@ -43,51 +39,74 @@ public class User {
 
     /**
      * process the account replenishment
-     * @param acctId Account being replenished
+     * @param acctId Int Account being replenished
      * @param sourceAcct Source account (0 for cash-in)
      * @return boolean result - success or not
      * */
-    public boolean replenishAccount(int acctId, BigDecimal amount, long sourceAcct)
-            throws Exception {
-        Account account = new Account(); account.setId(1);
-        makePayment(Long.getLong(DAO.getAccountsDAO().getById(acctId).getName()), account, amount, "Cash Replenishment via Terminal");
-        return false;
+    public int replenishAccount(int acctId, BigDecimal amount, Integer sourceAcct) throws ExceptionDAO {
+
+        Account account = new Account(); account.setId(sourceAcct==null || sourceAcct==0 ? 1 : sourceAcct);
+
+
+
+        logger.debug(acctId);
+        logger.debug(account);
+        logger.debug(sourceAcct);
+        logger.debug(account);
+        String accName = (DAO.getAccountsDAO().getById(acctId).getName());
+        logger.debug("[" + accName + "]");
+        accName = "26253652147927";
+        logger.debug(Long.parseLong(accName)+2L);
+        logger.debug(Long.valueOf(accName).longValue()+1L);
+
+
+
+
+
+//        return makePayment(account, Long.parseLong(DAO.getAccountsDAO().getById(acctId).getName()),
+        return makePayment(account, DAO.getAccountsDAO().getById(acctId).getName(),
+                amount, "Cash Replenishment via Terminal");
     }
 
-
-    public synchronized int makePayment(Long crAccount, Account dtAcctId,
-                           BigDecimal amount, String description) throws Exception {
-        Transaction transaction = new Transaction(crAccount, dtAcctId, amount, now(), description);
-        DAO.getTransactionsDAO().insert(transaction);
-        //TODO: SQL transaction: new transaction + update balance
-
-        /*
-        Ex
-
-        dbConnection.setAutoCommit(false); //transaction block start
-
-String insertTableSQL = "INSERT INTO DBUSER"
-			+ "(USER_ID, USERNAME, CREATED_BY, CREATED_DATE) VALUES"
-			+ "(?,?,?,?)";
-
-String updateTableSQL = "UPDATE DBUSER SET USERNAME =? "
-			+ "WHERE USER_ID = ?";
-
-preparedStatementInsert = dbConnection.prepareStatement(insertTableSQL);
-preparedStatementInsert.setInt(1, 999);
-preparedStatementInsert.setString(2, "mkyong101");
-preparedStatementInsert.setString(3, "system");
-preparedStatementInsert.setTimestamp(4, getCurrentTimeStamp());
-preparedStatementInsert.executeUpdate(); //data IS NOT commit yet
-
-preparedStatementUpdate = dbConnection.prepareStatement(updateTableSQL);
-preparedStatementUpdate.setString(1, "A very very long string caused DATABASE ERROR");
-preparedStatementUpdate.setInt(2, 999);
-preparedStatementUpdate.executeUpdate(); //Error, rollback, including the first insert statement.
-
-dbConnection.commit(); //transaction block end
-        * */
-         return 1;
+    /**
+     *
+     * @param dtAccount debitAccount:Account
+     * @param crAccount creditAccount:Long
+     * @param amount    sum:BigDecimal
+     * @param description String
+     * @return transactionId:int
+     */
+    public synchronized int makePayment(Account dtAccount, String crAccount,
+//    public synchronized int makePayment(Account dtAccount, Long crAccount,
+                                        BigDecimal amount, String description)  {
+        logger.info("dtAccount " + dtAccount);
+        logger.info("crAccount " + crAccount);
+        logger.info("amount " + amount);
+        logger.info("description " + description);
+        LocalDate date = LocalDate.now();
+        logger.info("date " + date);
+        Transaction transaction = new Transaction(dtAccount, crAccount, amount, date, description);
+       /* Transaction transaction = new Transaction();
+        logger.debug("new tr");
+        transaction.setDtAccount(dtAccount);
+        logger.debug(transaction);
+        logger.debug("Last check crAccount:" + crAccount);
+        transaction.setCrAccountStr(crAccount);
+        logger.debug(transaction);
+        transaction.setAmount(amount);
+        logger.debug(transaction);
+        transaction.setTrDate(date);
+        logger.debug(transaction);
+        transaction.setDescription(description);
+        logger.debug(transaction);
+*/
+        logger.debug(transaction);
+        try {
+            return DAO.getTransactionsDAO().insert(transaction); // Tr.Id:Int
+        } catch (ExceptionDAO e) {
+            logger.error(e);
+        }
+        return 0;
     }
 
 

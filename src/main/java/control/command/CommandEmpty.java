@@ -36,7 +36,7 @@ public class CommandEmpty implements Command {
         //TODO setLang - stopped working when using cookies, move all lang changing stuff to filter?
 
         if(sessIsAdmin(request)) return RB_PAGEMAP.getString("jsp.admin");
-        if(sessIsAuthUser(request)) return RB_PAGEMAP.getString("jsp.user");
+        if(isAuthUserSessionScope(request)) return RB_PAGEMAP.getString("jsp.user");
         return RB_PAGEMAP.getString("jsp.main");
     }
 }

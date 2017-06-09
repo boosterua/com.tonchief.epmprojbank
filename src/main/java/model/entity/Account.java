@@ -54,6 +54,8 @@ public class Account extends Entity {
     public String getName() {
         return number;
     }
+    public String getNumber() { return number;
+    }
 
     public void setName(String name) {
         this.number = name;
@@ -88,9 +90,6 @@ public class Account extends Entity {
         this.balance = balance;
     }
 
-    public String toString() {
-        return toString(id, number, "BLK:" + blocked, "CLid:" + clientId);
-    }
 
     public List<Card> getCards() {
         return cards;
@@ -103,4 +102,11 @@ public class Account extends Entity {
     public void addCard(Card card) {
         this.cards.add(card);
     }
+
+    public String toString() {
+        return toString(id, number, "BLK:" + blocked, "CLid:" + clientId);
+    }
+
+    // //TODO:equals / hashcode
+
 }

@@ -109,8 +109,7 @@ public class CommandAdmin implements Command {
 
         boolean res = SERVICE.getAdmin().setRole(clientId, role);
         LOGGER.info(""+clientId + " > set.user.role " + roleStr);
-        req.setAttribute("command", "admin");
-        req.setAttribute("command", "show_clients");
+        req.setAttribute("command", "admin");//
         req.setAttribute("action", "get"+"_one_client");
         req.setAttribute("result", res);
         req.setAttribute("infomsg", "RESULT_" + (res?"OK":"ERROR"));

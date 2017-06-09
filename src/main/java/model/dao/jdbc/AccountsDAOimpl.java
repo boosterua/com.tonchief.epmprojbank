@@ -402,7 +402,7 @@ Creates a default PreparedStatement object that has the capability to retrieve a
 
 // TODO:ALL DAO - when closing PS - check for null - EVERYWHERE when it's not checked
 
-/* //Transaction
+/* //Transactions
     @Override
     public Integer generate(int clientId, String acctPrefix) throws ExceptionDAO {
         logger.info("generate new acct for cl_id=" + clientId + " & acctPrefix="+ acctPrefix);

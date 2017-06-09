@@ -29,11 +29,11 @@
                 </div>
             </div>
 
-            <c:if test="${sessionScope.SYSTEM_DEBUG_STATE==true}">
-                <%@ include file="debuginfo.jspf" %>
 
+            <c:if test="${not empty sessionScope.SYSTEM_IN_DEBUG_STATE}">
+                <%@ include file="debuginfo.jspf" %>
             </c:if>
-            <%@ include file="debuginfo.jspf" %>
+
         </div>
     </div>
 

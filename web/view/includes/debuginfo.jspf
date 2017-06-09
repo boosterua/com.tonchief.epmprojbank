@@ -1,6 +1,8 @@
+<%--
 <div class="h-25">&nbsp;
     <div style="height: 4em;">&nbsp;</div>
 </div>
+--%>
 
 <div class="text-sm-right red-text dark-gradient" style="font-size: smaller">* Turn this off in RB <i>banksettings.properties</i>&nbsp;</div>
 
@@ -48,6 +50,7 @@
     <hr>
     <b>Page:</b>    <c:forEach var="el" items="${pageScope.entrySet()}">
     ${el.key} : ${el.value}</c:forEach>
+    <hr>
 
 </small>
 

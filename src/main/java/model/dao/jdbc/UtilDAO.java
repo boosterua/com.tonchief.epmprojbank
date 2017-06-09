@@ -42,4 +42,8 @@ public class UtilDAO {
         return null;
     }
 
+    public static String encodeUTF8KillCharsNotBMP(String str){
+        return str.replaceAll("[^\u0000-\uFFFF]", "");
+    }
+
 }

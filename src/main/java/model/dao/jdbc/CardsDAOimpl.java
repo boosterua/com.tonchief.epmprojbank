@@ -1,6 +1,7 @@
 package model.dao.jdbc;
 
 import model.dao.connection.DataSource;
+import model.dao.exceptions.ExceptionDAO;
 import model.dao.interfaces.CardsDAO;
 import model.entity.Card;
 import model.entity.Entity;
@@ -38,7 +39,7 @@ public class CardsDAOimpl implements CardsDAO {
     }
 
 
-    public Integer insert(Object oCard) throws SQLException {
+    public Integer insert(Object oCard) throws ExceptionDAO {
         LOGGER.info("Insert into [cards]: " + oCard);
 
         try (Connection conn = pool.getConnection();

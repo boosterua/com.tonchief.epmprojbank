@@ -23,6 +23,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/java/control/old" />
       <excludeFolder url="file://$MODULE_DIR$/src/main/java/model/dao/conn_temp" />
       <excludeFolder url="file://$MODULE_DIR$/src/main/java/model/dao/connection/old" />
       <excludeFolder url="file://$MODULE_DIR$/target" />

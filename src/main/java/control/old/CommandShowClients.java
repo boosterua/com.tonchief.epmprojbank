@@ -1,5 +1,6 @@
-package control.command;
+package control.old;
 
+import control.command.Command;
 import model.dao.exceptions.ExceptionDAO;
 import model.entity.Client;
 import org.apache.log4j.Logger;
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-
+@Deprecated
 public class CommandShowClients implements Command {
     Logger logger = Logger.getLogger(CommandShowClients.class);
     String page = RB_PAGEMAP.getString("jsp.admin");
@@ -24,7 +25,11 @@ public class CommandShowClients implements Command {
         String uid = req.getParameter("user_id");
         Integer clientId = (uid==null)? 0 : Integer.parseInt(uid);
 
-
+        if(act!=null){
+            //Chekcing if i got rid of all calls to this method
+            logger.error("**********************\n\n\n\n\n\nSTILL USING CommandShowClients.execute\n\n\n\n\n");
+            return RB_PAGEMAP.getString("jsp.error");
+        }
 
 
         switch (act){

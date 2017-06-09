@@ -85,7 +85,10 @@ public class CommandLogin implements Command {
 
 
             } else { // Authorization Failed
-                if (!req.getMethod().equals("GET")) { // This is most definitely a hack attempt, or bot crawling
+                if(uid!=null && uid==-500){
+                    req.setAttribute("errormsg", "WRONG_LOGIN_PASS");
+
+                } else if (!req.getMethod().equals("GET")) { // This is most definitely a hack attempt, or bot crawling
                     req.setAttribute("errormsg", "WRONG_LOGIN_PASS");
                     req.setAttribute("errorcode", 9401);
                 }

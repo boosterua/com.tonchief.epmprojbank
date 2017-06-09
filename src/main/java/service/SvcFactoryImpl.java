@@ -6,7 +6,7 @@ public class SvcFactoryImpl extends ServiceFactory {
     private Login login;
     private static SvcFactoryImpl instance = null;
     private Fees fee;
-    private Transaction transaction;
+//    private Transactions transactions;
 
 
     private SvcFactoryImpl(){    }
@@ -43,11 +43,11 @@ public class SvcFactoryImpl extends ServiceFactory {
         return fee;
     }
 
-    @Override
-    public Transaction getTransactions() {
-        if(transaction==null)
-            transaction = new Transaction();
-        return transaction;
-    }
+//    @Override
+//    public Transactions getTransactions() {
+//        if(transactions ==null)
+//            transactions = new Transactions();
+//        return transactions;
+//    }
 
 }
