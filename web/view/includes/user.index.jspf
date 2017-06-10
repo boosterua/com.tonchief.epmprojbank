@@ -8,9 +8,9 @@
 
         <div class="panel-body">
             <c:if test="${not empty accountsMap}">
-                <table class="table table-striped table-hover table-sm table-info z-depth-2">
+                <table class="table table-striped table-hover table-sm table-info z-depth-2 smaller">
                     <thead class="teal darken-3 text-white">
-                    <tr class="text-center">
+                    <tr class="text-sm-center">
                         <th><fmt:message key="ID" /></th>
                         <th><fmt:message key="ACCT_NUMBER" /></th>
                         <th><fmt:message key="STATE"/></th>
@@ -30,7 +30,7 @@
                                     <fmt:message key="BLOCKED"/></span>
                             </c:if>
                                 <c:if test="${acct.getBlocked()==false}">
-                                    <span class="btn btn-dark-green btn-sm" style="line-height:2px;"><fmt:message key="ACTIVE"/></span>
+                                    <span class="btn btn-dark-green btn-sm" style="line-height:2px;overflow:hidden;margin-top:0px;"><fmt:message key="ACTIVE"/></span>
                                 </c:if>
                             </td>
                             <td>${acct.getBalance()}</td>
@@ -39,6 +39,7 @@
                                     <a href="?command=account&action=make_payment&account_id=${acct.getId()}"><fmt:message key="LNK_PMNT"/></a>
                                   | <a href="?command=account&action=replenish&account_id=${acct.getId()}"><fmt:message key="LNK_REPL"/></a>
                                   | <a href="?command=account&action=block&account_id=${acct.getId()}" data-confirm="<fmt:message key="ARE_YOU_SURE"/>"><fmt:message key="LNK_BLOCK"/></a>
+                                  | <a href="?command=account&action=list_transactions&account_id=${acct.getId()}"><fmt:message key="LNK_LIST_TRANSACTIONS"/></a>
                                 <c:if test="${acct.getBlocked()==true}"></del></c:if>
                             </td>
                         </tr>
@@ -125,7 +126,7 @@
             </c:if> &lt;%&ndash;/not empty accts&ndash;%&gt;--%>
 
             <a href="?command=account&action=order_new_account">
-                <button type="button" class="btn btn-warning" aria-label="Left Align">
+                <button type="button" class="btn btn-sm btn-warning" aria-label="Left Align">
                     <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
                     <i class="fa-li fa fa-check-square"></i><fmt:message key="LNK_ORDER_NEW_ACCOUNT" bundle="${lang}"/>
                 </button>

@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +30,14 @@ public class User {
     public User(){
     }
 
-    /* The default constructor. Used in service - upon receiving application from web-user.*/
+
+    /**
+     * The default constructor. Used in service - upon receiving application from web-user.
+     * @param name
+     * @param email
+     * @param password
+     * @param role used to determine if user is approved, is admin, or newly registered
+     */
     public User(String name, String email, String password, Long role) {
         this.name = name;
         this.email = email;
@@ -43,27 +52,8 @@ public class User {
      * @param sourceAcct Source account (0 for cash-in)
      * @return boolean result - success or not
      * */
-    public int replenishAccount(int acctId, BigDecimal amount, Integer sourceAcct) throws ExceptionDAO {
-
+    public int replenishAccount(int acctId, BigDecimal amount, Integer sourceAcct) throws ExceptionDAO, MySqlPoolException {
         Account account = new Account(); account.setId(sourceAcct==null || sourceAcct==0 ? 1 : sourceAcct);
-
-
-
-        logger.debug(acctId);
-        logger.debug(account);
-        logger.debug(sourceAcct);
-        logger.debug(account);
-        String accName = (DAO.getAccountsDAO().getById(acctId).getName());
-        logger.debug("[" + accName + "]");
-        accName = "26253652147927";
-        logger.debug(Long.parseLong(accName)+2L);
-        logger.debug(Long.valueOf(accName).longValue()+1L);
-
-
-
-
-
-//        return makePayment(account, Long.parseLong(DAO.getAccountsDAO().getById(acctId).getName()),
         return makePayment(account, DAO.getAccountsDAO().getById(acctId).getName(),
                 amount, "Cash Replenishment via Terminal");
     }
@@ -77,43 +67,36 @@ public class User {
      * @return transactionId:int
      */
     public synchronized int makePayment(Account dtAccount, String crAccount,
-//    public synchronized int makePayment(Account dtAccount, Long crAccount,
-                                        BigDecimal amount, String description)  {
-        logger.info("dtAccount " + dtAccount);
-        logger.info("crAccount " + crAccount);
-        logger.info("amount " + amount);
-        logger.info("description " + description);
+                                        BigDecimal amount, String description) {
         LocalDate date = LocalDate.now();
-        logger.info("date " + date);
         Transaction transaction = new Transaction(dtAccount, crAccount, amount, date, description);
-       /* Transaction transaction = new Transaction();
-        logger.debug("new tr");
-        transaction.setDtAccount(dtAccount);
-        logger.debug(transaction);
-        logger.debug("Last check crAccount:" + crAccount);
-        transaction.setCrAccountStr(crAccount);
-        logger.debug(transaction);
-        transaction.setAmount(amount);
-        logger.debug(transaction);
-        transaction.setTrDate(date);
-        logger.debug(transaction);
-        transaction.setDescription(description);
-        logger.debug(transaction);
-*/
         logger.debug(transaction);
         try {
             return DAO.getTransactionsDAO().insert(transaction); // Tr.Id:Int
-        } catch (ExceptionDAO e) {
+        } catch (Exception e) {
             logger.error(e);
         }
         return 0;
     }
 
 
+    public List<List> getTransactionsList(Integer accountId, Boolean isForDebit) throws MySqlPoolException {
+        // Convert list of Trs to list of table entities
+        List<Transaction> transactionList = DAO.getTransactionsDAO().getListByAccountId(accountId, isForDebit);
+        if(transactionList==null) return null;
+        List<List> listOfList = new ArrayList<>();
+        for(Transaction tr : transactionList){
+            listOfList.add( Arrays.asList(tr.getId()+"", tr.getCreditAccount(),
+                    tr.getAmount().toString(), tr.getDate().toString(), tr.getDescription()) );
+        }
+        return listOfList;
+
+    }
+
+
 //TODO: check if client is not in db yet
 //TODO:!user vs client; + regAcct-set to user, then insert new user           user.set
     public Integer register(User user) { // Client vs user
-
         if (user.fieldsAreValid())
             try {
                 /* Here's where magic happens: turn user into client ;) */
@@ -200,4 +183,5 @@ public class User {
     public Map<Integer, Account> getUserAccountsAsMap(Integer uid) throws ExceptionDAO {
         return DAO.getAccountsDAO().findAccountsByClientId(uid);
     }
+
 }

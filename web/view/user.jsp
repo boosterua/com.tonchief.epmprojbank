@@ -21,11 +21,17 @@
 <%@include file="includes/toplogo.jspf" %>
 
 
+
 <div class="container">
   <div class="row">
     <div class="col-md-2"></div>
 
     <div class="col-md-8">
+      <c:if test="${client.getRole()==0}">
+        <div class="text-center">
+        <span class="badge badge-warning center text-center  pink darken-4" style="margin-bottom:1em;"><fmt:message key="USER_NOT_APPROVED_SOME_OPER_DISABLED" /></span>
+        </div>
+      </c:if>
       <h3 class="col-md-12 text-right" id="hello"></h3>
 
       ${errormsg_html}
@@ -66,21 +72,19 @@
           <%@ include file="includes/user.form_transfer.jspf" %>
         </c:if><%--/form_transfer--%>
 
-        <%-- ########  ACTION form_transfer ######## --%>
-        <%--<c:if test="${action=='form_replenish'}">--%>
-          <%--<%@ include file="includes/user.form_replenish.jspf" %>--%>
-        <%--</c:if>&lt;%&ndash;/form_replenish&ndash;%&gt;--%>
 
         <%-- ########  ACTION transaction ######## --%>
         <c:if test="${action=='transaction'}">
           <%@ include file="includes/user.transaction.jspf" %>
         </c:if>
 
+        <%-- ########  ACTION list_transactions ######## --%>
+        <c:if test="${action=='list_transactions'}">
+          <%@ include file="includes/user.list_transactions.jspf" %>
+        </c:if>
 
 
       </c:if><%--/Authorized Usr index--%>
-
-
 
 
 
@@ -95,24 +99,13 @@
         <%@ include file="includes/open.fees.jspf" %>
       </c:if>
 
-
     </div>
-
-
-
-
-
-
-
-
-
     <div class="col-md-2"></div>
   </div>  <%--/div.row--%>
 </div> <!-- /container -->
 
 <%@include file="includes/btmlinks.jspf" %>
 <%@include file="includes/everypagefooter.jspf" %>
-
 
 </body>
 </html>

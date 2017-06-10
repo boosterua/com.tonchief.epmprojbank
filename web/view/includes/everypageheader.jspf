@@ -9,8 +9,9 @@
 <!-- Your custom styles (optional) -->
 <link href="<%=request.getContextPath()%>/resources/css/style.css" rel="stylesheet">
 
-<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-3.1.1.min.js"></script>
 
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-3.1.1.min.js"></script>
+<%@ taglib uri="myTLD"  prefix="z"  %>
 
 <%--
 <c:set var="language" value=
@@ -65,4 +66,9 @@
         text-transform: uppercase;
         font-family: "Courier New";
     }
+
+    .smaller{
+        font-size: smaller;
+    }
+
 </style>

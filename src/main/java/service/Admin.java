@@ -96,7 +96,7 @@ public class Admin {
         return issueNewCard(client.getId(), client.getFeeId());
     }
 
-    public Client getClientById(int clientId) throws ExceptionDAO {
+    public Client getClientById(int clientId) throws ExceptionDAO, MySqlPoolException {
         Client client = (Client) DAO.getUsersDAO().getById(clientId);
         return client;
     }
@@ -146,13 +146,7 @@ public class Admin {
             logger.debug(cards);
             account.setCards(cards);
         }
-//        logger.info(client.getAccount().getName());
-//        logger.info(client.getAccount().getCards().get(0));
-        for (Account account : client.getAccountList()) {
-            logger.debug("**  "+account);
-            for (Card card: account.getCards())
-                logger.debug(account + " : " + card);
-        }
+
         return client;
     }
 }

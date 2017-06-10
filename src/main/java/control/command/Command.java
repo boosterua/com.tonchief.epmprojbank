@@ -21,6 +21,7 @@ public interface Command {
     //    ResourceBundle RB_LOCALE = ResourceBundle.getBundle("locale"); // All moved to jsps
     String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ExceptionDAO, MySqlPoolException;
 
+
     default void printData(HttpServletResponse resp, String ctype, String message) throws IOException, ServletException {
         if(message==null) throw new ServletException("NP as string passed to pagewriter.");
         resp.setContentType(ctype!=null && !ctype.equals("") ? ctype : "text/html");
@@ -34,7 +35,7 @@ public interface Command {
     default void saveCookieToSession(HttpServletRequest request, String name) {
         HttpSession sess = request.getSession();
         Cookie[] cookies = request.getCookies();
-        if (cookies == null){
+        if (cookies != null){
             for(Cookie c: cookies){
                 if (!name.equals(c.getName()))
                     continue;

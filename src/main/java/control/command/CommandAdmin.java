@@ -97,16 +97,24 @@ public class CommandAdmin implements Command {
         ifAjaxPrintOK(req, resp, "OK");
     }
 
-    private void setRole(HttpServletRequest req, HttpServletResponse resp, Integer clientId, String roleStr ) throws ExceptionDAO, IOException, ServletException {
+    private void setRole(HttpServletRequest req, HttpServletResponse resp, Integer clientId, String roleStr ) throws ExceptionDAO, IOException, ServletException, MySqlPoolException {
 
         if(roleStr==null || clientId==0){
-            LOGGER.info("client_id="+clientId + "; roleStr="+roleStr);
+            LOGGER.info("client_id="+clientId );
+            LOGGER.info("; roleStr="+roleStr);
             req.setAttribute("errormsg", "NO_USER_ID");
             wrongParam(req);
             return;
         }
-        Long role = Long.parseLong(roleStr);
+        Integer currentRole = SERVICE.getAdmin().getClientById(clientId).getRole();
+        LOGGER.info("Current role before change: " + currentRole);
+        if((RB_BANK.getString("ADMIN_ROLE").equals(currentRole.toString())) ) {
+            LOGGER.error("ROLE is Admin - Cannot change it. " + currentRole);
+            req.setAttribute("errormsg", "You cannot disable administrator's account");
+            return;
+        }
 
+        Long role = Long.parseLong(roleStr);
         boolean res = SERVICE.getAdmin().setRole(clientId, role);
         LOGGER.info(""+clientId + " > set.user.role " + roleStr);
         req.setAttribute("command", "admin");//
@@ -114,8 +122,8 @@ public class CommandAdmin implements Command {
         req.setAttribute("result", res);
         req.setAttribute("infomsg", "RESULT_" + (res?"OK":"ERROR"));
         ifAjaxPrintOK(req, resp, role>0?"OK":"0");
-//        req.setAttribute("OUT", role>0?"OK":"0");
-//        page = RB_PAGEMAP.getString("jsp.ajax.out");
+        //  req.setAttribute("OUT", role>0?"OK":"0");
+        //  page = RB_PAGEMAP.getString("jsp.ajax.out");
     }
 
 

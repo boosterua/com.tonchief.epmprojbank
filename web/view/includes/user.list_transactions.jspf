@@ -1,0 +1,28 @@
+<div class="card">
+    <div class="card-block">
+        <div class="panel-heading">
+            <h2 class="panel-title badge indigo">&nbsp; <fmt:message key="TRANSACTIONS"/> &nbsp;</h2>
+        </div>
+
+        <fmt:message key="ID" var="h1"/>
+        <fmt:message key="AMOUNT" var="h3"/>
+        <fmt:message key="DATE" var="h4"/>
+        <fmt:message key="DESCRIPTION" var="h5"/>
+        <c:if test="${not empty transactionsList}">
+            <fmt:message key="SENDER_ACCOUNT_ID" var="h2"/>
+            <h4><fmt:message key="DEBIT"/></h4>
+            <z:printtable list="${transactionsList}" headers="${[h1,h2,h3,h4,h5]}"
+                          tableClass="smaller table table-striped table-hover table-sm table-info z-depth-3"
+                          headerClass="deep-orange darken-4 text-white smaller"/>
+        </c:if>
+        <br>
+        <c:if test="${not empty transactionsListCredit}">
+            <fmt:message key="RECIPIENT_ACCOUNT" var="h2"/>
+            <h4><fmt:message key="CREDIT"/></h4>
+            <z:printtable list="${transactionsListCredit}" headers="${[h1,h2,h3,h4,h5]}"
+                          tableClass="smaller table table-striped table-hover table-sm table-info z-depth-3"
+                          headerClass="teal darken-3 text-white smaller"/>
+        </c:if>
+
+    </div>
+</div>

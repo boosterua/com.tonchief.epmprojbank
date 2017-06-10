@@ -1,6 +1,7 @@
 package control.command;
 
 import model.dao.exceptions.ExceptionDAO;
+import model.dao.exceptions.MySqlPoolException;
 import model.entity.Account;
 import model.entity.Client;
 import org.apache.log4j.Logger;
@@ -19,7 +20,7 @@ public class CommandTransaction implements Command {
     private static final Logger LOGGER = Logger.getLogger(CommandTransaction.class);
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ExceptionDAO {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ExceptionDAO, MySqlPoolException {
         String act = req.getParameter("action");
         HttpSession session = req.getSession();
         String page = RB_PAGEMAP.getString("jsp.user");
@@ -35,14 +36,10 @@ public class CommandTransaction implements Command {
         String trfDescription;
 
         try {
-            LOGGER.info( req.getParameter("account_id") + " - account_id");
-            LOGGER.info( req.getParameter("cr_account"));
-            LOGGER.info( req.getParameter("trf_amount"));
-            LOGGER.info( req.getParameter("trf_description"));
-                String crAcct = req.getParameter("cr_account");
+            String crAcct = req.getParameter("cr_account");
             crAccount = crAcct==null ?"0" : crAcct;
             dtAccountId = (Integer.parseInt(req.getParameter("account_id")));
-            String amt = (String)req.getParameter("trf_amount");
+            String amt = req.getParameter("trf_amount");
                 amt = amt.replaceAll(",",".");
                 amt = amt.replaceAll("[^\\.0-9]+","");
             trfAmount=new BigDecimal(amt);
@@ -98,7 +95,7 @@ public class CommandTransaction implements Command {
             //req.setAttribute("returnPage", req.getHeader("Referer"));
 
         } else {
-            req.setAttribute("errormsg", trId == -1 ? "PROBLEM_WITH_DB" : "RESULT_ERROR");
+            req.setAttribute("errormsg", trId == -1 ? "INSUFFICIENT_FUNDS" : "RESULT_ERROR");
             req.setAttribute("action", "form_transfer");
         }
 

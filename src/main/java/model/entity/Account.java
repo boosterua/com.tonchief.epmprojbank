@@ -35,7 +35,7 @@ public class Account extends Entity {
     public Account(Integer aid, String num, Boolean blk) {
         this.blocked = blk;
         this.number = num;
-        this.id = aid;
+        this.id = aid==null? 0 : aid;
     }
 
     public Account(Integer aid, String num, Boolean blk, int clid) {

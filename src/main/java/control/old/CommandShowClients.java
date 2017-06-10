@@ -37,7 +37,6 @@ public class CommandShowClients implements Command {
 
                 Long role = Long.parseLong(req.getParameter("role"));
                 List<Client> clients = SERVICE.getAdmin().getClientsByRole(role);
-//                logger.info("From CommandShowClients List Size=" + clients.size());
                 req.setAttribute("clientList", clients);
                 req.setAttribute("action", "show_clients_by_role");
                 break;

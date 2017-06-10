@@ -20,7 +20,7 @@
         <div class="row">
           <div class="md-form col-sm-3">
               <i class="fa <c:out value="${type=='replenish'?'fa-money':'fa-bank'}"/> prefix"></i>
-            <input value="${account_id}" type="number" pattern="\d{1,14}" id="acct_id" name="acct_id"
+            <input value="${param.account_id}" type="text" pattern="\d{1,14}" id="acct_id" name="acct_id"
                  readonly>
             <label for="acct_id"><fmt:message key="SENDER_ACCOUNT_ID"/></label>
           </div>

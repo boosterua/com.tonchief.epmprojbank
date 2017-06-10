@@ -75,8 +75,13 @@ To be continued...
 
 
 Stack of tech
-Java-Core:Threads, JDBC (PS+Transactions), JSP, JSTL, FrontEnd:Bootstrap,JavaScript,Jquery,CSS
+Java-Core:Threads, JDBC (PS+Transactions), JSP, JSTL, Filter, FrontEnd:Bootstrap,JavaScript,Jquery,CSS
 Multi-threading: new user> customer || new acct
-
+ 
+ Used technologies: , MVC Pattern, Factory Pattern, Log4j, Junit, MySQL, TomCat pool connection. 
 Pres.plan:
 UsersDAOimpl
+
+
+Interesting: custom tag (print html table from list of list, passing params custom headers, styling of the table),
+ transactions in mysql [check balance + update balance in 2 accts + enter payment]

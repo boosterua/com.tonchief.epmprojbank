@@ -84,7 +84,7 @@ public class CommandRegister implements Command {
             req.setAttribute("feeOptions", options.toString());
 */
 
-//            logger.info("* MAP feeNames:"+fees);
+//            LOGGER.info("* MAP feeNames:"+fees);
 
             page =  RB_PAGEMAP.getString("jsp.user.registration");
         }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+        version="2.1">
+
+    <tlib-version>1.0</tlib-version>
+    <short-name>tableTag</short-name>
+    <uri>/WEB-INF/myTLD</uri>
+
+    	<tag>
+    		<name>printtable</name>
+    		<tag-class>control.jstl.Table</tag-class>
+    		<body-content>empty</body-content>
+    		<!--<info>TABLE outputs html table given table headings as List, Data as List</info>-->
+			<attribute>
+				<name>list</name>
+				<required>true</required>
+				<description>Collection to print as table, 1st row is headings</description>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+			<attribute>
+				<name>tableClass</name>
+				<required>false</required>
+				<description>class to pass to table header</description>
+				<rtexprvalue>false</rtexprvalue>
+			</attribute>
+			<attribute>
+				<name>headerClass</name>
+				<required>false</required>
+				<description>class to pass to table header</description>
+				<rtexprvalue>false</rtexprvalue>
+			</attribute>
+			<attribute>
+				<name>headers</name>
+				<required>false</required>
+				<description>list of headers of table</description>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+			<attribute>
+				<name>list2</name>
+				<required>false</required>
+				<description>test</description>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+    	</tag>
+
+</taglib>

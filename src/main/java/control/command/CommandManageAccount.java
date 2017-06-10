@@ -1,6 +1,7 @@
 package control.command;
 
 import model.dao.exceptions.ExceptionDAO;
+import model.dao.exceptions.MySqlPoolException;
 import model.entity.Account;
 import model.entity.Client;
 import org.apache.log4j.Logger;
@@ -13,11 +14,10 @@ import java.io.IOException;
 import java.util.Map;
 
 public class CommandManageAccount implements Command {
-    Logger logger = Logger.getLogger(CommandManageAccount.class);
+    private static final Logger LOGGER = Logger.getLogger(CommandManageAccount.class);
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException,
-            ExceptionDAO {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ExceptionDAO, MySqlPoolException {
         String act = req.getParameter("action");
         HttpSession session = req.getSession();
         String page = RB_PAGEMAP.getString("jsp.user");
@@ -33,10 +33,9 @@ public class CommandManageAccount implements Command {
         if (act == null) act = "";
         Client client = (Client) session.getAttribute("client");
         Integer clientId = client.getId();
-        logger.info("Client:" + client);
-        String accId = req.getParameter("account_id");
-        Integer accountId = ( accId==null || accId.equals("") ) ? 0 : Integer.parseInt(accId);
-
+        LOGGER.info("Client:" + client);
+        String accIdStr = req.getParameter("account_id");
+        Integer accountId = ( accIdStr==null || accIdStr.equals("") ) ? 0 : Integer.parseInt(accIdStr);
         switch (act) {
             case ("order_new_account"):
                 SERVICE.getUser().generateNewAccount(client.getId(), true);
@@ -59,13 +58,24 @@ public class CommandManageAccount implements Command {
                 if(accountBelongsToUser(req, accountId)){
                     req.setAttribute("action", "form_transfer");
                     req.setAttribute("type", act);
-                    logger.info("make_paym/repl... action=" + act);
+                    LOGGER.info("make_paym/repl... action=" + act);
                     if(act.equals("replenish")) {
                         req.setAttribute("cr_account", getAccountFromSessById(req, accountId).getName());
                         req.setAttribute("account_id", "000000"+RB_BANK.getString("CASH_ACCOUNT_ID"));
                         req.setAttribute("description", "Cash ATM top-up / Поповнення готівкою через термінал");
-                        logger.info("replenish: setting extra attrs. " + req.getAttribute("cr_account") + " <CRAcct | AcctId> "+req.getAttribute("account_id") );
+                        LOGGER.info("replenish: setting extra attrs. " + req.getAttribute("cr_account") + " <CRAcct | AcctId> "+req.getAttribute("account_id") );
                     }
+                }
+                break;
+
+            case ("list_transactions"):
+                LOGGER.debug("list_transactions");
+                if(accountBelongsToUser(req, accountId)){
+                    LOGGER.debug("isAuth=true");
+                    req.setAttribute("action", act);
+                    LOGGER.info("list_transactions... action=" + act);
+                    req.setAttribute("transactionsList", SERVICE.getUser().getTransactionsList(accountId,true));
+                    req.setAttribute("transactionsListCredit", SERVICE.getUser().getTransactionsList(accountId,false));
                 }
                 break;
 
@@ -81,7 +91,8 @@ public class CommandManageAccount implements Command {
         if(account==null) {
             wrongParam(req);
             return false;
-        } else if(account.getBlocked()){
+        } else if(account.getBlocked() ||
+                ((Client)req.getSession().getAttribute("client")).getRole().equals(0)){
             req.setAttribute("errormsg", "OPER_ON_BLOCKED_ACCOUNT_FORBIDDEN");
             return false;
         }
@@ -93,6 +104,11 @@ public class CommandManageAccount implements Command {
                 (Map<Integer, Account>) req.getSession().getAttribute("accountsMap");
         return accountsMap.get(accountId);
     }
+//    static String getClientRoleFromSess(HttpServletRequest req){
+//        Map<Integer,Client> clientsMap =
+//                (Map<Integer, String>) req.getSession().getAttribute("client");
+//        return clientsMap.get("role");
+//    }
 
 
     private static void wrongParam(HttpServletRequest req) {

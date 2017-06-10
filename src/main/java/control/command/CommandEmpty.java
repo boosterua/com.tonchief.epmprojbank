@@ -35,7 +35,11 @@ public class CommandEmpty implements Command {
         saveCookieToSession(request,"locale");
         //TODO setLang - stopped working when using cookies, move all lang changing stuff to filter?
 
-        if(sessIsAdmin(request)) return RB_PAGEMAP.getString("jsp.admin");
+        if(sessIsAdmin(request)) {
+            request.setAttribute("command", "admin");
+            request.setAttribute("action", "index");
+            return RB_PAGEMAP.getString("jsp.admin");
+        }
         if(isAuthUserSessionScope(request)) return RB_PAGEMAP.getString("jsp.user");
         return RB_PAGEMAP.getString("jsp.main");
     }

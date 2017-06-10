@@ -13,19 +13,28 @@ public class ControllerHelper {
 
 
     private ControllerHelper() {
-        commands.put("admin", new CommandAdmin());
-        commands.put("authenticate", new CommandLogin());
-        commands.put("account", new CommandManageAccount());
-        commands.put("login", new CommandLogin());
-        commands.put("logout", new CommandLogin());
-        commands.put("register", new CommandRegister());
-        commands.put("show_authuser_hp", new CommandLogin());
+        commands.put("admin",           new CommandAdmin());
+
+        commands.put("user",            new CommandUser());
+        commands.put("login",               commands.get("user"));
+        commands.put("logout",              commands.get("user"));
+        commands.put("show_authuser_hp",    commands.get("user"));
+        commands.put("authenticate",        commands.get("user"));
+        commands.put("client",              commands.get("user"));
+
+        commands.put("account",         new CommandManageAccount());
+
+        commands.put("register",        new CommandRegister());
+        commands.put("submit_registration", commands.get("register"));
+
+        commands.put("showfees",        new CommandShowFees());
+
+        commands.put("switch_lang",     new CommandEmpty());
+
+        commands.put("transaction",     new CommandTransaction());
+
         //commands.put("show_clients", new CommandShowClients());
-        commands.put("showfees", new CommandShowFees());
-        commands.put("submit_registration", new CommandRegister());
-        commands.put("switch_lang", new CommandEmpty());
-        commands.put("transaction", new CommandTransaction());
-//        commands.put("show_clients", new CommandAdmin());
+        //commands.put("show_clients", new CommandAdmin());
     }
     //TODO: redesign factory. kill dupes
 

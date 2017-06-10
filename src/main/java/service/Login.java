@@ -2,6 +2,7 @@ package service;
 
 
 import model.dao.exceptions.ExceptionDAO;
+import model.dao.exceptions.MySqlPoolException;
 import model.dao.factory.DAOFactoryImpl;
 import model.entity.Card;
 import model.entity.Client;
@@ -38,7 +39,7 @@ public class Login {
         return DAO.getUsersDAO().authenticateUser(login, pwd);
     }
 
-    public Client getClientById(Integer uid) throws ExceptionDAO {
+    public Client getClientById(Integer uid) throws ExceptionDAO, MySqlPoolException {
         if(uid==null) return null;
         return (Client)DAO.getUsersDAO().getById(uid);
     }

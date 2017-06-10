@@ -2,6 +2,7 @@ package model.dao.jdbc;
 
 import model.dao.connection.DataSource;
 import model.dao.exceptions.ExceptionDAO;
+import model.dao.exceptions.MySqlPoolException;
 import model.dao.interfaces.CardsDAO;
 import model.entity.Card;
 import model.entity.Entity;
@@ -77,22 +78,26 @@ public class CardsDAOimpl implements CardsDAO {
         throw new UnsupportedOperationException();
     }
 
-    public Entity getById(Integer id) {
-        try (ResultSet rs = UtilDAO.getRsById(id.longValue(),
-                BUNDLE.getString("cards.getById"))) {
-            rs.next();
-            Card card = new Card();
-            card.setId(rs.getInt(1));
-            card.setName("" + rs.getLong(2));
-            card.setExpDate(rs.getDate(3).toLocalDate());
-            card.setFeeId(rs.getInt(4));
-            card.setClientId(rs.getInt(5));
-            rs.close();
-            return card;
-        } catch (Exception e) {
-            LOGGER.error("getRs By Id" , e);
+    public Entity getById(Integer id) throws MySqlPoolException {
+        try (Connection conn = pool.getConnection();
+        ) {
+            try (ResultSet rs = UtilDAO.getRsById(id.longValue(), BUNDLE.getString("cards.getById"))) {
+                rs.next();
+                Card card = new Card();
+                card.setId(rs.getInt(1));
+                card.setName("" + rs.getLong(2));
+                card.setExpDate(rs.getDate(3).toLocalDate());
+                card.setFeeId(rs.getInt(4));
+                card.setClientId(rs.getInt(5));
+                rs.close();
+                return card;
+            } catch (Exception e) {
+                LOGGER.error("getRs By Id", e);
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new MySqlPoolException("Pool Expt CardsDAO.getById",e);
         }
-        return null;
     }
 
     @Override

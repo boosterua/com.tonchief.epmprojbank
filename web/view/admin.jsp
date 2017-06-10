@@ -70,11 +70,27 @@
         <%--<c:if test="${isAuthorized==true}">--%>
 
       <c:if test="${action==\"index\"}">
-        <a href="<%=request.getContextPath()%>/bank/?command=admin&action=show_clients_by_role&role=0">Show
-          newly registered clients waiting for approval</a><br>
-        <a href="<%=request.getContextPath()%>/bank/?command=admin&action=show_clients_with_blocked_accounts">Show
-          clients with blocked accounts</a><br>
-        <a href="<%=request.getContextPath()%>/bank/?command=admin&action=show_all_clients">Show all clients</a><br>
+        <br>
+        <a href="<%=request.getContextPath()%>/bank/?command=admin&action=show_clients_by_role&role=0">
+        <button type="button" class="btn btn-sm btn-default teal darker waves-effect waves-light" aria-label="Left Align">
+          <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+          <i class="fa-li fa fa-check-square"></i><fmt:message key="LNK_SHOW_NEW_CLIENTS"></fmt:message>
+        </button>
+        </a><br>
+
+        <a href="<%=request.getContextPath()%>/bank/?command=admin&action=show_clients_with_blocked_accounts">
+          <button type="button" class="btn btn-sm  btn-default  teal darker waves-effect waves-light" aria-label="Left Align">
+          <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+          <i class="fa-li fa fa-check-square"></i><fmt:message key="LNK_SHOW_BLOCKED_CLIENTS"></fmt:message>
+        </button></a><br>
+
+        <a href="<%=request.getContextPath()%>/bank/?command=admin&action=show_all_clients">
+          <button type="button" class="btn btn-sm  btn-default teal darker waves-effect waves-light" aria-label="Left Align">
+          <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+          <i class="fa-li fa fa-check-square"></i><fmt:message key="LNK_SHOW_ALL_CLIENTS"></fmt:message>
+        </button></a><br>
+
+     <br>
 
       </c:if>
 
