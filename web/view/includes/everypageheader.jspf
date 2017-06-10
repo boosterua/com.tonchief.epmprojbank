@@ -11,32 +11,15 @@
 
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-3.1.1.min.js"></script>
-<%@ taglib uri="myTLD"  prefix="z"  %>
-
-<%--
-<c:set var="language" value=
-        "${not empty param.language ?
-        param.language
-        : not empty language ?
-            language
-            : pageContext.request.locale}" scope="session" />
-<fmt:setLocale value="${language}" />
---%>
-
-<%--<fmt:setLocale value="${sessionScope.locale}"/>--%>
-<%--
-<c:choose>
-<c:when test="not empty ${sessionScope.locale}">
-    <c:set var="locale" value="${sessionScope.locale}"/>
-</c:when>
-</c:choose>
-<fmt:setLocale value="${locale}"/>
-
---%>
+<%@ taglib uri="myTLD"  prefix="z" %>
 
 
 
-<c:set var="locale" value="${not empty sessionScope.locale ? sessionScope.locale : locale}"/>
+<c:set var="locale" value="${not empty sessionScope.locale ?
+                                 sessionScope.locale :
+                                     not empty locale ?
+                                         locale :
+                                         pageContext.request.locale}"/>
 <fmt:setLocale value="${locale}"/>
 
 <fmt:setBundle basename="locale.locale" var="lang"/>

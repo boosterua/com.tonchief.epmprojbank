@@ -32,7 +32,7 @@ CREATE TABLE `accounts` (
   UNIQUE KEY `accounts_id_account_uindex` (`id_account`),
   KEY `fk_accounts_clients1_idx` (`client_id`),
   CONSTRAINT `fk_accounts_clients1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id_client`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=1675 DEFAULT CHARSET=cp1251;
+) ENGINE=InnoDB AUTO_INCREMENT=1677 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES (1,26006430000000,0,9991511.00,1),(2,26003654789987,0,0.00,2),(3,263014528796,0,0.00,3),(4,262536521478,0,0.00,9),(9,26253652147889,0,0.00,72),(24,26253652147891,0,0.00,5),(76,26253652147894,0,0.00,73),(78,26253652147896,0,0.00,74),(87,26253652147900,0,0.00,82),(88,26253652147901,0,0.00,83),(89,26253652147902,0,0.00,84),(1654,26253652147925,0,0.00,90),(1655,26253652147926,0,0.00,90),(1668,26253652147927,0,1304.96,73),(1670,26253652147928,0,2290.00,91),(1671,26253652147929,0,0.00,91),(1672,26253652147930,0,0.00,91),(1673,26253652147931,0,0.00,73),(1674,26253652147932,1,0.00,73);
+INSERT INTO `accounts` VALUES (1,26006430000000,0,9991501.00,1),(2,26003654789987,0,37.00,2),(3,263014528796,0,0.00,3),(4,262536521478,0,0.00,9),(9,26253652147889,0,0.00,72),(24,26253652147891,0,0.00,5),(76,26253652147894,0,0.00,73),(78,26253652147896,0,0.00,74),(87,26253652147900,0,0.00,82),(88,26253652147901,0,0.00,83),(89,26253652147902,0,0.00,84),(1654,26253652147925,0,0.00,90),(1655,26253652147926,0,0.00,90),(1668,26253652147927,0,937.91,73),(1670,26253652147928,0,2290.00,91),(1671,26253652147929,0,0.00,91),(1672,26253652147930,0,0.00,91),(1673,26253652147931,0,332.05,73),(1674,26253652147932,1,0.00,73),(1675,26253652147933,0,6.01,92),(1676,26253652147934,0,1.99,92);
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -94,7 +94,7 @@ CREATE TABLE `clients` (
   UNIQUE KEY `clients_email_uindex` (`email`),
   KEY `id_fee` (`fee_id`),
   CONSTRAINT `id_fee` FOREIGN KEY (`fee_id`) REFERENCES `fees` (`id_fee`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=cp1251;
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,7 +103,7 @@ CREATE TABLE `clients` (
 
 LOCK TABLES `clients` WRITE;
 /*!40000 ALTER TABLE `clients` DISABLE KEYS */;
-INSERT INTO `clients` VALUES (1,'BANK.CashDesk','cash@bank.com','N/A',999,1),(2,'BANK.Comissions / Card Fees Account','comissions@bank.com','N/A',999,1),(3,'Greg Tripple','com@com.com ','3',10,1),(5,'NPUBJX5SLIPL4 ','3SUT2YN8V1SEPWC6IB43GQP ','FOR8EYNN ',10,1),(6,'6FD0BU6AM57 H3BOJIG5XSLV','HO6Q7Q7KDX  9D1','HL0CHUA',10,1),(9,'SJYKU5S4BSPKTUNIG3G CSFB3','WSLL04A17RXD2K2NRTJ26VFN ','56544645',10,1),(72,'Alex Deem','alewxtoo@yahoo.eu','1',10,2),(73,'User Regular','1@1.1','1',10,1),(74,'Gary Tream','noexis@t.ant','1',0,3),(82,'Anton Shevchenko','2@2.2','2',999,1),(83,'New User','noemail@yahoo.com','n',0,4),(84,'qwueyr ouiy oi','sad@mad.com','s',0,3),(90,'Василий Безфамильный','8@88.com','8',10,4),(91,'Олександр','tb@my.ua','zhopka',10,3);
+INSERT INTO `clients` VALUES (1,'BANK.CashDesk','cash@bank.com','N/A',999,1),(2,'BANK.Comissions / Card Fees Account','comissions@bank.com','N/A',999,1),(3,'Greg Tripple','com@com.com ','3',10,1),(5,'NPUBJX5SLIPL4 ','3SUT2YN8V1SEPWC6IB43GQP ','FOR8EYNN ',10,1),(6,'6FD0BU6AM57 H3BOJIG5XSLV','HO6Q7Q7KDX  9D1','HL0CHUA',10,1),(9,'SJYKU5S4BSPKTUNIG3G CSFB3','WSLL04A17RXD2K2NRTJ26VFN ','56544645',10,1),(72,'Alex Deem','alewxtoo@yahoo.eu','1',10,2),(73,'Дмитрий Банкиров','1@1.1','1',10,2),(74,'Gary Wentworth','noexis@t.ant','1',0,3),(82,'Anton Shevchenko','2@2.2','2',999,2),(83,'New User','noemail@yahoo.com','n',0,4),(84,'SomeName AndABiggerFamilyName','sad@mad.com','s',0,3),(90,'Василий Безфамильный','8@88.com','8',10,4),(91,'Олександр','tb@my.ua','zhopka',10,3),(92,'Vasyl Bezushenko','v@v.com','v',10,3);
 /*!40000 ALTER TABLE `clients` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +151,7 @@ CREATE TABLE `transactions` (
   PRIMARY KEY (`id_trans`,`account_id`),
   KEY `fk_transactions_accounts1_idx` (`account_id`),
   CONSTRAINT `fk_transactions_accounts1` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id_account`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=cp1251;
+) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +160,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (10,3,9.00,'1663-04-20',NULL,0),(46,26006418073001,1324.15,'2017-06-08','Тестовое назначение платежа на сумму 1324 грн и 15 коп.',1668),(57,26006418073001,11444.55,'2017-06-09','Проверка русских символов..... Без ПДВ',1668),(58,26006418073001,123.00,'2017-06-09','Тестовое назначение платежа на сумму 1324 грн и 15 коп.',1668),(59,26253652147927,100.00,'2017-06-09','Cash Replenishment via Terminal',1),(60,26253652147927,100.00,'2017-06-09','Cash Replenishment via Terminal',1),(61,26253652147927,100.00,'2017-06-09','Cash Replenishment via Terminal',1),(62,26253652147927,100.00,'2017-06-09','Cash Replenishment via Terminal',1),(68,123132,1.05,'2017-06-09','fdgd',1668),(69,26253652147927,1000.00,'2017-06-09','Cash Replenishment via Terminal',1),(72,26253652147927,1000.00,'2017-06-09','Cash Replenishment via Terminal',1),(73,26006418073001,50.00,'2017-06-09',' fghdfghdfghdfgh',1668),(78,55,11.00,'2017-06-09','22',1668),(83,123456,500.99,'2017-06-09','TRF 500.99 to unknown aacount',1668),(86,26253652147928,400.00,'2017-06-09','Pricey',1670),(87,26253652147930,400.00,'2017-06-09','Hello to you',1670),(88,26253652147929,50.00,'2017-06-09','What\'s up',1670),(89,26253652147927,800.00,'2017-06-09','Cash Replenishment via Terminal',1),(90,26253652147928,50.00,'2017-06-09','Babushka',1671),(91,26253652147928,50.00,'2017-06-09','Babushka',1671),(92,26253652147928,50.00,'2017-06-09','Babushka',1671),(93,26253652147928,400.00,'2017-06-09','Pricey',1672),(94,26253652147927,200.00,'2017-06-09','Cash Replenishment via Terminal',1),(95,26253652147894,100.00,'2017-06-10','Cash Replenishment via Terminal',1),(96,26253652147927,100.00,'2017-06-10','Internal transfer between accounts of the same client',76);
+INSERT INTO `transactions` VALUES (10,3,9.00,'1663-04-20',NULL,0),(46,26006418073001,1324.15,'2017-06-08','Тестовое назначение платежа на сумму 1324 грн и 15 коп.',1668),(57,26006418073001,11444.55,'2017-06-09','Проверка русских символов..... Без ПДВ',1668),(58,26006418073001,123.00,'2017-06-09','Тестовое назначение платежа на сумму 1324 грн и 15 коп.',1668),(59,26253652147927,100.00,'2017-06-09','Cash Replenishment via Terminal',1),(60,26253652147927,100.00,'2017-06-09','Cash Replenishment via Terminal',1),(61,26253652147927,100.00,'2017-06-09','Cash Replenishment via Terminal',1),(62,26253652147927,100.00,'2017-06-09','Cash Replenishment via Terminal',1),(68,123132,1.05,'2017-06-09','fdgd',1668),(69,26253652147927,1000.00,'2017-06-09','Cash Replenishment via Terminal',1),(72,26253652147927,1000.00,'2017-06-09','Cash Replenishment via Terminal',1),(73,26006418073001,50.00,'2017-06-09',' fghdfghdfghdfgh',1668),(78,55,11.00,'2017-06-09','22',1668),(83,123456,500.99,'2017-06-09','TRF 500.99 to unknown aacount',1668),(86,26253652147928,400.00,'2017-06-09','Pricey',1670),(87,26253652147930,400.00,'2017-06-09','Hello to you',1670),(88,26253652147929,50.00,'2017-06-09','What\'s up',1670),(89,26253652147927,800.00,'2017-06-09','Cash Replenishment via Terminal',1),(90,26253652147928,50.00,'2017-06-09','Babushka',1671),(91,26253652147928,50.00,'2017-06-09','Babushka',1671),(92,26253652147928,50.00,'2017-06-09','Babushka',1671),(93,26253652147928,400.00,'2017-06-09','Pricey',1672),(94,26253652147927,200.00,'2017-06-09','Cash Replenishment via Terminal',1),(95,26253652147894,100.00,'2017-06-10','Cash Replenishment via Terminal',1),(96,26253652147927,100.00,'2017-06-10','Internal transfer between accounts of the same client',76),(97,26253652147931,150.00,'2017-06-10','150 TRF internal',1668),(98,26253652147931,1.00,'2017-06-10','1',1668),(99,26253652147931,1.00,'2017-06-10','1',1668),(100,26003654789987,5.50,'2017-06-10','Comission for Transaction99',1668),(101,26253652147931,10.05,'2017-06-10','перевод личных средств',1668),(102,26003654789987,5.50,'2017-06-10','Comission for Transaction # 101',1668),(103,26253652147931,10.00,'2017-06-10','Снова тот же перевод',1668),(104,26003654789987,5.50,'2017-06-10','Comission for Transaction # 103',1668),(105,26253652147931,20.00,'2017-06-10','Проверка тарифов',1668),(106,26003654789987,5.50,'2017-06-10','Comission for Transaction # 105',1668),(107,26253652147931,20.00,'2017-06-10','Проверка тарифов',1668),(108,26003654789987,5.50,'2017-06-10','Comission for Transaction # 107',1668),(109,26253652147931,20.00,'2017-06-10','Проверка тарифов',1668),(110,26003654789987,5.50,'2017-06-10','Comission for Transaction # 109',1668),(111,26253652147931,100.00,'2017-06-10','100.. fee updated?',1668),(112,26003654789987,2.00,'2017-06-10','Comission for Transaction # 111',1668),(113,26253652147933,10.00,'2017-06-10','Cash Replenishment via Terminal',1),(114,26253652147934,1.99,'2017-06-10','Internal transfer between accounts of the same client',1675),(115,26003654789987,1.00,'2017-06-10','Comission for Transaction # 114',1675),(116,26003654789987,1.00,'2017-06-10','Comission for Transaction # -1',1675);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -173,4 +173,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-10  3:27:11
+-- Dump completed on 2017-06-10 16:43:06

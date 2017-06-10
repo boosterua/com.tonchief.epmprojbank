@@ -112,31 +112,6 @@
 </header>
 <div>
 
-  <div>
-    <div class="h-25" style="height:5em">&nbsp;</div>
-  </div>
-
-  <%--<c:out value = "<hr><br>" />
-  <c:out value="${param.myVar}"/>--%>
-
-
-  <%--
-
-  <br>
-  <div class="container ">
-  <div style="width:100px;height:100px;" class="blue-grey lighten-5">blue-grey lighten-5</div>
-  </div>
-  <br><br>
-  <div class="container teal lighten-5">
-
-  <div style="width:100px;height:100px;" class="teal lighten-5">teal lighten-5</div>
-  </div>
-  <br>
-  <div class="container ">
-  <div style="width:100px;height:100px;" class="cyan lighten-5">cyan lighten-5</div>
-  </div>
-  <br><br>
-  <div class="container ">
-  <div style="width:100px;height:100px;" class=" light-blue lighten-5"> light-blue lighten-5</div>
-  </div>
-  --%>
+<div>
+  <div class="h-25" style="height:5em">&nbsp;</div>
+</div>

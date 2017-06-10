@@ -28,6 +28,9 @@
                             <th><fmt:message key="AMOUNT"/></th>
                             <td>${param.trf_amount}</td>
                         </tr><tr>
+                            <th><fmt:message key="COMISSION"/></th>
+                            <td>${comission}</td>
+                        </tr><tr>
                             <th><fmt:message key="DESCRIPTION"/></th>
                             <td>${param.trf_description }</td>
                         </tr>

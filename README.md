@@ -85,3 +85,29 @@ UsersDAOimpl
 
 Interesting: custom tag (print html table from list of list, passing params custom headers, styling of the table),
  transactions in mysql [check balance + update balance in 2 accts + enter payment]
+ 
+
+WorkFlow Demo:
+Register; change language; see fees; register
+Login 
+  - see that account has not been approved yet;
+  - try doing operations 
+  - order another account / check that it's blocked
+
+Login as administrator (2@2) in incognito window
+  list clients - show all 3 ways
+  Approve new user; unblock accounts
+  
+Relogin as user;
+  wrong password
+  top up account
+  transfer bigger amount than avilable
+  transfer amount b/w own accounts; 
+  check balances of both accts
+  see history - find fee as well
+  block account
+  
+  
+   
+  
+  

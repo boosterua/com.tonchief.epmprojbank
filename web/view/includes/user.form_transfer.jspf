@@ -1,4 +1,3 @@
-
 <div class="card">
   <div class="card-block">
     <div class="panel-heading">
@@ -53,19 +52,3 @@
     </div>
   </div>
 </div>
-
-
-<%--
-<br><br><br><small>
-  ${accountsMap}<br>
-  ${param.account_id}<br>
-</small>
---%>
-<%--
-<pre style="font-size: smaller">
-{cr_account}  ${cr_account}
-{param.account_id}  ${param.account_id}
-{account_id}  ${account_id}
-{description}
-${description}
-</pre>--%>

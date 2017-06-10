@@ -42,33 +42,33 @@ public class TransactionsDAOimpl  implements TransactionsDAO {
 
     @Override
     public Integer insert(Object transaction) {
-        //TODO: SQL transaction: new transaction + update balance
+        //doneTODO: SQL transaction: new transaction + update balance
 
         try (Connection conn = pool.getConnection();
         ) {
             conn.setAutoCommit(false);
-            try (PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("transactions.insertAndUpdate"), 1);){
+            try (
+                PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("transactions.insertAndUpdate"), 1);
+                PreparedStatement psUpdate = conn.prepareStatement(BUNDLE.getString("accounts.updateBalanceByAccountId"));
+                PreparedStatement psUpdBalance2 = conn.prepareStatement(BUNDLE.getString("accounts.updateBalanceIfLocal"));
+            ){
                 Transaction tr = (Transaction) transaction;
-                LOGGER.info("Insert into [transaction]: " + tr);
+                LOGGER.info("Got [transaction]: " + tr + "; Trying to insert it to db.");
 
                 ps.setString    (1, tr.getCreditAccount());
                 ps.setBigDecimal(2, tr.getAmount());
                 ps.setDate      (3, java.sql.Date.valueOf((tr.getDate()  )));
-                ps.setString    (4, encodeUTF8KillCharsNotBMP(tr.getDescription()));//TODO: convert longSymbols (₴) to UTF8, Crashes on sql.insert otherwise
+                ps.setString    (4, encodeUTF8KillCharsNotBMP(tr.getDescription())); //TODO: convert longSymbols (₴) to UTF8, Crashes on sql.insert otherwise
                 ps.setBigDecimal(5, tr.getAmount());
                 ps.setInt       (6, tr.getDtAccount().getId());
-
                 LOGGER.info("PS[1]: " + ps.toString());
                 ps.executeUpdate();
 
-
-                PreparedStatement psUpdate = conn.prepareStatement(BUNDLE.getString("accounts.updateBalanceByAccountId"));
                 psUpdate.setBigDecimal(1, tr.getAmount());
                 psUpdate.setInt(2, tr.getDtAccount().getId());
                 LOGGER.info("PS[2]: " + psUpdate.toString());
                 psUpdate.executeUpdate();
 
-                PreparedStatement psUpdBalance2 = conn.prepareStatement(BUNDLE.getString("accounts.updateBalanceIfLocal"));
                 psUpdBalance2.setString(1, tr.getCreditAccount());
                 psUpdBalance2.setBigDecimal(2, tr.getAmount());
                 LOGGER.info("PS[3]: " + psUpdBalance2.toString());
@@ -83,9 +83,6 @@ public class TransactionsDAOimpl  implements TransactionsDAO {
                 } catch (SQLException e){
                     LOGGER.error("SQL ex. Could not insert new transaction", e);
                     return 0;
-                } finally {
-                    ps.close();
-                    psUpdate.close();
                 }
             }
         } catch (SQLException e) {

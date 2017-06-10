@@ -32,7 +32,10 @@ public class CommandUser implements Command {
 
 
         if (req.getParameter("command").equals("logout")) {
-            session.invalidate();
+            if(session!=null) {
+                req.setAttribute("locale", session.getAttribute("locale"));
+                session.invalidate();
+            }
             req.setAttribute("infomsg", "YOU_HAVE_LOGGED_OUT");
             req.setAttribute("action", "login");
         } else if(req.getParameter("command").equals("show_authuser_hp") ||
@@ -51,12 +54,12 @@ public class CommandUser implements Command {
             Integer uid = SERVICE.getLogin().getUserIdOnAuth(login, password);
             if (uid!=null && uid>0) { // Authorized
                 Client client =  SERVICE.getLogin().getClientById(uid);
-                LOGGER.info(client);
+                LOGGER.info("[" + req.getRemoteAddr() + "] Client: "+ client );
 
                 /* TODO: Should be removed when everything is tested and fixed */
-                if(Boolean.TRUE.equals(Boolean.valueOf(RB_BANK.getString("APPLICATION_IS_IN_DEBUG_MODE"))));
+                /*if(RB_BANK.getString("APPLICATION_IS_IN_DEBUG_MODE").equals(1));
                     session.setAttribute("SYSTEM_IN_DEBUG_STATE", true);
-
+*/
                 session.setAttribute("isAuthorized", true);
                 session.setAttribute("client", client);
 

@@ -20,10 +20,10 @@ public class CommandEmpty implements Command {
 
         if(reqCommand!=null && reqCommand.equals("switch_lang")){
             String lang = request.getParameter("locale");
+            if(sess!=null)
+                sess.setAttribute("locale", lang);
 
-            sess.setAttribute("locale", lang);
             setCookie(response, "locale", lang);
-
             String referer = request.getHeader("Referer");
             response.sendRedirect(referer);
             response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
@@ -35,12 +35,20 @@ public class CommandEmpty implements Command {
         saveCookieToSession(request,"locale");
         //TODO setLang - stopped working when using cookies, move all lang changing stuff to filter?
 
+        logger.debug("req " + request);
+        logger.debug("sessIsAdmin(request) " + sessIsAdmin(request));
+        logger.debug("isAuthUserSessionScope(request) " + isAuthUserSessionScope(request));
         if(sessIsAdmin(request)) {
             request.setAttribute("command", "admin");
             request.setAttribute("action", "index");
             return RB_PAGEMAP.getString("jsp.admin");
-        }
-        if(isAuthUserSessionScope(request)) return RB_PAGEMAP.getString("jsp.user");
+        } /*else if(isAuthUserSessionScope(request)){
+            request.setAttribute("command", "show_authuser_hp");
+            request.setAttribute("action", "index");
+        }*/
+        if(isAuthUserSessionScope(request))
+            return RB_PAGEMAP.getString("jsp.user");
+
         return RB_PAGEMAP.getString("jsp.main");
     }
 }

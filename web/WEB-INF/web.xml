@@ -33,6 +33,14 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>FilterUserRequest</filter-name>
+        <filter-class>control.servlets.FilterIncomingRequests</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FilterUserRequest</filter-name>
+        <url-pattern>/bank/*</url-pattern>
+    </filter-mapping>
 
 
     <jsp-config>
@@ -58,11 +66,11 @@
     <!-- TODO: add error pages . jsp
     <error-page>
         <error-code>404</error-code>
-        <location>/jsp/error/error404.jsp</location>
+        <location>/view/error404.jsp</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/jsp/error/error500.jsp</location>
+        <location>/view/error500.jsp</location>
     </error-page>-->
 
     <welcome-file-list>

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
 Make sure that in your servlet-context.xml you have as follows:
 <resources mapping="/resources/**" location="/resources/" />
@@ -29,16 +30,24 @@ includeJSP
 -sectionID : String
 +action: String
 
-todo: jstl tags: info, error
 --%>
+<c:set var="URI" value="<%=request.getContextPath()%>"/>
+<c:choose>
+
+  <c:when test="${sessionScope.isAdmin==true}">
+    <c:redirect url="${URI}/bank/?command=admin"/>
+  </c:when>
+  <c:when test="${sessionScope.isAuthorized==true}">
+    <c:redirect url="${URI}/bank/?command=client"/>
+  </c:when>
+</c:choose>
+
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-  <%--<link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'>--%>
   <meta charset="utf-8">
-
   <%@ include file="includes/everypageheader.jspf" %>
 <style>
 
@@ -57,55 +66,18 @@ todo: jstl tags: info, error
 
     <hr>
 
-<%--
-    <h3 class="message">ADM: <%=service.Admin.getMessage()%></h3>
---%>
-
-    <a href="/bank/?command=login">login</a><br>
-    <a href="/bank/?command=register">register</a><br>
+    <a href="<%=request.getContextPath()%>/bank/?command=login">login</a><br>
+    <a href="<%=request.getContextPath()%>/bank/?command=register">register</a><br>
 
     <div style="text-align: right">
         <span class="badge badge-default animated fadeIn"><i class="fa fa-btc" aria-hidden="true"></i> epm.proj.bank by Ton Chief</span>
-      <%--<p class="animated fadeIn text-muted" ></p>--%>
     </div>
 
   </div>
 </div>
 
-
 <%@include file="includes/btmlinks.jspf" %>
 <%@include file="includes/everypagefooter.jspf" %>
 
 </body>
-
 </html>
-
-
-<%--
-My root pages template:
-
-
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<%@ include file="includes/everypageheader.jspf" %>
-
-</head>
-<title>
-
-</title>
-<body>
-<%@include file="includes/toplogo.jspf" %>
-
-
-
-
-
-<%@include file="includes/btmlinks.jspf" %>
-<%@include file="includes/everypagefooter.jspf" %>
- </body>
-</html>
-
---%>

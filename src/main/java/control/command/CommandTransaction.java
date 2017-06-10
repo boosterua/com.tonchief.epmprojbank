@@ -65,6 +65,7 @@ public class CommandTransaction implements Command {
             return page;
         }
         Account dtAccount = getAccountByIdSessionScope(req, dtAccountId);
+
         int trId=-1;
 
         switch (act) {
@@ -77,18 +78,16 @@ public class CommandTransaction implements Command {
                 }
                 break;
 
-            case ("make_payment"):
+            case ("make_payment"): /* Make payment and Also subtract fee for this transfer according to fee.plan */
                 trId = SERVICE.getUser().makePayment(dtAccount, crAccount, trfAmount, trfDescription);
-                /* Also subtract fee for this transfer */
-                LOGGER.debug("***Fee id " + client.getFeeId());
-                LOGGER.debug("***Client " + client);
-
+                // TODO : block account if comission is not charged
                 Fee fee = SERVICE.getFees().getFeeById(client.getFeeId());
-                LOGGER.debug(fee);
                 Account comissionsAcct = SERVICE.getUser().getAccountById(
                         Integer.parseInt(RB_BANK.getString("COMISSIONS_ACCOUNT_ID")));
-                SERVICE.getUser().makePayment(dtAccount, comissionsAcct.getNumber(),
-                        BigDecimal.valueOf(fee.getTransferFee()), "Comission for Transaction # " + trId );
+                BigDecimal comission = BigDecimal.valueOf(fee.getTransferFee());
+                SERVICE.getUser().makePayment(dtAccount, comissionsAcct.getNumber(), comission,
+                        "Comission for Transaction # " + trId );
+                req.setAttribute("comission", comission);
                 break;
 
             default:

@@ -79,9 +79,8 @@ public class User {
         return 0;
     }
 
-
+    /* Gets list of transactions per account and Converts it to list of table entities */
     public List<List> getTransactionsList(Integer accountId, Boolean isForDebit) throws MySqlPoolException {
-        // Convert list of Trs to list of table entities
         List<Transaction> transactionList = DAO.getTransactionsDAO().getListByAccountId(accountId, isForDebit);
         if(transactionList==null) return null;
         List<List> listOfList = new ArrayList<>();
@@ -90,7 +89,6 @@ public class User {
                     tr.getAmount().toString(), tr.getDate().toString(), tr.getDescription()) );
         }
         return listOfList;
-
     }
 
     public Account getAccountById(int id) throws MySqlPoolException, ExceptionDAO {
@@ -133,7 +131,7 @@ public class User {
         }).start();
     }
 
-    public boolean fieldsAreValid() {
+    private boolean fieldsAreValid() {
         return ((name != null) && !name.equals("") &&
                 (email != null) && !email.equals("") &&
                 (password != null) && !password.equals(""));
@@ -147,6 +145,7 @@ public class User {
         return DAO.getAccountsDAO().setBlock(acctId,true);
     }
 
+    @Deprecated
     public boolean blockAccount(Account account) throws MySqlPoolException {
         return DAO.getAccountsDAO().setBlock(account);
     }
@@ -179,12 +178,12 @@ public class User {
     public void setFeeId(int feeId) {
         this.feeId = feeId;
     }
-    @Deprecated
-    public List<Account> getUserAccounts(Integer uid) throws ExceptionDAO {
-        return DAO.getAccountsDAO().findAllByClientId(uid);
-    }
     public Map<Integer, Account> getUserAccountsAsMap(Integer uid) throws ExceptionDAO {
         return DAO.getAccountsDAO().findAccountsByClientId(uid);
+    }
+    @Deprecated // in favor of getUserAccountsAsMap
+    public List<Account> getUserAccounts(Integer uid) throws ExceptionDAO {
+        return DAO.getAccountsDAO().findAllByClientId(uid);
     }
 
 }
