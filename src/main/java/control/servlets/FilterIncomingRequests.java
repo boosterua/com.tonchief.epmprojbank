@@ -26,7 +26,7 @@ public class FilterIncomingRequests implements Filter {
             String val0 = value;
             String name = paramName;
 
-            value = value.replaceAll("[^\\w А-Яа-яІіЇїЄє!@#№;:,\\.\\$\\%\\&\\*\\(\\)\\-\\=\\+\\/]+","");
+            value = value.replaceAll("[^\\w А-Яа-яЁёІіЇїЄє!@#№;:,\\.\\$\\%\\&\\*\\(\\)\\-\\=\\+\\/]+","");
 
             //system commands
             if(name.equals("action") || name.equals("command") || name.equals("type") || name.equals("action") ||

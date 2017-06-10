@@ -61,8 +61,8 @@ public class FeesDAOimpl implements FeesDAO {
     public Fee getFeeById(Integer feeId) {
         try (Connection conn = pool.getConnection();
              PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("fees.getById"), 1)){
-            logger.info("Got connection. Trying PS:" + ps.toString());
             ps.setInt(1, feeId);
+            logger.info("Got connection. Trying PS:" + ps.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 Fee fee = null;
                 if (rs.next()) {

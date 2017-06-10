@@ -43,6 +43,7 @@
             <input type="text" pattern="\^.{,160}\$" id="trf_description" name="trf_description"
                  required value="${description}" ${readonly}>
             <label for="trf_description"><fmt:message key="DESCRIPTION"/></label>
+            <small class="text-danger text-center">0123..9 Abc  &#x410;&#x431;&#x432; &#x404;&#x457; .,!@#$%&*()_+/;:</small>
           </div>
           <div class="md-form col-sm-2" >
             <button class="btn green darken-4 1darken-3 white-text btn-sm" type="submit"><fmt:message key="PROCEED"/></button>
