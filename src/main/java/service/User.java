@@ -93,6 +93,9 @@ public class User {
 
     }
 
+    public Account getAccountById(int id) throws MySqlPoolException, ExceptionDAO {
+        return (Account)DAO.getAccountsDAO().getById(id);
+    }
 
 //TODO: check if client is not in db yet
 //TODO:!user vs client; + regAcct-set to user, then insert new user           user.set

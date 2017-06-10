@@ -4,7 +4,7 @@
 </div>
 --%>
 
-<div class="text-sm-right red-text dark-gradient" style="font-size: smaller">* Turn this off in RB <i>banksettings.properties</i>&nbsp;</div>
+<div class="text-sm-right red-text dark-gradient" style="font-size: smaller">* Turn this off in RB <i>systemsettings.properties</i>&nbsp;</div>
 
 <div class="text-right navbar-brand navbar-light teal lighten-4 btn-sm">
     <div style="font-size:.7em;">

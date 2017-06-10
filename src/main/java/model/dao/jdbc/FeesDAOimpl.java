@@ -57,6 +57,31 @@ public class FeesDAOimpl implements FeesDAO {
         return null;
     }
 
+    @Override
+    public Fee getFeeById(Integer feeId) {
+        try (Connection conn = pool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("fees.getById"), 1)){
+            logger.info("Got connection. Trying PS:" + ps.toString());
+            ps.setInt(1, feeId);
+            try (ResultSet rs = ps.executeQuery()) {
+                Fee fee = null;
+                if (rs.next()) {
+                    fee = new Fee(rs.getInt(ID), rs.getString(NAM));
+                    fee.setTransferFee(rs.getDouble(TRF));
+                    fee.setNewCardFee(rs.getDouble(NCF));
+                    fee.setAPR(rs.getDouble(APR));
+                    logger.info(fee);
+                }
+                rs.close();
+                return fee;
+            }
+
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+        return null;
+    }
+
 
     public Integer insert(Object tdata) {
         return 0;

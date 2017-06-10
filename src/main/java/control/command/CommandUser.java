@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 
 public class CommandUser implements Command {
     private static final Logger LOGGER = Logger.getLogger(CommandUser.class);
-    static final ResourceBundle RB_BANK = ResourceBundle.getBundle("banksettings");
+    static final ResourceBundle RB_BANK = ResourceBundle.getBundle("systemsettings");
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ExceptionDAO, MySqlPoolException {
@@ -36,7 +36,7 @@ public class CommandUser implements Command {
             req.setAttribute("infomsg", "YOU_HAVE_LOGGED_OUT");
             req.setAttribute("action", "login");
         } else if(req.getParameter("command").equals("show_authuser_hp") ||
-                req.getParameter("command").equals("client")){ //[Home] in top links
+                req.getParameter("command").equals("client")){ // [Home] in top links
             Boolean isAuth=(Boolean)session.getAttribute("isAuthorized");
             // TODO - does this request accounts for logged in admin too??? If so - fix it immediately
             if(isAuth!=null && isAuth){
@@ -81,7 +81,6 @@ public class CommandUser implements Command {
                     req.setAttribute("errorcode", 9401);
                 }
                 req.setAttribute("action", "login");
-                    // page = RB_PAGEMAP.getString("jsp.user.login");
             }
         }
         return page;

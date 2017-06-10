@@ -21,7 +21,7 @@ public class Admin {
 
     private DAOFactoryImpl DAO = DAOFactoryImpl.getInstance();
     private final Logger logger = Logger.getLogger(Admin.class);
-    static final ResourceBundle RB_BANK = ResourceBundle.getBundle("banksettings");
+    static final ResourceBundle RB_BANK = ResourceBundle.getBundle("systemsettings");
 
     private static final String BANKUID = RB_BANK.getString("VISA_SYS_PREFIX") + RB_BANK.getString("BANK_CARD_ID");
 

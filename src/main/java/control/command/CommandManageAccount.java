@@ -60,7 +60,7 @@ public class CommandManageAccount implements Command {
                     req.setAttribute("type", act);
                     LOGGER.info("make_paym/repl... action=" + act);
                     if(act.equals("replenish")) {
-                        req.setAttribute("cr_account", getAccountFromSessById(req, accountId).getName());
+                        req.setAttribute("cr_account", getAccountByIdSessionScope(req, accountId).getName());
                         req.setAttribute("account_id", "000000"+RB_BANK.getString("CASH_ACCOUNT_ID"));
                         req.setAttribute("description", "Cash ATM top-up / Поповнення готівкою через термінал");
                         LOGGER.info("replenish: setting extra attrs. " + req.getAttribute("cr_account") + " <CRAcct | AcctId> "+req.getAttribute("account_id") );
@@ -87,7 +87,7 @@ public class CommandManageAccount implements Command {
     }
 
     static boolean accountBelongsToUser(HttpServletRequest req, Integer accountId){
-        Account account = getAccountFromSessById(req, accountId);
+        Account account = getAccountByIdSessionScope(req, accountId);
         if(account==null) {
             wrongParam(req);
             return false;
@@ -99,7 +99,7 @@ public class CommandManageAccount implements Command {
         return true;
     }
 
-    static Account getAccountFromSessById(HttpServletRequest req, int accountId){
+    static Account getAccountByIdSessionScope(HttpServletRequest req, int accountId){
         Map<Integer,Account> accountsMap =
                 (Map<Integer, Account>) req.getSession().getAttribute("accountsMap");
         return accountsMap.get(accountId);

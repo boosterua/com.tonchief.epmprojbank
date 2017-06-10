@@ -4,7 +4,6 @@ import model.dao.factory.DAOFactoryImpl;
 import model.entity.Fee;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,5 +31,7 @@ public class Fees {
         return res;
     }
 
-
+    public Fee getFeeById(Integer feeId) {
+        return DAO.getFeesDAO().getFeeById(feeId);
+    }
 }

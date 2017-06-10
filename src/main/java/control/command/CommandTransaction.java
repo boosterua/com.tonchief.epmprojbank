@@ -4,6 +4,7 @@ import model.dao.exceptions.ExceptionDAO;
 import model.dao.exceptions.MySqlPoolException;
 import model.entity.Account;
 import model.entity.Client;
+import model.entity.Fee;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -14,7 +15,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import static control.command.CommandManageAccount.accountBelongsToUser;
-import static control.command.CommandManageAccount.getAccountFromSessById;
+import static control.command.CommandManageAccount.getAccountByIdSessionScope;
 
 public class CommandTransaction implements Command {
     private static final Logger LOGGER = Logger.getLogger(CommandTransaction.class);
@@ -30,6 +31,8 @@ public class CommandTransaction implements Command {
             return page;
         }
 
+        Client client = (Client) session.getAttribute("client");
+        Integer clientId = client.getId();
         String crAccount;
         Integer dtAccountId;
         BigDecimal trfAmount;
@@ -53,8 +56,6 @@ public class CommandTransaction implements Command {
         //req.setAttribute("command", "show_authuser_hp"); // next page
 
         if (act == null) act = "";
-        Client client = (Client) session.getAttribute("client");
-        Integer clientId = client.getId();
         LOGGER.info("Session.Client:" + client + "; action:" + act);
 
 
@@ -63,7 +64,7 @@ public class CommandTransaction implements Command {
             req.setAttribute("errormsg", "WRONG_PARAM_REQUEST");
             return page;
         }
-        Account dtAccount = getAccountFromSessById(req, dtAccountId);
+        Account dtAccount = getAccountByIdSessionScope(req, dtAccountId);
         int trId=-1;
 
         switch (act) {
@@ -78,6 +79,16 @@ public class CommandTransaction implements Command {
 
             case ("make_payment"):
                 trId = SERVICE.getUser().makePayment(dtAccount, crAccount, trfAmount, trfDescription);
+                /* Also subtract fee for this transfer */
+                LOGGER.debug("***Fee id " + client.getFeeId());
+                LOGGER.debug("***Client " + client);
+
+                Fee fee = SERVICE.getFees().getFeeById(client.getFeeId());
+                LOGGER.debug(fee);
+                Account comissionsAcct = SERVICE.getUser().getAccountById(
+                        Integer.parseInt(RB_BANK.getString("COMISSIONS_ACCOUNT_ID")));
+                SERVICE.getUser().makePayment(dtAccount, comissionsAcct.getNumber(),
+                        BigDecimal.valueOf(fee.getTransferFee()), "Comission for Transaction # " + trId );
                 break;
 
             default:
@@ -91,9 +102,6 @@ public class CommandTransaction implements Command {
             req.setAttribute("dt_account_number", dtAccount.getName());
             req.setAttribute("transaction_id", trId);
             req.setAttribute("returnPage", "/bank/?command=show_authuser_hp");
-            //req.setAttribute("infomsg", "to:"+ crAccount +" : from:"+ dtAccountId +" : Amount:"+ trfAmount +" OK. Tr.Id:"+ trId);
-            //req.setAttribute("returnPage", req.getHeader("Referer"));
-
         } else {
             req.setAttribute("errormsg", trId == -1 ? "INSUFFICIENT_FUNDS" : "RESULT_ERROR");
             req.setAttribute("action", "form_transfer");
