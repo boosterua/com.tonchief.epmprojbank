@@ -12,13 +12,6 @@ import java.util.Optional;
 public class DAOFactoryImpl extends DAOFactory {
     private static DAOFactoryImpl instance = null;
 
-
-//    private FeesDAO feesDAO = new FeesDAO();
-//    private UsersDAO usersDAO = new UsersDAO();
-//    private AccountsDAO accountsDAO = new AccountsDAO();
-//    private CardsDAO cardsDAO = new CardsDAO();
-//    private TransactionsDAO transactionsDAO = new TransactionsDAO();
-
     private FeesDAO feesDAO;
     private UsersDAO usersDAO;
     private AccountsDAO accountsDAO;
@@ -39,7 +32,6 @@ public class DAOFactoryImpl extends DAOFactory {
     }
 
     public FeesDAO getFeesDAO() {
-        // feesDAO = Optional.ofNullable(feesDAO).orElse(new FeesDAOimpl()); return feesDAO;
 /*      if(feesDAO==null)
             feesDAO = new FeesDAOimpl();
         return feesDAO; */

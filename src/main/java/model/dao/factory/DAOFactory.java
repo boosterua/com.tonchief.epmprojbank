@@ -3,11 +3,6 @@ package model.dao.factory;
 
 import model.dao.interfaces.*;
 
-/**
- * Created by ton chief on 05/15/2017.
- * tonchief@gmail.com
- * http://tonchief.com/
- */
 
 public abstract class DAOFactory {
 

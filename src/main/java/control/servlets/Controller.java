@@ -21,16 +21,18 @@ public class Controller extends HttpServlet {
     ControllerHelper controllerHelper = ControllerHelper.getInstance();
 
 
-    public Controller(){ super();}
+    public Controller() {
+        super();
+    }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            processRequest(req, resp);
+        processRequest(req, resp);
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,47 +40,27 @@ public class Controller extends HttpServlet {
         try {
             Command command = controllerHelper.getCommand(req);
             page = command.execute(req, resp);
-        } catch (ServletException se){
+        } catch (ServletException se) {
             LOGGER.error(se);
             req.setAttribute("errormsg", "SERVLET_EXCEPTION");
-        } catch (IOException ie){
+        } catch (IOException ie) {
             LOGGER.error(ie);
             req.setAttribute("errormsg", "IO_EXCEPTION");
-        } catch (ExceptionDAO|MySqlPoolException exceptionDAO) {
+        } catch (ExceptionDAO | MySqlPoolException exceptionDAO) {
             req.setAttribute("errormsg", "DB_EXCEPTION");
             LOGGER.error(exceptionDAO);
         }
 
-        LOGGER.debug("Page:"+page + " inc.ReqQS: " + req.getQueryString());
-        /*
-        Enumeration attrs =  req.getAttributeNames();
-        while(attrs.hasMoreElements()) {
-            String attr = (String) attrs.nextElement();
-            LOGGER.debug("\t"+attr + "=" + req.getParameter(attr));
-        }   */
+        LOGGER.debug("Page:" + page + " inc.ReqQS: " + req.getQueryString());
 
-
-        if(page!= null && !page.equals(""))
-            try{
-                getServletContext().getRequestDispatcher(page).forward(req, resp);
-            } catch (Error e){
-                LOGGER.error("getServletContext().getRequestDispatcher(page).forward(req,resp):",e);
-            }
+        if (page != null && !page.equals("")) try {
+            getServletContext().getRequestDispatcher(page).forward(req, resp);
+        } catch (Error e) {
+            LOGGER.error("getServletContext().getRequestDispatcher(page).forward(req,resp):", e);
+        }
         /* do nothing, this is the case when no page is expected,
         direct call to writer is used, written/flushed/closed.. see printData method */
     }
 
 
 }
-
-
-
-//TODO ??? How to create WAR file automaticalyy w/o changing type of server start? Where do i put it then?
-//TODO ??? Как отлавливать 500е ошибки.
-
-/*      //TEMP Impl
-        req.setAttribute("thisname","T.C.");
-        req.getRequestDispatcher("view/index.jsp").forward(req, resp);
-        PrintWriter out = resp.getWriter();
-        out.print("#EPMPROJBANK by tonchief. Servlet responce.");
-*/

@@ -4,6 +4,8 @@
 
 <%@ page isErrorPage="true" import="java.io.*"%>
 
+<fmt:setBundle basename="locale.locale" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,9 +26,22 @@
             <div class="h-50">!</div><br>
             <div class="badge badge-warning"> An Error Occured.</div><br>
 
-            <div class="alert alert-danger" role="alert">
-            ${errorMsg}
-            </div>
+            <c:if test="${not empty errorMsg}">
+                <div class="alert alert-danger" role="alert">
+                    ${errorMsg}
+                </div>
+            </c:if>
+
+
+            <c:if test="${not empty errormsg}">
+                <div class="alert alert-danger" role="alert"><fmt:message key="${errormsg}"/></div>
+            </c:if>
+            <c:if test="${not empty sessionScope.errormsg}">
+                <c:set var="errormsg" value="" scope="session"/>
+            </c:if>
+
+
+
             <div class="h-25"></div>
 
             <div>

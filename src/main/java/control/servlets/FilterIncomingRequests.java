@@ -17,63 +17,64 @@ public class FilterIncomingRequests implements Filter {
     static class FilteredRequest extends HttpServletRequestWrapper {
 
         public FilteredRequest(ServletRequest request) {
-            super((HttpServletRequest)request);
+            super((HttpServletRequest) request);
         }
 
         public String getParameter(String paramName) {
             String value = super.getParameter(paramName);
-            if(value==null) return null;
+            if (value == null) return null;
             String val0 = value;
             String name = paramName;
 
-            value = value.replaceAll("<(.*?)>",""); //No tags, thank you
-            value = value.replaceAll("[^\\w А-Яа-яЁёІіЇїЄє!@#№;:,\\.\\$\\%\\&\\*\\(\\)\\-\\=\\+\\/]+","");
+            value = value.replaceAll("<(.*?)>", ""); // No tags, thank you
+            value = value.replaceAll("[^\\w А-Яа-яЁёІіЇїЄє!@#№;:,\\.\\$\\%\\&\\*\\(\\)\\-\\=\\+\\/]+", "");
 
-            //system commands
-            if(name.equals("action") || name.equals("command") || name.equals("type") || name.equals("locale") )
-                value = value.replaceAll("[^a-zA-Z0-9_\\.\\-]+","");
+            // Name
+            if (name.equals("name"))
+                value = value.replaceAll("[^a-zA-Z А-Яа-яЁёІіЇїЄє]+", "");
 
-            //Digits only
-            if(name.indexOf("_id")>0 || name.indexOf("_number")>0 || name.contains("account")
-                    || name.contains("index") || name.equals("role")) {
+            // System commands
+            if (name.equals("action") || name.equals("command") || name.equals("type") || name.equals("locale"))
+                value = value.replaceAll("[^a-zA-Z0-9_\\.\\-]+", "");
+
+            // Digits only
+            if (name.indexOf("_id") > 0 || name.indexOf("_number") > 0 || name.contains("account") || name.contains
+                    ("index") || name.equals("role")) {
                 value = value.replaceAll("[^0-9]", "");
                 //if value='' throw exception
             }
 
-            //Amounts
-            if(name.indexOf("_id")>0 || name.indexOf("_number")>0 || name.contains("amount") ) {
-                if(value.contains(".") && value.contains(","))
-                    value = value.replaceAll(",", "");
-                else
-                    value = value.replaceAll(",", ".");
+            // Amounts
+            if (name.indexOf("_id") > 0 || name.indexOf("_number") > 0 || name.contains("amount")) {
+                if (value.contains(".") && value.contains(",")) value = value.replaceAll(",", "");
+                else value = value.replaceAll(",", ".");
                 value = value.replaceAll("[^0-9\\.]", "");
                 Pattern p = Pattern.compile("^(\\d*\\.\\d+|\\d+\\.?\\d*)$");
                 Matcher m = p.matcher(value);
-                if(!m.matches())
-                    value = "0";
+                if (!m.matches()) value = "0";
                 //throw new ExceptionIncomingRequestMalformed("NAN:", name +"="+ value);
             }
 
-            if(name.equals("email"))
-                value = value.replaceAll("[^\\w\\.\\-\\@]","");
+            if (name.equals("email")) value = value.replaceAll("[^\\w\\.\\-\\@]", "");
 
-            if(!val0.equals(value))
-                LOGGER.debug( "::Request Params::{"+name+"="+val0+"} val Changed to "+value);
+            if (!val0.equals(value))
+                LOGGER.debug("::Request Params::{" + name + "=" + val0 + "} val Changed to " + value);
             return value;
         }
     }
-
 
 
     public void init(FilterConfig fConfig) throws ServletException {
         this.context = fConfig.getServletContext();
         this.context.log("RequestLoggingFilter initialized");
     }
+
     public void destroy() {
     }
 
 
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws
+            ServletException, IOException {
         HttpServletRequest req = (HttpServletRequest) request;
         String path = req.getRequestURI().substring(req.getContextPath().length());
 
@@ -86,7 +87,7 @@ public class FilterIncomingRequests implements Filter {
         }
     }
 
-    private String parseString(String val){
+    private String parseString(String val) {
         return null;
     }
 }
@@ -104,57 +105,7 @@ public class FilterIncomingRequests implements Filter {
   Request Params::{trf_description=133}
                   {command=register}
   Request Params::{name=111111111111111111111}
-  Request Params::{email=11111111111111111111111111@11111111111111111111}
+  Request Params::{email=1111@111111}
   Request Params::{password=1}
   Request Params::{fee=1}
 */
-
-
-/**
-*
-        public String cleanUp(String name, String value){
-            Enumeration<String> params = req.getParameterNames();
-            while(params.hasMoreElements()){
-                String name = params.nextElement();
-                String value = request.getParameter(name);
-                this.context.log(req.getRemoteAddr() + "::Request Params::{"+name+"="+value+"}");
-                LOGGER.debug(req.getRemoteAddr() + "::Request Params::{"+name+"="+value+"}");
-
-
-                value = value.replaceAll("[^\\wА-Яа-яІіЇїЄє!@#№;:,\\.\\$\\%\\&\\*\\(\\)\\-\\=\\+\\/]+","");
-
-                //Extra checks
-
-                //system commands
-                if(name.equals("action") || name.equals("command") || name.equals("type") || name.equals("action") ||
-                        name.equals("locale") )
-                    value = value.replaceAll("[^a-zA-Z0-9_\\.\\-]+","");
-
-                //Digits only
-                if(name.indexOf("_id")>0 || name.indexOf("_number")>0 || name.contains("account")
-                        || name.contains("index") || name.equals("role"))
-                    value = value.replaceAll("[^0-9]","");
-
-                //Amounts
-                if(name.indexOf("_id")>0 || name.indexOf("_number")>0 || name.contains("amount") ) {
-                    if(value.contains(".") && value.contains(","))
-                        value = value.replaceAll(",", "");
-                    else
-                        value = value.replaceAll(",", ".");
-                    value = value.replaceAll("[^0-9\\.]", "");
-                    Pattern p = Pattern.compile("^(\\d*\\.\\d+|\\d+\\.?\\d*)$");
-                    Matcher m = p.matcher(value);
-                    if(!m.matches())
-                        value = "0";
-                    //throw new ExceptionIncomingRequestMalformed("NAN:", name +"="+ value);
-                }
-
-                if(name.equals("email"))
-                    value = value.replaceAll("[^\\w\\.\\-\\@]","");
-
-                req.setAttribute(name, value);
-                LOGGER.debug( "::Changed Request Params::{"+name+"="+value+"}");
-
-            }
-        }
-        */

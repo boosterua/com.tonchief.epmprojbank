@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class CommandEmpty implements Command {
-    private final Logger logger = Logger.getLogger(CommandEmpty.class);
+    private static final Logger LOGGER = Logger.getLogger(CommandEmpty.class);
 
 
     @Override
@@ -31,13 +31,12 @@ public class CommandEmpty implements Command {
             return "";
         }
 
-        /* for a new user without session, check lang cookie and set it in a new session */
+        /* Аor a new user without session, check lang cookie and set it in a new session */
         saveCookieToSession(request,"locale");
-        //TODO setLang - stopped working when using cookies, move all lang changing stuff to filter?
 
-        logger.debug("req " + request);
-        logger.debug("sessIsAdmin(request) " + sessIsAdmin(request));
-        logger.debug("isAuthUserSessionScope(request) " + isAuthUserSessionScope(request));
+        LOGGER.debug("req " + request);
+        LOGGER.debug("sessIsAdmin(request) " + sessIsAdmin(request));
+        LOGGER.debug("isAuthUserSessionScope(request) " + isAuthUserSessionScope(request));
         if(sessIsAdmin(request)) {
             request.setAttribute("command", "admin");
             request.setAttribute("action", "index");

@@ -15,12 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FeesDAOimpl implements FeesDAO {
-    //TODO full instantiation
     private static FeesDAOimpl instance = null; // Lazy instantiation
-    private final Logger logger = Logger.getLogger(FeesDAOimpl.class);
+    private static final Logger LOGGER = Logger.getLogger(FeesDAOimpl.class);
     private BasicDataSource pool = DataSource.getInstance().getBds();
 
-    private static final String ID  = "id_fee";
+    private static final String ID = "id_fee";
     private static final String NAM = "name"; // 2
     private static final String TRF = "trans_fee"; // 3
     private static final String NCF = "newcard_fee"; // 4
@@ -36,7 +35,7 @@ public class FeesDAOimpl implements FeesDAO {
         List<Fee> feeList = new ArrayList<>();
         try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString
                 ("fees.getAll"), 1);) {
-            logger.info("Got connection. Trying PS:" + ps.toString());
+            LOGGER.info("Got connection. Trying PS:" + ps.toString());
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -45,24 +44,23 @@ public class FeesDAOimpl implements FeesDAO {
                     fee.setNewCardFee(rs.getDouble(NCF));
                     fee.setAPR(rs.getDouble(APR));
                     feeList.add(fee);
-                    logger.info(fee.toString());
+                    LOGGER.info(fee.toString());
                 }
-                rs.close();
                 return feeList;
             }
 
         } catch (SQLException e) {
-            logger.error(e);
+            LOGGER.error(e);
         }
         return null;
     }
 
     @Override
     public Fee getFeeById(Integer feeId) {
-        try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("fees.getById"), 1)){
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString
+                ("fees.getById"), 1)) {
             ps.setInt(1, feeId);
-            logger.info("Got connection. Trying PS:" + ps.toString());
+            LOGGER.info("Got connection. Trying PS:" + ps.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 Fee fee = null;
                 if (rs.next()) {
@@ -70,14 +68,14 @@ public class FeesDAOimpl implements FeesDAO {
                     fee.setTransferFee(rs.getDouble(TRF));
                     fee.setNewCardFee(rs.getDouble(NCF));
                     fee.setAPR(rs.getDouble(APR));
-                    logger.info(fee);
+                    LOGGER.info(fee);
                 }
-                rs.close();
+                //rs.close();
                 return fee;
             }
 
         } catch (SQLException e) {
-            logger.error(e);
+            LOGGER.error(e);
         }
         return null;
     }
@@ -88,11 +86,11 @@ public class FeesDAOimpl implements FeesDAO {
     }
 
     public boolean update(int id, Entity data) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     public boolean delete(long id) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     public Entity getById(Integer id) {

@@ -12,10 +12,10 @@ public class Table extends TagSupport {
     private String tableClass;
     private String headerClass;
     private List<String> headers;
-    private List<String> list2;
+    private List<String> listTblBody;
 
-    public void setList2(List<String> list2) {
-        this.list2 = list2;
+    public void setListTblBody(List<String> listTblBody) {
+        this.listTblBody = listTblBody;
     }
 
     public void setTableClass(String className) {
@@ -26,7 +26,7 @@ public class Table extends TagSupport {
         this.headerClass = className;
     }
 
-    public void setList(List<List<String>> list){
+    public void setList(List<List<String>> list) {
         this.list = list;
     }
 
@@ -38,30 +38,27 @@ public class Table extends TagSupport {
     public int doStartTag() throws JspException {
         try {
 
-            int i=1;
-            if(headers!=null) {
+            int i = 1;
+            if (headers != null) {
                 list.add(0, headers);
-                i=0;
+                i = 0;
             }
 
-            pageContext.getOut().print("<table class='"+ tableClass +"' style='font-size:small'>");
+            pageContext.getOut().print("<table class='" + tableClass + "' style='font-size:small'>");
 
-            for(Object row : list) {
-                if(i==0) pageContext.getOut().print("<thead class='"+headerClass+"'>\n");
+            for (Object row : list) {
+                if (i == 0) pageContext.getOut().print("<thead class='" + headerClass + "'>\n");
                 pageContext.getOut().print("\n<tr>\n");
                 for (Object td : (List) row) {
-                    if(i==0)
-                        pageContext.getOut().print("\t<th>" + td.toString() + "</th>\n");
-                    else
-                        pageContext.getOut().print("\t<td>" + td.toString() + "</td>\n");
+                    if (i == 0) pageContext.getOut().print("\t<th>" + td.toString() + "</th>\n");
+                    else pageContext.getOut().print("\t<td>" + td.toString() + "</td>\n");
                 }
-                if(i==0) pageContext.getOut().print("\n</thead>\n<tbody>");
+                if (i == 0) pageContext.getOut().print("\n</thead>\n<tbody>");
                 pageContext.getOut().print("\n</tr>\n");
                 i++;
             }
             pageContext.getOut().print("\n</tbody>");
             pageContext.getOut().print("\n</table>");
-
 
 
         } catch (IOException ioException) {

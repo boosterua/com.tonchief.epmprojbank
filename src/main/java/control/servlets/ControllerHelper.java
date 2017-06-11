@@ -36,7 +36,6 @@ public class ControllerHelper {
         //commands.put("show_clients", new CommandShowClients());
         //commands.put("show_clients", new CommandAdmin());
     }
-    //TODO: redesign factory. kill dupes
 
 
 

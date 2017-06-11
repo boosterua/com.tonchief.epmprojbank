@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 
 /**
  * @author ashraf
- * got it here: https://examples.javacodegeeks.com/core-java/apache/commons/org-apache-commons-dbcp2-basicdatasource-example/
+ * got original here: https://examples.javacodegeeks.com/core-java/apache/commons/org-apache-commons-dbcp2-basicdatasource-example/
  */
 public class DataSource {
 

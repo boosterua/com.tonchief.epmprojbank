@@ -15,13 +15,14 @@ public class Transaction extends Entity {
     private BigDecimal amount;
     private LocalDate trDate;
     private String description;
-    private final Logger logger = Logger.getLogger(Transaction.class);
+    private static final Logger LOGGER = Logger.getLogger(Transaction.class);
     private int id;
 
-    public Transaction(){}
+    public Transaction() {
+    }
 
-    public Transaction(Account dtAccount, String crAccountStr, BigDecimal amount,
-                       LocalDate trDate, String pmntDescription) {
+    public Transaction(Account dtAccount, String crAccountStr, BigDecimal amount, LocalDate trDate, String
+            pmntDescription) {
         this.dtAccount = dtAccount;
         this.crAccountStr = crAccountStr;
         this.amount = amount;
@@ -48,7 +49,9 @@ public class Transaction extends Entity {
 
 
     @Override
-    public void setId(int id) {this.id=id;}
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @Override
     public String getName() {
@@ -58,7 +61,6 @@ public class Transaction extends Entity {
     @Override
     public void setName(String name) {
     }
-
 
     public LocalDate getDate() {
         return trDate;
@@ -75,10 +77,10 @@ public class Transaction extends Entity {
     public BigDecimal getAmount() {
         return amount;
     }
+
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
-
 
     public String getDescription() {
         return description;
@@ -92,9 +94,9 @@ public class Transaction extends Entity {
         return dtAcctId;
     }
 
-    public String toString(){
-        return "CR:"+ crAccountStr +"; DT:["+  dtAccount + "]; SUM:"
-                +  amount + "; Descr:" + trDate +":"+ description;
+    public String toString() {
+        return "CR:" + crAccountStr + "; DT:[" + dtAccount + "]; SUM:" + amount + "; Descr:" + trDate + ":" +
+                description;
     }
 
 }

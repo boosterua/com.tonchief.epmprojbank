@@ -20,7 +20,7 @@ public class User {
     private DAOFactoryImpl DAO = DAOFactoryImpl.getInstance();
     private String name;
     private String email;
-    private String password;
+    private String passwordHash;
     private Long role;
     private int feeId;
 
@@ -35,13 +35,13 @@ public class User {
      * The default constructor. Used in service - upon receiving application from web-user.
      * @param name
      * @param email
-     * @param password
+     * @param passwordHash
      * @param role used to determine if user is approved, is admin, or newly registered
      */
-    public User(String name, String email, String password, Long role) {
+    public User(String name, String email, String passwordHash, Long role) {
         this.name = name;
         this.email = email;
-        this.password = password;
+        this.passwordHash = passwordHash;
         this.role = role;
     }
 
@@ -134,7 +134,7 @@ public class User {
     private boolean fieldsAreValid() {
         return ((name != null) && !name.equals("") &&
                 (email != null) && !email.equals("") &&
-                (password != null) && !password.equals(""));
+                (passwordHash != null) && !passwordHash.equals(""));
     }
 
     public static String getMessage() {
@@ -159,7 +159,7 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
+        return passwordHash;
     }
 
     public long getRole() {

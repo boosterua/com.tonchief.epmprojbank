@@ -39,7 +39,7 @@
 				<rtexprvalue>true</rtexprvalue>
 			</attribute>
 			<attribute>
-				<name>list2</name>
+				<name>listTblBody</name>
 				<required>false</required>
 				<description>test</description>
 				<rtexprvalue>true</rtexprvalue>

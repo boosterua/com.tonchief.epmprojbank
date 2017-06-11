@@ -68,6 +68,8 @@ TODO: 5. При разработке JSP использовать собстве
 TODO: 6. При разработке бизнес логики использовать сессии и фильтры.
 TODO: Тесты!
 TODO: PWD Hash 
+//TODO - Filters - check for form validity - create some util methods for general checks!!
+//TODO: set Cookie with lang. Session is higher priority than cookie, ck gets overwritten by sess
 
 
 

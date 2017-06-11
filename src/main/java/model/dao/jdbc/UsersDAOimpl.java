@@ -63,10 +63,11 @@ public class UsersDAOimpl implements UsersDAO {
             LOGGER.info("PS: " + ps.toString());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
-                rs.next();  // LOGGER.info(PrintResultSet.getDump(rs));
+                rs.next();
+                // LOGGER.debug(PrintResultSet.getDump(rs));
                 Integer newUserId = rs.getInt(1);
                 LOGGER.info("New client Registration: ID="+newUserId);
-                return newUserId; //rs.getLong(1)
+                return newUserId;
             } finally {
                 ps.close();
             }
@@ -177,7 +178,6 @@ public class UsersDAOimpl implements UsersDAO {
                         rs.getString("accounts.number"),rs.getBoolean("accounts.is_blocked"));
                 cl.setAccount(account);
                 LOGGER.info(account);
-                rs.close();
                 return cl;
             } catch (SQLException e) {
                 LOGGER.error("SQLex." + e.toString());
@@ -215,7 +215,6 @@ public class UsersDAOimpl implements UsersDAO {
                     LOGGER.debug("Still here");
                 }
                 LOGGER.info(cl);
-                rs.close();
                 return cl;
             }
         } catch (SQLException e) {
@@ -243,17 +242,6 @@ public class UsersDAOimpl implements UsersDAO {
         return false;
     }
 
-
-    public boolean update(int id, Entity data) {
-        return false;
-    }
-    public boolean setRole(int id, Entity data) {
-        return false;
-    }
-
-    public boolean delete(long id) {
-        return false;
-    }
 
     /* For security reasons: Password is not passed / nor stored here! */
     public Entity getById(Integer cid) {
@@ -315,5 +303,16 @@ public class UsersDAOimpl implements UsersDAO {
         }
         return null;
     }
+
+    public boolean update(int id, Entity data) {
+        throw new UnsupportedOperationException();
+    }
+    public boolean setRole(int id, Entity data) {
+        throw new UnsupportedOperationException();
+    }
+    public boolean delete(long id) {
+        throw new UnsupportedOperationException();
+    }
+
 
 }

@@ -13,7 +13,7 @@ public interface TransactionsDAO extends EntityDAO {
     /**
      *
      * @param transaction
-     * @return
+     * @return :Intger id of first transfer transaction
      * 3 queries are performed in a single transaction: update balance on credit account, debit account, and enter payment into transactions table
      * Expected SQL exception when new transaction being of bigger amount than available balance
      * com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'account_id' cannot be null

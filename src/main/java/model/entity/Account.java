@@ -28,14 +28,14 @@ public class Account extends Entity {
     }
 
     /**
-     * @param aid
-     * @param num
-     * @param blk
+     * @param aid Account Id:int
+     * @param num Account Nunber : String (Long in db)
+     * @param blk Account blocked state : boolean
      */
     public Account(Integer aid, String num, Boolean blk) {
         this.blocked = blk;
         this.number = num;
-        this.id = aid==null? 0 : aid;
+        this.id = aid == null ? 0 : aid;
     }
 
     public Account(Integer aid, String num, Boolean blk, int clid) {
@@ -54,7 +54,9 @@ public class Account extends Entity {
     public String getName() {
         return number;
     }
-    public String getNumber() { return number;
+
+    public String getNumber() {
+        return number;
     }
 
     public void setName(String name) {

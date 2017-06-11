@@ -23,6 +23,7 @@ public class Login {
     public boolean checkCredentials(Client client)  {
         return getUserIdOnAuth(client)!=null;
     }
+
     public boolean checkCredentials(String login, String pwd)  {
         return getUserIdOnAuth(login, pwd)!=null;
     }
@@ -35,7 +36,6 @@ public class Login {
         /* Check for error or hack attempts in the web-form. No empty fields. */
         if(login==null || login.isEmpty() || pwd==null || pwd.isEmpty())
             return null;
-        //TODO throw Error - empty field - to View ??
         return DAO.getUsersDAO().authenticateUser(login, pwd);
     }
 

@@ -33,6 +33,7 @@ public class TransactionsDAOimpl  implements TransactionsDAO {
     private static final String DAT = "date"; //4
     private static final String DSC = "description"; //5
     private static final String AID = "account_id"; // 6
+    private static final String ACN = "acc_number"; // 6
 
     public static TransactionsDAOimpl getInstance() {
         if(instance==null)
@@ -90,7 +91,6 @@ public class TransactionsDAOimpl  implements TransactionsDAO {
             LOGGER.error("SQL exception [MySQLIntegrityConstraintViolationException]? - Expected when insufficient funds for transaction ", e);
             return -1;
         }
-        //return -1;
     }
 
 
@@ -109,10 +109,10 @@ public class TransactionsDAOimpl  implements TransactionsDAO {
                 while (rs.next()) {
                     Transaction transaction = new Transaction(
                         new Account(null, accountId.toString(), false),
-                        rs.getString("acc_number"),
-                        rs.getBigDecimal("amount"),
-                        rs.getDate("date").toLocalDate(),
-                        rs.getString("description")
+                        rs.getString(ACN),
+                        rs.getBigDecimal(AMT),
+                        rs.getDate(DAT).toLocalDate(),
+                        rs.getString(DSC)
                     );
                     transaction.setId(rs.getInt("id_trans"));
                     resultList.add(transaction);
@@ -149,7 +149,7 @@ public class TransactionsDAOimpl  implements TransactionsDAO {
 
     @Override
     public Entity getById(Integer id) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
 

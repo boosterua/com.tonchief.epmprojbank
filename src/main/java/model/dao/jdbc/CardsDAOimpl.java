@@ -34,8 +34,7 @@ public class CardsDAOimpl implements CardsDAO {
     }
 
     public static synchronized CardsDAOimpl getInstance() {
-        if (instance == null)
-            instance = new CardsDAOimpl();
+        if (instance == null) instance = new CardsDAOimpl();
         return instance;
     }
 
@@ -43,9 +42,8 @@ public class CardsDAOimpl implements CardsDAO {
     public Integer insert(Object oCard) throws ExceptionDAO {
         LOGGER.info("Insert into [cards]: " + oCard);
 
-        try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("cards.insert"), 1);
-        ) {
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString
+                ("cards.insert"), 1);) {
             Card card = (Card) oCard;
             LOGGER.info("Params from account passed:(" + card.toString() + ")");
             //  INSERT INTO cards (number, exp_date, fee_id, account_id) VALUES (?, ?, ?, ?);
@@ -59,9 +57,7 @@ public class CardsDAOimpl implements CardsDAO {
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 rs.next();
-                return rs.getInt(1); //rs.getLong(1)
-            } finally {
-                ps.close();
+                return rs.getInt(1);
             }
         } catch (SQLException e) {
             LOGGER.error("SQL exception", e);
@@ -71,7 +67,7 @@ public class CardsDAOimpl implements CardsDAO {
     }
 
     public boolean update(int id, Entity data) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     public boolean delete(long id) {
@@ -79,8 +75,7 @@ public class CardsDAOimpl implements CardsDAO {
     }
 
     public Entity getById(Integer id) throws MySqlPoolException {
-        try (Connection conn = pool.getConnection();
-        ) {
+        try (Connection conn = pool.getConnection();) {
             try (ResultSet rs = UtilDAO.getRsById(id.longValue(), BUNDLE.getString("cards.getById"))) {
                 rs.next();
                 Card card = new Card();
@@ -96,7 +91,7 @@ public class CardsDAOimpl implements CardsDAO {
             }
             return null;
         } catch (SQLException e) {
-            throw new MySqlPoolException("Pool Expt CardsDAO.getById",e);
+            throw new MySqlPoolException("Pool Excpt CardsDAO.getById", e);
         }
     }
 
@@ -112,9 +107,8 @@ public class CardsDAOimpl implements CardsDAO {
 
     @Override
     public int getByCardNumber(long cardNum) {
-        try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("cards.getByCardNumber")) )
-        {
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString
+                ("cards.getByCardNumber"))) {
             ps.setLong(1, cardNum);
             ResultSet rs = ps.executeQuery();
             return rs.next() ? rs.getInt(1) : 0;
@@ -130,15 +124,13 @@ public class CardsDAOimpl implements CardsDAO {
         LOGGER.info("getByAccountId(int " + aId + ")");
 
 
-        try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(
-                     BUNDLE.getString("cards.getListByAccountId"));
-        ) {
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString
+                ("cards.getListByAccountId"));) {
             ps.setLong(1, aId);
             LOGGER.info("Trying PS:" + ps);
-            try (ResultSet rs = ps.executeQuery();){
+            try (ResultSet rs = ps.executeQuery();) {
                 while (rs.next()) {
-                    cards.add(new Card(rs.getInt(ID), rs.getString(NUM), rs.getDate(EXP).toLocalDate()  ));
+                    cards.add(new Card(rs.getInt(ID), rs.getString(NUM), rs.getDate(EXP).toLocalDate()));
                     //LocalDate.from(Instant.ofEpochMilli(rs.getDate(EXP).getTime()))
                 }
                 return cards;
@@ -152,15 +144,14 @@ public class CardsDAOimpl implements CardsDAO {
 
     }
 
-    public Integer getNumCardsByClientId (Integer clId) {
+    public Integer getNumCardsByClientId(Integer clId) {
         LOGGER.info("getNumCardsByClientId " + clId + " ");
 
-        try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("cards.getNumByClientId"));
-        ) {
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString
+                ("cards.getNumByClientId"));) {
             ps.setInt(1, clId);
             LOGGER.info("PS:" + ps);
-            try (ResultSet rs = ps.executeQuery();){
+            try (ResultSet rs = ps.executeQuery();) {
                 rs.next();
                 return rs.getInt(1);
             } catch (SQLException e) {
@@ -173,15 +164,14 @@ public class CardsDAOimpl implements CardsDAO {
 
     }
 
-    public Integer getNumCardsByAccountId (Integer acctId) {
+    public Integer getNumCardsByAccountId(Integer acctId) {
         LOGGER.info("getNumCardsByAccountId " + acctId + " ");
 
-        try (Connection conn = pool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(BUNDLE.getString("cards.getNumByAccountId"));
-        ) {
+        try (Connection conn = pool.getConnection(); PreparedStatement ps = conn.prepareStatement(BUNDLE.getString
+                ("cards.getNumByAccountId"));) {
             ps.setInt(1, acctId);
             LOGGER.info("PS:" + ps);
-            try (ResultSet rs = ps.executeQuery();){
+            try (ResultSet rs = ps.executeQuery();) {
                 rs.next();
                 return rs.getInt(1);
             } catch (SQLException e) {
@@ -193,19 +183,3 @@ public class CardsDAOimpl implements CardsDAO {
         return null;
     }
 }
-/*
-                try{
-            ResultSet rs = UtilDAO.getRsById(aId.longValue(),
-                    BUNDLE.getString("cards.getListByAccountId"));
-
-            model.utils.PrintResultSet.printDump(rs);
-
-            while (rs.next()){
-
-                cards.add(new Card(rs.getInt(ID), rs.getString(NUM),
-                        LocalDate.from(Instant.ofEpochMilli(rs.getDate(EXP).getTime()))));
-            }
-            rs.close();
-            return cards;
-*/
-
