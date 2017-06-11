@@ -16,4 +16,5 @@ public interface AccountsDAO extends EntityDAO {
     Integer generate(int clientId, String acctPrefix, Boolean setBlocked) throws ExceptionDAO;
     List<Account> findAllByClientId(Integer uid) throws ExceptionDAO;
     Map<Integer,Account> findAccountsByClientId(Integer uid);
+
 }

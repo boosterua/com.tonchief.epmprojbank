@@ -289,6 +289,7 @@ public class AccountsDAOimpl implements AccountsDAO {
         return false;
     }
 
+    @Override
     public boolean setBlock(int accId, boolean block) {
         LOGGER.info("setting isBlocked=" + block + " for accountId=" + accId);
         try (Connection conn = pool.getConnection();

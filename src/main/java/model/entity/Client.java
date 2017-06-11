@@ -1,8 +1,6 @@
 package model.entity;
 
-
 /*
-
      Client-> Cards[] <-Accounts[]
 
      Client
@@ -111,6 +109,26 @@ public class Client extends Entity {
     }
     public void setRole(Integer role) {
         this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Client client = (Client) o;
+
+        if (!name.equals(client.name)) return false;
+        if (!email.equals(client.email)) return false;
+        return password.equals(client.password);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + password.hashCode();
+        return result;
     }
 
     public void setAccountBlock(Boolean accountBlock) {

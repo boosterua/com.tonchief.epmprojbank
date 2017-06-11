@@ -3,10 +3,6 @@ package model.dao.connection;
 import org.apache.commons.dbcp2.BasicDataSource;
 import java.util.ResourceBundle;
 
-/**
- * @author ashraf
- * got original here: https://examples.javacodegeeks.com/core-java/apache/commons/org-apache-commons-dbcp2-basicdatasource-example/
- */
 public class DataSource {
 
     private static final int CONN_POOL_SIZE = 100;

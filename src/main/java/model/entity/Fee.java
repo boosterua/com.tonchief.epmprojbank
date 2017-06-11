@@ -62,4 +62,31 @@ public class Fee extends Entity {
     public String toString() {
         return String.format("%d. %s : trf=%.2f; ncf=%.2f; apr=%.2f <br>", id, name, transferFee, newCardFee, apr);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Fee fee = (Fee) o;
+
+        if (Double.compare(fee.transferFee, transferFee) != 0) return false;
+        if (Double.compare(fee.newCardFee, newCardFee) != 0) return false;
+        if (Double.compare(fee.apr, apr) != 0) return false;
+        return name.equals(fee.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = name.hashCode();
+        temp = Double.doubleToLongBits(transferFee);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(newCardFee);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(apr);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
 }

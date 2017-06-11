@@ -30,6 +30,30 @@ public class Transaction extends Entity {
         this.description = pmntDescription;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Transaction that = (Transaction) o;
+
+        if (dtAcctId != that.dtAcctId) return false;
+        if (crAccountStr != null ? !crAccountStr.equals(that.crAccountStr) : that.crAccountStr != null) return false;
+        if (amount != null ? !amount.equals(that.amount) : that.amount != null) return false;
+        if (trDate != null ? !trDate.equals(that.trDate) : that.trDate != null) return false;
+        return description != null ? description.equals(that.description) : that.description == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = crAccountStr != null ? crAccountStr.hashCode() : 0;
+        result = 31 * result + dtAcctId;
+        result = 31 * result + (amount != null ? amount.hashCode() : 0);
+        result = 31 * result + (trDate != null ? trDate.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        return result;
+    }
+
     public void setCrAccountStr(String crAccountStr) {
         this.crAccountStr = crAccountStr;
     }

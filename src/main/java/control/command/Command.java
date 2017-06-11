@@ -19,6 +19,7 @@ public interface Command {
     ResourceBundle RB_PAGEMAP = ResourceBundle.getBundle("webconfig.pagemapping");
     ResourceBundle RB_BANK = ResourceBundle.getBundle("systemsettings");
     //    ResourceBundle RB_LOCALE = ResourceBundle.getBundle("locale"); // All moved to jsps
+
     String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ExceptionDAO, MySqlPoolException;
 
 

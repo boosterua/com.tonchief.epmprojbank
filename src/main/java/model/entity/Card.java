@@ -18,7 +18,6 @@ public class Card extends Entity {
     private BigDecimal balance = BigDecimal.ZERO;
     private LocalDate expDate;
 
-//    private CardsDAO accountsDAO = DAOFactoryImpl.getInstance().getCardsDAO();
     public Card(){}
 
     public Card(Client client){ this.client = client; this.clientId = client.getId();}
@@ -41,6 +40,26 @@ public class Card extends Entity {
 
     public void setClientId(int clientId) {
         this.clientId = clientId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Card card = (Card) o;
+
+        if (accountId != card.accountId) return false;
+        if (!number.equals(card.number)) return false;
+        return expDate.equals(card.expDate);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = number.hashCode();
+        result = 31 * result + accountId;
+        result = 31 * result + expDate.hashCode();
+        return result;
     }
 
     public int getId() {

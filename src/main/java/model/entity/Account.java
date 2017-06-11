@@ -43,6 +43,7 @@ public class Account extends Entity {
         this.clientId = clid;
     }
 
+
     public int getId() {
         return id;
     }
@@ -103,6 +104,24 @@ public class Account extends Entity {
 
     public void addCard(Card card) {
         this.cards.add(card);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Account account = (Account) o;
+
+        if (id != account.id) return false;
+        return number.equals(account.number);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + number.hashCode();
+        return result;
     }
 
     public String toString() {
