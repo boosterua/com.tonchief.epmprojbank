@@ -38,10 +38,10 @@ public class CommandUser implements Command {
             }
             req.setAttribute("infomsg", "YOU_HAVE_LOGGED_OUT");
             req.setAttribute("action", "login");
+
         } else if(req.getParameter("command").equals("show_authuser_hp") ||
                 req.getParameter("command").equals("client")){ // [Home] in top links
-            Boolean isAuth=(Boolean)session.getAttribute("isAuthorized");
-            // TODO - does this request accounts for logged in admin too??? If so - fix it immediately
+            Boolean isAuth=(Boolean)session.getAttribute("isAuthorized"); // TODO - does this request accounts for logged in admin too??? If so - fix it immediately
             if(isAuth!=null && isAuth){
                 Integer uid = ((Client)session.getAttribute("client")).getId();
                 session.setAttribute("accountsMap", SERVICE.getUser().getUserAccountsAsMap(uid));
@@ -49,34 +49,27 @@ public class CommandUser implements Command {
             } else {
                 req.setAttribute("errormsg", "UNAUTHORIZED");
             }
-
         } else { // Check credentials
             Integer uid = SERVICE.getLogin().getUserIdOnAuth(login, password);
             if (uid!=null && uid>0) { // Authorized
                 Client client =  SERVICE.getLogin().getClientById(uid);
                 LOGGER.info("[" + req.getRemoteAddr() + "] Client: "+ client );
-
-                /* TODO: Should be removed when everything is tested and fixed */
-                /*if(RB_BANK.getString("APPLICATION_IS_IN_DEBUG_MODE").equals(1));
-                    session.setAttribute("SYSTEM_IN_DEBUG_STATE", true);
-*/
+                        /* TODO: Should be removed when everything is tested and fixed */
+                        /*if(RB_BANK.getString("APPLICATION_IS_IN_DEBUG_MODE").equals(1));
+                            session.setAttribute("SYSTEM_IN_DEBUG_STATE", true);*/
                 session.setAttribute("isAuthorized", true);
                 session.setAttribute("client", client);
-
                 page="";
                 if(RB_BANK.getString("ADMIN_ROLE").equals(client.getRole().toString()) ) {
                     LOGGER.info("User with admin privileges has just logged in.");
                     session.setAttribute("isAdmin", true);
                     resp.sendRedirect("/bank/?command=admin");
                 } else {
-//                    page = RB_PAGEMAP.getString("jsp.user.authorized");
-//                    List<Account> accounts = SERVICE.getUser().getUserAccounts(uid);
-//                    req.setAttribute("accounts", accounts);
                     resp.sendRedirect("/bank/?command=show_authuser_hp");
                 }
 
             } else { // Authorization Failed
-                if(uid!=null && uid==-500){
+                if(uid!=null && uid.equals(-500)){
                     req.setAttribute("errormsg", "WRONG_LOGIN_PASS");
 
                 } else if (!req.getMethod().equals("GET")) { // This is most definitely a hack attempt, or bot crawling

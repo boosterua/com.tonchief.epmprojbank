@@ -26,17 +26,19 @@ public class FilterIncomingRequests implements Filter {
             String val0 = value;
             String name = paramName;
 
+            value = value.replaceAll("<(.*?)>",""); //No tags, thank you
             value = value.replaceAll("[^\\w А-Яа-яЁёІіЇїЄє!@#№;:,\\.\\$\\%\\&\\*\\(\\)\\-\\=\\+\\/]+","");
 
             //system commands
-            if(name.equals("action") || name.equals("command") || name.equals("type") || name.equals("action") ||
-                    name.equals("locale") )
+            if(name.equals("action") || name.equals("command") || name.equals("type") || name.equals("locale") )
                 value = value.replaceAll("[^a-zA-Z0-9_\\.\\-]+","");
 
             //Digits only
             if(name.indexOf("_id")>0 || name.indexOf("_number")>0 || name.contains("account")
-                    || name.contains("index") || name.equals("role"))
-                value = value.replaceAll("[^0-9]","");
+                    || name.contains("index") || name.equals("role")) {
+                value = value.replaceAll("[^0-9]", "");
+                //if value='' throw exception
+            }
 
             //Amounts
             if(name.indexOf("_id")>0 || name.indexOf("_number")>0 || name.contains("amount") ) {

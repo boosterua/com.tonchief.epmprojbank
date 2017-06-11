@@ -85,6 +85,7 @@ public class UsersDAOimpl implements UsersDAO {
     }
 
     public Integer authenticateUser(String email, String password) {
+        //TODO : HASH PASSWORDS. plain text for now - only for debugging purposes
         LOGGER.info("fetching User with given credentials: " + email + ":*****");
         if(email==null || email.isEmpty() || password==null || password.isEmpty()) return null;
         try (Connection conn = pool.getConnection();

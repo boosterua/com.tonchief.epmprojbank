@@ -89,7 +89,7 @@ public class CommandAdmin implements Command {
     }
 
     private void setAccountBlock(HttpServletRequest req, HttpServletResponse resp, Integer accountId, boolean b) throws MySqlPoolException, ExceptionDAO, IOException, ServletException {
-        if(accountId==0){wrongParam(req); return;}
+        if(accountId==null || accountId==0){wrongParam(req); return;}
         boolean res = SERVICE.getAdmin().removeAccountBlock(accountId);
         LOGGER.info(""+accountId+ " > unblocking acct " );
         req.setAttribute("result", res);
@@ -122,15 +122,14 @@ public class CommandAdmin implements Command {
         req.setAttribute("result", res);
         req.setAttribute("infomsg", "RESULT_" + (res?"OK":"ERROR"));
         ifAjaxPrintOK(req, resp, role>0?"OK":"0");
-        //  req.setAttribute("OUT", role>0?"OK":"0");
-        //  page = RB_PAGEMAP.getString("jsp.ajax.out");
+            //Another Way: //req.setAttribute("OUT", role>0?"OK":"0"); page = RB_PAGEMAP.getString("jsp.ajax.out");
     }
 
 
     private void issueNewCard(HttpServletRequest req, HttpServletResponse resp, Integer accountId,
                               Integer feeId, Integer clientId) throws MySqlPoolException, ExceptionDAO, IOException,
             ServletException {
-        if (accountId == 0) {
+        if (accountId == null || accountId.equals(0)) {
             wrongParam(req);
             return;
         }

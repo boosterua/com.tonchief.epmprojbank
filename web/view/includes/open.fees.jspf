@@ -23,8 +23,8 @@
                     <tr class="text-center">
                         <td>${fee.getId()}</td>
                         <td class="text-left">${fee.getName()}</td>
-                        <td><fmt:formatNumber value="${fee.getTransferFee()}" type="currency" currencySymbol="UAH "/></td>
-                        <td><fmt:formatNumber value="${fee.getNewCardFee()}" type="currency" currencySymbol="UAH "/></td>
+                        <td><fmt:formatNumber value="${fee.getTransferFee()}" type="currency" currencySymbol="&#x20B4; "/></td><%--UAH--%>
+                        <td><fmt:formatNumber value="${fee.getNewCardFee()}" type="currency" currencySymbol="&#x20B4; "/></td>
                         <td><fmt:formatNumber type="percent" minFractionDigits="2" value="${fee.getApr()/100}" /></td>
                     </tr>
                 </c:forEach>
