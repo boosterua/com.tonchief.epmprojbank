@@ -24,7 +24,7 @@ public class User {
     private Long role;
     private int feeId;
 
-    private final Logger logger = Logger.getLogger(User.class);
+    private static final Logger LOGGER = Logger.getLogger(User.class);
 
 
     public User(){
@@ -70,11 +70,13 @@ public class User {
                                         BigDecimal amount, String description) {
         LocalDate date = LocalDate.now();
         Transaction transaction = new Transaction(dtAccount, crAccount, amount, date, description);
-        logger.debug(transaction);
+        LOGGER.debug(transaction);
         try {
-            return DAO.getTransactionsDAO().insert(transaction); // Tr.Id:Int
+            Integer trId = DAO.getTransactionsDAO().insert(transaction);
+            dtAccount.setBalance(DAO.getAccountsDAO().getBalanceDAO(dtAccount.getId()));
+            return trId; // Tr.Id:Int
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e);
         }
         return 0;
     }
@@ -95,7 +97,7 @@ public class User {
         return (Account)DAO.getAccountsDAO().getById(id);
     }
 
-//TODO: check if client is not in db yet
+//doneTODO: check if client is not in db yet - Done via unique field in db
 //TODO:!user vs client; + regAcct-set to user, then insert new user           user.set
     public Integer register(User user) { // Client vs user
         if (user.fieldsAreValid())
@@ -109,7 +111,7 @@ public class User {
                 return clientId;
 
             } catch (Exception e) {
-                logger.error(e);
+                LOGGER.error(e);
             } finally {
             }
         return -1;
@@ -123,9 +125,9 @@ public class User {
                 try {
                     Integer newUsrAcctId =
                             DAO.getAccountsDAO().generate(clientId, "2625%", blocked);
-                    logger.info("Separate Thread: Generated new account id:"+newUsrAcctId);
+                    LOGGER.info("Separate Thread: Generated new account id:"+newUsrAcctId);
                 } catch (ExceptionDAO exceptionDAO) {
-                    logger.error(exceptionDAO);
+                    LOGGER.error(exceptionDAO);
                 }
             }
         }).start();

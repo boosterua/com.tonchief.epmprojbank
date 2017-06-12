@@ -9,6 +9,7 @@ import model.entity.Entity;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -244,6 +245,28 @@ public class AccountsDAOimpl implements AccountsDAO {
                 }
                 rs.close();
                 return resultMap;
+            } catch (SQLException e) {
+                LOGGER.error("SQLex." + e.toString());
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQL exception.", e);
+        } catch (Exception e) {
+            LOGGER.error("Fatal General Exception.", e);
+        }
+        return null;
+    }
+
+//    @Deprecated
+    public BigDecimal getBalanceDAO(int id) {
+        LOGGER.info("getBalanceDAO.Account id:" + id);
+        try (Connection conn = pool.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT * from accounts WHERE id_account=?", 1);) {
+            ps.setInt(1, id);
+            LOGGER.info("Trying PS:" + ps);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                return rs.getBigDecimal(BAL);
             } catch (SQLException e) {
                 LOGGER.error("SQLex." + e.toString());
             }

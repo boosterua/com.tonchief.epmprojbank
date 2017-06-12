@@ -12,8 +12,7 @@ import java.util.List;
 
 public class Account extends Entity {
     private int id;
-    private String number; /* number is also a name of account. Always a number [Ususally 10..16 digits]. String data
-     type in entity, Long in dao. */
+    private String number; /* number is also a name of account. Always a number [Ususally 10..16 digits]. String data type in entity, Long in dao. */
     private int clientId;
     private boolean blocked;
     private BigDecimal balance;
@@ -33,6 +32,7 @@ public class Account extends Entity {
      * @param blk Account blocked state : boolean
      */
     public Account(Integer aid, String num, Boolean blk) {
+        this();
         this.blocked = blk;
         this.number = num;
         this.id = aid == null ? 0 : aid;
@@ -125,7 +125,7 @@ public class Account extends Entity {
     }
 
     public String toString() {
-        return toString(id, number, "BLK:" + blocked, "CLid:" + clientId);
+        return toString(id, number, "BLK:" + blocked, "CLid:" + clientId, "Bal:"+ (balance==null?"n/a":balance));
     }
 
     // //TODO:equals / hashcode

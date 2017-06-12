@@ -1,4 +1,4 @@
-package control.servlets;
+package control.filters;
 
 import org.apache.log4j.Logger;
 

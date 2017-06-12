@@ -26,7 +26,7 @@
 
     <filter>
         <filter-name>FilterSetEncoding</filter-name>
-        <filter-class>control.servlets.FilterEncodingCache</filter-class>
+        <filter-class>control.filters.FilterEncodingCache</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>FilterSetEncoding</filter-name>
@@ -35,7 +35,7 @@
 
     <filter>
         <filter-name>FilterUserRequest</filter-name>
-        <filter-class>control.servlets.FilterIncomingRequests</filter-class>
+        <filter-class>control.filters.FilterIncomingRequests</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>FilterUserRequest</filter-name>
